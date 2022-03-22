@@ -1,3 +1,8 @@
 {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "cSpell.words": [
+        "Safezone"
+    ],
+    "prettier.tabWidth": 4,
+    "editor.detectIndentation": false
 }
