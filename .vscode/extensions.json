@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "mhutchie.git-graph",
+        "hookyqr.beautify",
+        "streetsidesoftware.code-spell-checker",
+        "dbaeumer.vscode-eslint",
+        "donjayamanne.githistory",
+        "pkief.material-icon-theme",
+        "christian-kohler.path-intellisense",
+        "dsznajder.es7-react-js-snippets"
+    ]
+}
