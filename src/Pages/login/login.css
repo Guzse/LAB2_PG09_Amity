@@ -1,0 +1,65 @@
+.logoDiv{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: red;
+}
+
+.logoMain{
+    position: block;
+    width: 300px;
+
+
+}
+
+form{
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+}
+
+label{
+    margin-bottom: 10px;
+}
+
+input{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border-color: #B293EE;
+    color: #B293EE;
+}
+
+
+.username-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.password-container{
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    background-color: #FAF2E1;
+}
+
+.button-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15%;
+}
+
+.btnLogin{   
+    background-color: #448B9E;
+    border: none ;
+    padding: 5px 30px 5px 30px;
+    margin: 7px 0px;
+    border-radius: 50px;
+
+    text-decoration: none;
+    color: #FFFFFF;
+}
