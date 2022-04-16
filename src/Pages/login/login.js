@@ -10,6 +10,7 @@ return(
         <img className="logoMain" src={require('../../images/2x/Woordmerk_A@2x.png')} alt="Logo"/>
       </div>
       <form>
+          <h2 className="titleForm">Login</h2>
         <div className="username-container">
           <label>Username </label>
           <input type="text" name="username" required />
