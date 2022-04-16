@@ -17,11 +17,11 @@ form{
     width: 250px;
 }
 
-label{
+.username-container label, .password-container label{
     margin-bottom: 10px;
 }
 
-input{
+.username-container input, .password-container input{
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 10px;
@@ -31,15 +31,11 @@ input{
 }
 
 
-.username-container{
+.username-container, .password-container{
     display: flex;
     flex-direction: column;
 }
 
-.password-container{
-    display: flex;
-    flex-direction: column;
-}
 
 body{
     background-color: #FAF2E1;
@@ -61,4 +57,10 @@ body{
 
     text-decoration: none;
     color: #FFFFFF;
+}
+
+.titleForm{
+    font-weight:normal;
+    border-bottom: solid 1px;
+    padding-bottom: 10px;
 }

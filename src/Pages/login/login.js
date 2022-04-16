@@ -12,7 +12,7 @@ return(
       <form>
         <div className="username-container">
           <label>Username </label>
-          <input type="text" name="uname" required />
+          <input type="text" name="username" required />
         </div>
         <div className="password-container">
           <label>Password </label>
@@ -22,7 +22,6 @@ return(
         <div className="button-container">
             <Link className="btnLogin" to="/mainscreen">Login</Link>
             <Link className="btnLogin" to="/registration">Create account</Link>
-          <link></link>
         </div>
       </form>
     </div>

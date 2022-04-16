@@ -1,0 +1,18 @@
+.username-container, .email-container, .password-container, .passwordConfirm-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.username-container label, .email-container label, .password-container label, .passwordConfirm-container label{
+    margin-bottom: 10px;
+}
+
+.username-container input, .email-container input, .password-container input, .passwordConfirm-container input{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border-color: #B293EE;
+    color: #B293EE;
+}
+
