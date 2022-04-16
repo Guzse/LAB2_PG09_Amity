@@ -22,6 +22,9 @@ function Navigation(props) {
                 <li>
                     <Link to="/Login">Login</Link>
                 </li>
+                <li>
+                    <Link to="/login">login</Link>
+                </li>
             </ul>
         </nav>
     );
