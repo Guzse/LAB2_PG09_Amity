@@ -6,7 +6,7 @@ import "./landing.css";
 function Landing() {
     return (
         <Container fixed>
-            <p>Hier kan je een mooie pagina van maken</p>
+            <p>Hier kan je een mooie <b>pagina</b> van maken</p>
         </Container>
     );
 }

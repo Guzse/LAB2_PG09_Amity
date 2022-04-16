@@ -1,6 +1,15 @@
+@font-face {
+    font-family: 'Laila';
+    src: local('Laila') url(./assets/font/Laila-Regular.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Philosopher';
+    src: local('Philosopher') url(./assets/font/Philosopher-Regular.ttf) format('truetype');
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Laila', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;

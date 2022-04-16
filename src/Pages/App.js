@@ -6,9 +6,10 @@ import Landing from "./Landing/landing";
 import Safezone from "./Safezone/safezone";
 
 function App() {
+    console.log(window.location.pathname);
     return (
         <Router>
-            <Navigation/>
+            <Navigation ShowLogo="true"/>
             <Routes>
                 <Route exact path="/" element={<Landing />} />
                 <Route path="/zone/:safezoneId" element={<Safezone />} />

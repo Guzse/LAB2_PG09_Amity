@@ -1,15 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ReactComponent as Logo } from '../../assets/Woordmerk_A.svg';
+import './Navigation.css';
 
-function Navigation() {
+function Navigation(props) {
     return (
-        <nav>
+        <nav class="topnav">
+            {props.ShowLogo && 
+                <div class="logo-home">
+                    <Link to="/">
+                        <Logo />
+                    </Link>
+                </div>}
             <ul>
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/About">About Us</Link>
                 </li>
                 <li>
-                    <Link to="/zone/15">Safezone</Link>
+                    <Link to="/Contact">Contact</Link>
+                </li>
+                <li>
+                    <Link to="/Login">Login</Link>
                 </li>
             </ul>
         </nav>
