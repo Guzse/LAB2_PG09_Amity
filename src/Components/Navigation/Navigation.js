@@ -11,6 +11,9 @@ function Navigation() {
                 <li>
                     <Link to="/zone/15">Safezone</Link>
                 </li>
+                <li>
+                    <Link to="/login">login</Link>
+                </li>
             </ul>
         </nav>
     );

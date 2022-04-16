@@ -4,6 +4,8 @@ import Navigation from "../Components/Navigation/Navigation";
 import "./App.css";
 import Landing from "./Landing/landing";
 import Safezone from "./Safezone/safezone";
+import Login from "./login/login"; //path naar file
+
 
 function App() {
     return (
@@ -12,6 +14,7 @@ function App() {
             <Routes>
                 <Route exact path="/" element={<Landing />} />
                 <Route path="/zone/:safezoneId" element={<Safezone />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </Router>
     );
