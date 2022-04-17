@@ -1,32 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { ReactComponent as Logo } from '../../assets/Woordmerk_A.svg';
+import { Link, NavLink } from "react-router-dom";
+import logo from '../../assets/images/SVG/Woordmerk_A.svg';
 import './Navigation.css';
 
 function Navigation(props) {
     return (
+        <>
         <nav class="topnav">
-            {props.ShowLogo && 
                 <div class="logo-home">
-                    <Link to="/">
-                        <Logo />
-                    </Link>
-                </div>}
+                {props.logo && 
+                    <NavLink to="/">
+                        <div>
+                            <img alt="Home" src={logo} />
+                        </div>
+                    </NavLink>
+                }
+                </div>
             <ul>
                 <li>
-                    <Link to="/About">About Us</Link>
+                    <NavLink to="/about">About Us</NavLink>
                 </li>
+                <li><div>–</div></li>
                 <li>
-                    <Link to="/Contact">Contact</Link>
+                    <NavLink to="/contact">Contact</NavLink>
                 </li>
+                <li><div>–</div></li>
                 <li>
-                    <Link to="/Login">Login</Link>
-                </li>
-                <li>
-                    <Link to="/login">login</Link>
+                    <NavLink to="/login">Login</NavLink>
                 </li>
             </ul>
         </nav>
+        </>
     );
 }
 
