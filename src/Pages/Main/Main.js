@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Navigation from "../../Components/Navigation/Navigation";
-import SafezoneForm from "../../Components/SafezoneForm/SafezoneForm";
+import SafezoneForm from "../../Components/safezoneForm/SafezoneForm";
 import "./Main.css";
 
 function About() {
