@@ -5,10 +5,18 @@ import SafezoneForm from "../../Components/SafezoneForm/SafezoneForm";
 import "./Main.css";
 
 function About() {
+      function showForm(e) {
+    e.preventDefault();
+    console.log('You clicked submit.');
+  }
     return (
         <>
             <Navigation logo />
             <Container fixed>
+
+                <button onClick={showForm}>
+                    Activate Lasers
+                </button>
                 <SafezoneForm/>
             </Container>
         </>
