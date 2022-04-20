@@ -8,6 +8,7 @@ import Registration from "./registration/registration";
 import Login from "./login/login"; //path naar file
 import About from "./About/About";
 import Contact from "./Contact/Contact";
+import safezoneForm from "./Safezone/safezoneForm";
 
 
 
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/safezoneForm" element={<safezoneForm />} />
 
             </Routes>
         </Router>
