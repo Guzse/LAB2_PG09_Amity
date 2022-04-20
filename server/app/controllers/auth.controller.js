@@ -2,7 +2,7 @@ require('dotenv').config();
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const db = require("../models");
-
+const SECRET = process.env.AUTH_SECRET;
 // List Databases
 const User = db.user;
 const Role = db.role;
@@ -80,7 +80,7 @@ exports.signin = (req, res) => {
                     message: "Invalid Password!"
                 });
             }
-            var token = jwt.sign({ id: user.id }, process.env.AUTH_SECRET, {
+            var token = jwt.sign({ id: user.id }, SECRET, {
                 expiresIn: 86400 // 24 hours
             });
             var authorities = [];
