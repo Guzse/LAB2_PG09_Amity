@@ -1,13 +1,13 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from '../../assets/images/SVG/Woordmerk_A.svg';
 import './Navigation.css';
 
 function Navigation(props) {
     return (
         <>
-        <nav class="topnav">
-                <div class="logo-home">
+        <nav className="topnav">
+                <div className="logo-home">
                 {props.logo && 
                     <NavLink to="/">
                         <div>

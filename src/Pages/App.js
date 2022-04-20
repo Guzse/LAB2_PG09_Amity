@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Navigation from "../Components/Navigation/Navigation";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Landing from "./Landing/landing";
 import Safezone from "./Safezone/safezone";
