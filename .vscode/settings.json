@@ -5,5 +5,8 @@
     ],
     "prettier.tabWidth": 4,
     "editor.detectIndentation": false,
-    "beautify.ignore": ""
+    "beautify.ignore": "",
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }
