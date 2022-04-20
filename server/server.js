@@ -3,10 +3,7 @@ const cors = require("cors");
 const db = require("./app/models");
 require('dotenv').config({ path: '.env.local'});
 const app = express();
-var corsOptions = {
-    origin: "http://localhost:8081"
-}
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 8080;
