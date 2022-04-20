@@ -4,5 +4,6 @@
         "Safezone"
     ],
     "prettier.tabWidth": 4,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "beautify.ignore": ""
 }

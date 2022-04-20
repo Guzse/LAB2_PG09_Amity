@@ -1,13 +1,119 @@
+@font-face {
+    font-family: 'Laila';
+    src: local('Laila') url(./assets/font/Laila-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Philosopher';
+    src: local('Philosopher') url(./assets/font/Philosopher-Regular.ttf) format('truetype');
+}
+
+:root {
+    --primary: #1C5781;
+    --secondary: #C7268E;
+    --body: #082E3E;
+    --white: #FFFFFF;
+    --gray1: #F4F4F4;
+    --gray2: #BFC5C8;
+    --gray3: #99A1A5;
+    --gray4: #575C5F;
+    --gray5: #3B4549;
+    --infored: #BD4E48;
+    --gradient-blue: linear-gradient(90deg, rgba(28,87,129,1) 0%, rgba(96,150,188,1) 100%);
+    --gradient-pink: linear-gradient(90deg, rgba(198,36,141,1) 0%, rgba(214,120,176,1) 100%);
+
+    color: var(--body);
+}
+
+*, *::before, *::after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: 'Laila', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Philosopher';
+}
+
+button {
+    height: 32px;
+    width: fit-content;
+    font-family: 'Laila';
+    font-weight: 600;
+    color: var(--body);
+    background-color: var(--white);
+    border: 2px solid var(--body);
+    cursor: pointer;
+    border-radius: 24px;
+    padding: 0px 36px 0px 36px;
+}
+
+button.primary {
+    background: var(--gradient-blue);
+    border: none;
+    color: var(--white);
+}
+
+button.primary-stroke {
+    background: var(--white);
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+button.secondary {
+    background: var(--gradient-pink);
+    border: none;
+    color: var(--white);
+}
+
+button.secondary-stroke {
+    background: var(--white);
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+}
+
+input[type=text], input[type=password] {
+    height: 32px;
+    width: 220px;
+    font-size: 16px;
+    font-family: 'Laila';
+    background: var(--white);
+    border: 2px solid var(--gray2);
+    border-radius: 20px;
+    padding: 0px 12px 0px 12px;
+    transition: all .2s ease-in-out;
+    outline: 0px solid var(--gray1);
+}
+
+input[type=password] {
+    font-family: 'Verdana';
+    font-size: 22px;
+}
+
+input[type=text]:focus-visible, input[type=password]:focus-visible {
+    outline: 4px solid var(--gray1);
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    outline: 4px solid var(--gray1);
 }
