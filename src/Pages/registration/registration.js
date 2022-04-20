@@ -1,13 +1,13 @@
 import React from "react";
-import "./registration.css";
+import "./Registration.css";
 import { Link } from 'react-router-dom';
 
 function Registration() {
 return(
-  // JSX code for login form
+  // JSX code for login formnpn
     <div className="login">
       <div className="logoDiv"> 
-        <img className="logoMain" src={require('../../images/2x/Woordmerk_A@2x.png')} alt="Logo"/>
+        <img className="logoMain" src={require('../../assets/images/2x/Woordmerk_A@2x.png')} alt="Logo"/>
       </div>
       <form>
           <h2 className="titleForm">Register</h2>

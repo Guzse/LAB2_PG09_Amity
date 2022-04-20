@@ -1,13 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Landing from "./Landing/landing";
-import Safezone from "./Safezone/safezone";
+import Landing from "./Landing/Landing";
+import Safezone from "./Safezone/Safezone";
 
-import Registration from "./registration/registration";
-import Login from "./login/login"; //path naar file
+import Registration from "./Registration/registration";
+import Login from "./Login/Login"; //path naar file
 import About from "./About/About";
 import Contact from "./Contact/Contact";
+import Main from "./Main/Main";
 
 
 
@@ -21,7 +22,7 @@ function App() {
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
-
+                <Route path="/main" element={<Main />} />
             </Routes>
         </Router>
     );
