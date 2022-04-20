@@ -8,6 +8,7 @@ import Registration from "./Registration/Registration";
 import Login from "./Login/Login"; //path naar file
 import About from "./About/About";
 import Contact from "./Contact/Contact";
+import Main from "./Main/Main";
 
 
 
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/main" element={<Main />} />
             </Routes>
         </Router>
     );
