@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Navigation from "../../Components/Navigation/Navigation";
 import Logo from "../../assets/images/SVG/Woordmerk_A.svg";
 
-import "./landing.css";
+import "./Landing.css";
 
 function Landing() {
     return (

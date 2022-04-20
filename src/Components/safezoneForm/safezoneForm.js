@@ -1,5 +1,5 @@
 import React from "react";
-import "./safezoneForm.css";
+import "./SafezoneForm.css";
 import { Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 
