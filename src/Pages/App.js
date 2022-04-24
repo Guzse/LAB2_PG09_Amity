@@ -4,8 +4,8 @@ import "./App.css";
 import Landing from "./Landing/landing";
 import Safezone from "./Safezone/safezone";
 
-import Registration from "./registration/registration";
-import Login from "./login/login"; //path naar file
+import Registration from "./Registration/registration";
+import Login from "./Login/login"; //path naar file
 import About from "./About/About";
 import Contact from "./Contact/Contact";
 
