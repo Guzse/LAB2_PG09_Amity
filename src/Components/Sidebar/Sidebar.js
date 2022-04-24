@@ -1,4 +1,5 @@
 import React from "react";
+import "./Sidebar.css";
 
 function Sidebar() {
 
@@ -10,15 +11,21 @@ function Sidebar() {
 
     return ( 
         <div className="sidebarContainer">
-            <p>Sidebar</p>
-            <div className="safezoneList">
-                <a href="#">server1</a>
-                <a href="#">server2</a>
-                <a href="#">server3</a>
-                <a href="#">createSafezone</a>
+            <div className="leftside-sidebar">
+                <div className="serverlist">
+                    <a href="#">server1</a>
+                    <a href="#">server2</a>
+                    <a href="#">server3</a>
+                </div>
+                <a className="createSz" href="#">createSafezone</a>
             </div>
-            <div className="usersAndOptions">
-                <input type="text" placeholder="Search.."/>
+            <div className="rightside-sideBar">
+                <div className="searcher">
+                    <input type="text" placeholder="Search.."/>
+                    <a href="#">server1</a>
+                    <a href="#">server2</a>
+                    <a href="#">server3</a>
+                </div>
                 <div className="planner">
                     <h3>Next meetup</h3>
                     <span>Next meetup</span>

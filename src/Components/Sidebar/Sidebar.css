@@ -1,5 +1,23 @@
 .sidebarContainer{
-    background-color: burlywood;
+    background-color: bisque;
+    display: flex;
+    flex-direction: row;
+}
+
+.serverlist{
+    background-color: green;
     display: flex;
     flex-direction: column;
+}
+
+.createSz{
+    background-color: red;
+    text-align: bottom;
+    text-decoration: none;
+}
+
+.searcher{
+    background-color: purple;
+    display: flex;
+    flex-direction: row;
 }
