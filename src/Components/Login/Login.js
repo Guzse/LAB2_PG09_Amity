@@ -23,11 +23,13 @@ export const Login = (props) => {
         e.preventDefault();
         authService.SignIn(state.username, state.password)
             .then((res) => {
-                if (res.accessToken == null) {
+                debugger;
+                if (res.status !== 200) {
 
                 }
-                console.log({ res });
-                window.localStorage.setItem('accessToken', res.accessToken);
+                res.json().then(res => {
+                    window.localStorage.setItem('accessToken', res.accessToken);
+                });
             });
     };
 

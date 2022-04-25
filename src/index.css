@@ -117,8 +117,9 @@ input[type=text]::placeholder, input[type=password]::placeholder {
 }
 
 
-input[type=text]:invalid:not(:focus), input[type=password]:invalid:not(:focus) {
+input[type=text]:invalid:not(:placeholder-shown), input[type=password]:invalid:not(:placeholder-shown) {
     color: var(--infored);
+    border-color: var(--infored);
 }
 
 input[type=password] {
