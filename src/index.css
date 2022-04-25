@@ -21,6 +21,8 @@
     --infored: #BD4E48;
     --gradient-blue: linear-gradient(90deg, rgba(28,87,129,1) 0%, rgba(96,150,188,1) 100%);
     --gradient-pink: linear-gradient(90deg, rgba(198,36,141,1) 0%, rgba(214,120,176,1) 100%);
+    --primary-transparent: rgba(15, 147, 241, 0.2);
+    --secondary-transparent: rgba(247, 11, 164, 0.2);
 
     color: var(--body);
 }
@@ -31,13 +33,14 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
     margin: 0;
     font-family: 'Laila', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
 }
 
 #root {
@@ -53,10 +56,13 @@ code {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Philosopher';
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-weight: 400;
 }
 
 button {
-    height: 32px;
+    height: 36px;
     width: fit-content;
     font-family: 'Laila';
     font-weight: 600;
@@ -93,8 +99,9 @@ button.secondary-stroke {
 }
 
 input[type=text], input[type=password] {
-    height: 32px;
-    width: 220px;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
     font-size: 16px;
     font-family: 'Laila';
     background: var(--white);
@@ -103,6 +110,15 @@ input[type=text], input[type=password] {
     padding: 0px 12px 0px 12px;
     transition: all .2s ease-in-out;
     outline: 0px solid var(--gray1);
+}
+
+input[type=text]::placeholder, input[type=password]::placeholder {
+    color: var(--gray2);
+}
+
+
+input[type=text]:invalid:not(:focus), input[type=password]:invalid:not(:focus) {
+    color: var(--infored);
 }
 
 input[type=password] {
@@ -115,5 +131,52 @@ input[type=text]:focus-visible, input[type=password]:focus-visible {
 }
 
 input[type=text]:focus, input[type=password]:focus {
-    outline: 4px solid var(--gray1);
+    outline: 3px solid var(--primary-transparent);
+}
+
+.labelInputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkboxContainer {
+    display: flex;
+    height: 28px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.checkboxContainer label {
+    height: 28px;
+    line-height: 28px;
+}
+
+.checkboxContainer input[type='checkbox'] {
+    height: 20px;
+    width: 20px;
+    margin: 4px 0px 4px 6px;
+}
+
+.checkboxContainer input[type='checkbox']:hover {
+    cursor: pointer;
+}
+
+.checkboxContainer input[type='checkbox']:checked {
+    color: var(--primary);
+}
+
+.checkboxContainer label {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+label {
+    font-weight: 500;
+    margin-top: 24px;
+    margin-bottom: 6px;
+    margin-left: 6px;
+}
+
+hr {
+    border-top: 2px solid var(--gray2);
 }
