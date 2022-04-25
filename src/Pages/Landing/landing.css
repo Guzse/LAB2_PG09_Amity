@@ -7,8 +7,7 @@ div.landing {
     max-width: 600px;
     margin-top: 130px;
 }
-.landing hr {
-    border-top: 2px solid var(--gray2);
+.landing > hr {
     width: 100%;
     margin-top: 48px;
 }

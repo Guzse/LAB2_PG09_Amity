@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import Container from "@mui/material/Container";
 
-import "./Safezone.css";
+import "./safezone.css";
 
 function Safezone() {
     let { safezoneId } = useParams();

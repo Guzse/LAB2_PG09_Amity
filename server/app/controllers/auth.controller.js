@@ -6,15 +6,12 @@ const SECRET = process.env.AUTH_SECRET;
 // List Databases
 const User = db.user;
 const Role = db.role;
+const UserPasswordNotFound = "Failed to log in. Please check your username and password and try again."
+const UsernameExists = "That username is already taken.";
+const EmailExists = "An account already exists for that email address.";
 
-exports.signup = (req, res) => {
-    console.log({body: req.body});
-    const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password.toString(), 8)
-    });
-    user.save((err, user) => {
+function saveUserToDB(req, res, newUser) {
+    newUser.save((err, newUser) => {
         if (err) {
             res.status(500).send({ message: err });
             return;
@@ -29,8 +26,8 @@ exports.signup = (req, res) => {
                         res.status(500).send({ message: err });
                         return;
                     }
-                    user.roles = roles.map(role => role._id);
-                    user.save(err => {
+                    newUser.roles = roles.map(role => role._id);
+                    newUser.save(err => {
                         if (err) {
                             res.status(500).send({ message: err });
                             return;
@@ -45,8 +42,8 @@ exports.signup = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                 }
-                user.roles = [role._id];
-                user.save(err => {
+                newUser.roles = [role._id];
+                newUser.save(err => {
                     if (err) {
                         res.status(500).send({ message: err });
                         return;
@@ -56,11 +53,41 @@ exports.signup = (req, res) => {
             });
         }
     });
+}
+
+exports.signup = (req, res) => {
+    const newUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password.toString(), 8)
+    });
+    User.findOne({ username: newUser.username })
+        .exec((err, user) => {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+            if (!!user) {
+                res.status(400).send({ field: username, message: UsernameExists });
+                return;
+            }
+
+            User.findOne({ email: newUser.email })
+                .exec((err, user) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                    if (!!user) {
+                        res.status(400).send({ field: 'email', message: EmailExists });
+                        return;
+                    }
+                    saveUserToDB(req, res, newUser);
+                });
+        });
 };
 exports.signin = (req, res) => {
-    User.findOne({
-        username: req.body.username
-    })
+    User.findOne({ username: req.body.username })
         .populate("roles", "-__v")
         .exec((err, user) => {
             if (err) {
@@ -68,7 +95,7 @@ exports.signin = (req, res) => {
                 return;
             }
             if (!user) {
-                return res.status(404).send({ message: "User Not found." });
+                return res.status(404).send({ message: UserPasswordNotFound });
             }
             var passwordIsValid = bcrypt.compareSync(
                 req.body.password,
@@ -77,7 +104,7 @@ exports.signin = (req, res) => {
             if (!passwordIsValid) {
                 return res.status(401).send({
                     accessToken: null,
-                    message: "Invalid Password!"
+                    message: UserPasswordNotFound
                 });
             }
             var token = jwt.sign({ id: user.id }, SECRET, {
@@ -98,14 +125,14 @@ exports.signin = (req, res) => {
 };
 exports.users = (req, res) => {
     User.find()
-    .exec((err, users) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        if (!users) {
-            return res.status(404).send({ message: "No users?" });
-        }
-        res.status(200).send(users);
-    });
+        .exec((err, users) => {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+            if (!users) {
+                return res.status(404).send({ message: "No users?" });
+            }
+            res.status(200).send(users);
+        });
 }
