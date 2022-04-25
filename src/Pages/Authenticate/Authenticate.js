@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Authenticate.css";
-import $ from 'jquery';
 import Container from "@mui/material/Container";
 import Navigation from "../../Components/Navigation/Navigation";
 import logo from '../../assets/images/SVG/Logo_A.svg';
@@ -17,7 +16,7 @@ export const Authenticate = (props) => {
     let toggleInstance = () => {
         nav(`/${toggle}`, { replace: true });
     }
-    
+
     return (
         <>
             <Navigation logo />

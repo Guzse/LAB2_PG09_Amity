@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AuthService from '../../api/AuthService';
 import { Regex } from '../../Global/Regex';
 import './Register.css';
+import $ from 'jquery';
 
 export const Register = () => {
     const [input, setInput] = useState({
@@ -13,9 +14,18 @@ export const Register = () => {
     });
     const [error, setError] = useState('');
     const authService = new AuthService();
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        authService.SignUp(e);
+        let valid = validateInput();
+        if (valid)
+            authService.SignUp(input.username, input.password, input.password)
+                .then((err, res) => {
+                    console.log({ err, res });
+                });
+
     }
 
     const handleChange = (e) => {
@@ -25,26 +35,27 @@ export const Register = () => {
             ...prev,
             [key]: value
         }));
-        validateInput(e);
     }
 
-    const validateInput = (e) => {
-        const key = e.target.name;
-        const value = e.target.value;
-        setError(prev => {
-            switch (key) {
-                case "email":
-                    if (!Regex.email.test(value))
-                        setError(prev => 'Please enter a valid email address.');
-                    else setError(prev => '');
-                    break;
-                case "confirmPassword":
-                    if (input.password && input.password != value)
-                        setError(prev => 'Passwords must match.');
-                    break;
-            }
-        });
-        console.log(error);
+    const validateInput = () => {
+        const elEmail = $('input[name="email"]')[0];
+        const elPasswordConfirm = $('input[name="confirmPassword"]')[0];
+
+        if (!Regex.email.test(input.email)) {
+            setError(prev => 'Please enter a valid email address.');
+            elEmail.setCustomValidity(error);
+            return false;
+        }
+        if (input.password !== input.confirmPassword) {
+            debugger;
+            setError(prev => 'Passwords must match.');
+            elPasswordConfirm.setCustomValidity(error);
+            return false;
+        }
+        setError(prev => '');
+        elEmail.setCustomValidity('');
+        elPasswordConfirm.setCustomValidity('');
+        return true;
     }
 
     return (
@@ -56,7 +67,6 @@ export const Register = () => {
                     type="text"
                     name="username"
                     onChange={handleChange}
-                    onBlur={validateInput}
                     required />
             </div>
 
@@ -67,7 +77,6 @@ export const Register = () => {
                     type="text"
                     name="email"
                     onChange={handleChange}
-                    onBlur={validateInput}
                     required />
             </div>
 
@@ -78,7 +87,6 @@ export const Register = () => {
                     type="password"
                     name="password"
                     onChange={handleChange}
-                    onBlur={validateInput}
                     required />
             </div>
 
@@ -87,9 +95,8 @@ export const Register = () => {
                 <input
                     placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;'
                     type="password"
-                    name="passwordConfirm"
+                    name="confirmPassword"
                     onChange={handleChange}
-                    onBlur={validateInput}
                     required />
             </div>
             <div className='checkboxContainer'>

@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Landing from "./Landing/landing";
 import Safezone from "./Safezone/safezone";
-
-import Registration from "./registration/registration";
 import Authenticate from "./Authenticate/Authenticate"; //path naar file
 import About from "./About/About";
 import Contact from "./Contact/Contact";
