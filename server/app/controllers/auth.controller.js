@@ -10,7 +10,7 @@ const UserPasswordNotFound = "Failed to log in. Please check your username and p
 const UsernameExists = "That username is already taken.";
 const EmailExists = "An account already exists for that email address.";
 
-function SignUpNewUser(req, newUser) {
+function saveUserToDB(req, res, newUser) {
     newUser.save((err, newUser) => {
         if (err) {
             res.status(500).send({ message: err });
@@ -82,7 +82,7 @@ exports.signup = (req, res) => {
                         res.status(400).send({ field: 'email', message: EmailExists });
                         return;
                     }
-                    SignUpNewUser(req, newUser);
+                    saveUserToDB(req, res, newUser);
                 });
         });
 };

@@ -16,6 +16,12 @@ export const Authenticate = (props) => {
     let toggleInstance = () => {
         nav(`/${toggle}`, { replace: true });
     }
+    
+    const showNewUserMessage = () => {
+        let isNewUser = !!new URLSearchParams(window.location.search).get('newuser');
+        if (isNewUser)
+            return <p>You succesfully created your account. Please log in to continue.</p>
+    }
 
     return (
         <>
@@ -24,6 +30,7 @@ export const Authenticate = (props) => {
                 <div>
                     <img alt="Logo" src={logo} width="400px" height='500px' />
                     <div>
+                        { showNewUserMessage() }
                         <h1>{title}</h1>
                         <hr />
                         {component}
