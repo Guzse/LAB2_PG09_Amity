@@ -21,7 +21,6 @@ function Login() {
             ...prev,
             [key]: value
         }));
-        console.log({state});
     }
 
     const handleSubmit = (e) => {
@@ -30,7 +29,6 @@ function Login() {
             .SignIn(state.username, state.password)
             .then((res) => {
                 window.localStorage.setItem('accessToken', res.accessToken);
-                console.log(window.localStorage.getItem('accessToken'));
         });
     };
 

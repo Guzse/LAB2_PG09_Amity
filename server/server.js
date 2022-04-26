@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 configureRoutes(app);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+    console.info(`Server is running on port ${PORT}.`);
 });
 
 
@@ -32,7 +32,7 @@ db.mongoose
         useUnifiedTopology: true
     })
     .then(() => {
-        console.log("Successfully connect to MongoDB.");
+        console.info("Successfully connect to MongoDB.");
         initial();
     })
     .catch(err => {
@@ -47,17 +47,17 @@ function initial() {
                 name: "user"
             }).save(err => {
                 if (err) {
-                    console.log("error", err);
+                    console.error(err);
                 }
-                console.log("added 'user' to roles collection");
+                console.info("added 'user' to roles collection");
             });
             new Role({
                 name: "admin"
             }).save(err => {
                 if (err) {
-                    console.log("error", err);
+                    console.error(err);
                 }
-                console.log("added 'admin' to roles collection");
+                console.info("added 'admin' to roles collection");
             });
         }
     });
