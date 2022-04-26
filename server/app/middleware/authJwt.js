@@ -1,4 +1,6 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local'});
+
 const SECRET = process.env.AUTH_SECRET;
 const jwt = require("jsonwebtoken");
 const db = require("../models");

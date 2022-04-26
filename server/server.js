@@ -1,18 +1,28 @@
-const express = require("express");
-const cors = require("cors");
-const db = require("./app/models");
-require('dotenv').config({ path: '.env.local'});
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local'});
+
+// Start Server
+import express from "express";
+import db from './app/models/index.js';
+import cors from 'cors';
+
+import configureRoutes from './app/routes/index.js';
+
 const app = express();
+const PORT = process.env.PORT || 8080;
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const PORT = process.env.PORT || 8080;
-require('./app/routes/auth.routes')(app);
+
+configureRoutes(app);
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
 
 
+// Start Server
 const Role = db.role;
 const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
 
