@@ -36,11 +36,11 @@ export const routeSafezone = (app) => {
             "/api/safezone/:uid": in this specific url, the last part (":uid") is a variable: 
                 here you can put the ID of the safezone, so the function knows which safezone to update
     */
-    app.get("/api/safezone/:uid", [authJwt.verifyToken], controller.getSafezone);
+    app.get("/api/safezone/", [authJwt.verifyToken], controller.getSafezone);
     /*
-        As you can see, 2 requests can share the same url as long as their a different kind of request (in this case, GET vs PUT)
+        As you can see, 3 requests can share the same url as long as their a different kind of request (in this case, GET vs PUT)
     */
-    app.put("/api/safezone/:uid", [authJwt.verifyToken], controller.updateSafezone);
+    app.put("/api/safezone/", [authJwt.verifyToken], controller.updateSafezone);
 };
 
 export default routeSafezone;

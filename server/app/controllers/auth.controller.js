@@ -70,7 +70,7 @@ export const signup = (req, res) => {
                 return;
             }
             if (!!user) {
-                res.status(400).send({ field: username, message: ErrorMessage.UsernameExists });
+                res.status(404).send({ field: username, message: ErrorMessage.UsernameExists });
                 return;
             }
 
