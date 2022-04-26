@@ -2,6 +2,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "cSpell.words": [
         "Safezone",
+        "Safezones",
         "signin"
     ],
     "prettier.tabWidth": 4,
@@ -9,5 +10,8 @@
     "beautify.ignore": "",
     "[javascript]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
     }
 }

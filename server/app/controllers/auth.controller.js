@@ -1,14 +1,16 @@
-require('dotenv').config();
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const db = require("../models");
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local'});
+
+import ErrorMessage from '../global/ErrorMessage.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import db from '../models/index.js';
+
 const SECRET = process.env.AUTH_SECRET;
+
 // List Databases
 const User = db.user;
 const Role = db.role;
-const UserPasswordNotFound = "Failed to log in. Please check your username and password and try again."
-const UsernameExists = "That username is already taken.";
-const EmailExists = "An account already exists for that email address.";
 
 function saveUserToDB(req, res, newUser) {
     newUser.save((err, newUser) => {
@@ -55,7 +57,7 @@ function saveUserToDB(req, res, newUser) {
     });
 }
 
-exports.signup = (req, res) => {
+export const signup = (req, res) => {
     const newUser = new User({
         username: req.body.username,
         email: req.body.email,
@@ -68,7 +70,7 @@ exports.signup = (req, res) => {
                 return;
             }
             if (!!user) {
-                res.status(400).send({ field: username, message: UsernameExists });
+                res.status(404).send({ field: username, message: ErrorMessage.UsernameExists });
                 return;
             }
 
@@ -79,14 +81,14 @@ exports.signup = (req, res) => {
                         return;
                     }
                     if (!!user) {
-                        res.status(400).send({ field: 'email', message: EmailExists });
+                        res.status(400).send({ field: 'email', message: ErrorMessage.EmailExists });
                         return;
                     }
                     saveUserToDB(req, res, newUser);
                 });
         });
 };
-exports.signin = (req, res) => {
+export const signin = (req, res) => {
     User.findOne({ username: req.body.username })
         .populate("roles", "-__v")
         .exec((err, user) => {
@@ -95,7 +97,7 @@ exports.signin = (req, res) => {
                 return;
             }
             if (!user) {
-                return res.status(404).send({ message: UserPasswordNotFound });
+                return res.status(404).send({ message: ErrorMessage.UserPasswordNotFound });
             }
             var passwordIsValid = bcrypt.compareSync(
                 req.body.password,
@@ -104,7 +106,7 @@ exports.signin = (req, res) => {
             if (!passwordIsValid) {
                 return res.status(401).send({
                     accessToken: null,
-                    message: UserPasswordNotFound
+                    message: ErrorMessage.UserPasswordNotFound
                 });
             }
             var token = jwt.sign({ id: user.id }, SECRET, {
@@ -123,7 +125,7 @@ exports.signin = (req, res) => {
             });
         });
 };
-exports.users = (req, res) => {
+export const users = (req, res) => {
     User.find()
         .exec((err, users) => {
             if (err) {
