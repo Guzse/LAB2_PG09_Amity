@@ -8,7 +8,7 @@ export const db = {
     mongoose,
     user: User,
     role: Role,
-    ROLES: ["user", "admin", "moderator"]
+    ROLES: ["user", "admin"]
 };
 
 export default db;
