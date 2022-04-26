@@ -14,8 +14,8 @@ app.listen(PORT, () => {
 
 
 const Role = db.role;
-const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-console.log(CONNECTION_STRING);
+const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
+
 db.mongoose
     .connect(CONNECTION_STRING, {
         useNewUrlParser: true,
@@ -40,14 +40,6 @@ function initial() {
                     console.log("error", err);
                 }
                 console.log("added 'user' to roles collection");
-            });
-            new Role({
-                name: "moderator"
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
-                console.log("added 'moderator' to roles collection");
             });
             new Role({
                 name: "admin"
