@@ -1,7 +1,12 @@
 .sidebar{
-    /* width: 20px ; */
-} 
-.safezoneForm{
-    text-align: center;
+    display: block;
+}
 
+.msge{
+    background-color: aquamarine;
+}
+
+.safezoneBody{
+    display: flex;
+    flex-direction: row;
 }

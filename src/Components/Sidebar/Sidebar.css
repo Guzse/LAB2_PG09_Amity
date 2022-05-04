@@ -1,10 +1,11 @@
 .sidebarContainer{
+
     background-color: #575C5F;
     color: white;
     display: flex;
     flex-direction: row;
     width: auto;
-    position: fixed;
+    position: absolute;
     left: 0px;
     bottom: 0;
     top: 0;

@@ -1,6 +1,7 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import SafezoneForm from "../../Components/safezoneForm/safezoneForm";
+import RecieveMsg from "../../Components/Chat/RecieveMsg/RecieveMsg";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import "./Main.css";
 
@@ -11,14 +12,18 @@ function About() {
 //   }
     return (
         <>
+            <div className="safezoneBody">
+            <Sidebar />
             <Container fixed>
-                {/* <Sidebar className="sidebar"/> */}
+                
 
                 {/* <button onClick={showForm}>
                     Activate Lasers
                 </button> */}
-                <SafezoneForm className="safezoneForm"/>
+                {/* <SafezoneForm className="safezoneForm"/> */}
+                <RecieveMsg />
             </Container>
+            </div>
         </>
     );
 }
