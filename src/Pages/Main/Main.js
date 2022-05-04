@@ -5,19 +5,19 @@ import Sidebar from "../../Components/Sidebar/Sidebar";
 import "./Main.css";
 
 function About() {
-      function showForm(e) {
-    e.preventDefault();
-    console.log('You clicked submit.');
-  }
+//       function showForm(e) {
+//     e.preventDefault();
+//     console.log('You clicked submit.');
+//   }
     return (
         <>
             <Container fixed>
-                <Sidebar className="sidebar"/>
+                {/* <Sidebar className="sidebar"/> */}
 
                 {/* <button onClick={showForm}>
                     Activate Lasers
-                </button>
-                <SafezoneForm/> */}
+                </button> */}
+                <SafezoneForm className="safezoneForm"/>
             </Container>
         </>
     );

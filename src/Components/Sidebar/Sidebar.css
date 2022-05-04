@@ -1,23 +1,139 @@
 .sidebarContainer{
-    background-color: bisque;
+    background-color: #575C5F;
+    color: white;
     display: flex;
     flex-direction: row;
+    width: auto;
+    position: fixed;
+    left: 0px;
+    bottom: 0;
+    top: 0;
 }
 
 .serverlist{
-    background-color: green;
     display: flex;
     flex-direction: column;
 }
 
-.createSz{
-    background-color: red;
-    text-align: bottom;
-    text-decoration: none;
+.leftside-sidebar{
+    text-align: center;
+    background-color: #3B4549;
+    width: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
+.rightside-sidebar{
+    background-color: #575C5F;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.groupIcon{
+    border-radius: 25px;
+    background-color: #1C5781;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+    width: auto;
+    padding: 2px;
+}
+
+.serverIcon{
+    display: inline-block;
+    border-radius: 25px;
+    background-color: #1C5781;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+    width: auto;
+}
+
+.plusIcon{
+    border-radius: 25px;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+    width: auto;
+    padding: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    margin-bottom: 10px;
+}
+
+.sidebarContainer a{
+    text-decoration: none;
+    color: white;
+}
+
+
+
 .searcher{
-    background-color: purple;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+.searcher a{
+    display: flex;
+    justify-content: row;
+
+
+    color: white;
+}
+
+.searcher span{
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.searchbar{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: auto;
+}
+
+.containterPlanAcc{
+    width: cover;
+    margin-bottom: 20px;
+    position: absolute;
+    bottom: 0; 
+}
+
+.planner {
+    text-align: center;
+}
+
+.planner span{
+    margin-top: 20px;
+    
+
+}
+
+.account{
+    display: flex;
+    width: 175px;
+    margin-top:10px ;
+    margin-bottom:10px ;
+}
+
+.userIcon{
+    height: 30px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.settingIcon{
+    height: 30px;
+    width: auto;
+    margin-left: 10px;
+}
+
+.account>*{
+    margin-top: auto;
+    margin-bottom: auto;
 }
