@@ -5,12 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "type": "pwa-node",
             "request": "launch",
-            "name": "Chrome",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "npm: start"
+            "name": "Start Server",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "localRoot": "${workspaceFolder}\\server",
+            "program": "${workspaceFolder}\\server\\server.js"
         }
     ]
 }

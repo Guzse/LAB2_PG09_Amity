@@ -3,7 +3,8 @@ import Container from "@mui/material/Container";
 import Navigation from "../../Components/Navigation/Navigation";
 import Logo from "../../assets/images/SVG/Woordmerk_A.svg";
 
-import "./Landing.css";
+import "./landing.css";
+import { Link } from "react-router-dom";
 
 function Landing() {
     return (
@@ -13,7 +14,9 @@ function Landing() {
                 <img alt="Amity Logo" src={Logo} />
                 <hr />
                 <h1>Together we blossom</h1>
-                <button class="primary-stroke" >Create an Account</button>
+                <Link to='/register'>
+                    <button className="primary-stroke" >Create an Account</button>
+                </Link>
             </Container>
         </>
     );
