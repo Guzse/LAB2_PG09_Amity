@@ -1,12 +1,13 @@
+.safezoneBody{
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+}
+
 .sidebar{
     display: block;
 }
 
 .msge{
     background-color: aquamarine;
-}
-
-.safezoneBody{
-    display: flex;
-    flex-direction: row;
 }

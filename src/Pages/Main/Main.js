@@ -13,16 +13,16 @@ function About() {
     return (
         <>
             <div className="safezoneBody">
-            <Sidebar />
-            <Container fixed>
-                
+                <Sidebar />
+                <Container fixed>
+                    
 
-                {/* <button onClick={showForm}>
-                    Activate Lasers
-                </button> */}
-                {/* <SafezoneForm className="safezoneForm"/> */}
-                <RecieveMsg />
-            </Container>
+                    {/* <button onClick={showForm}>
+                        Activate Lasers
+                    </button> */}
+                    {/* <SafezoneForm className="safezoneForm"/> */}
+                    <RecieveMsg />
+                </Container>
             </div>
         </>
     );
