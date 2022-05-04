@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./safezoneForm.css";
-import { Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Slider from '@mui/material/Slider';
 import SafezoneService from "../../api/SafezoneService";
