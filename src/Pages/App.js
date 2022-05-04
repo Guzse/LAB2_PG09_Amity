@@ -8,6 +8,7 @@ import About from "./About/About";
 import Main from "./Main/Main";
 import Contact from "./Contact/Contact";
 import { NotFound } from "./NotFound/NotFound";
+import NewSafezone from "./NewSafezone/newSafezone";
 function App() {
     return (
         <Router>
@@ -19,6 +20,8 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/main" element={<Main />} />
+                <Route path="/newSafezone" element={<NewSafezone/>} />
+                
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

@@ -54,7 +54,7 @@ function safezoneForm() {
                     </div>
                     <div className="limit-container">
                         <label htmlFor="maxMembers">Member limit </label> <span className="outputSlider"></span>
-                        <Slider onChange={handeChange} name="maxMembers" min={1} max="50" defaultValue={25} aria-label="Default" valueLabelDisplay="auto" className="slider" />
+                        <Slider onChange={handeChange} name="maxMembers" min={1} max={50} defaultValue={25} aria-label="Default" valueLabelDisplay="auto" className="slider" />
                     </div>
                     <div className="button-container">
                             <button className="primary-stroke " to="/safezone">Cancel</button>
