@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthService from "../../api/AuthService";
 
 export const Login = (props) => {
@@ -8,6 +9,8 @@ export const Login = (props) => {
         errorMsg: ''
     });
     let authService = new AuthService();
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const key = e.target.name;
@@ -28,6 +31,7 @@ export const Login = (props) => {
                 }
                 res.json().then(res => {
                     window.localStorage.setItem('accessToken', res.accessToken);
+                    navigate("/Main");
                 });
             });
     };

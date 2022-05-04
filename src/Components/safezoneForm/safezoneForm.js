@@ -3,19 +3,12 @@ import "./safezoneForm.css";
 import { Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Slider from '@mui/material/Slider';
+import SafezoneService from "../../api/SafezoneService";
 
-
-var slider = document.getElementsByClassName("slider");
-var output = document.getElementsByClassName("outputSlider");
-console.log(slider.value);
-
-
-
-const handleSubmit = (event) => {
-    event.preventDefault();
-};
 
 function safezoneForm() {
+
+    const safezoneService = new SafezoneService();
 
     const [state,setState] = useState({
         zoneName: '',
@@ -31,11 +24,19 @@ function safezoneForm() {
             ...prev,
             [key]:value
         }));
-
-        console.log(state);
-
-
     }
+
+    function handleSubmit(e){
+        e.preventDefault();
+
+        safezoneService
+            .CreateSafezone(state.zoneName,state.description,state.maxMembers)
+            .then(res => {
+                res.json().then(data => console.log(data));
+            });
+    }
+
+
     // JSX code for login form
     return (
         <>
@@ -56,10 +57,8 @@ function safezoneForm() {
                         <Slider onChange={handeChange} name="maxMembers" min={1} max="50" defaultValue={25} aria-label="Default" valueLabelDisplay="auto" className="slider" />
                     </div>
                     <div className="button-container">
-                        <Link to="/safezone">
                             <button className="primary-stroke " to="/safezone">Cancel</button>
-                            <button className="primary-stroke register create" to="/safezone">Create safezone</button>
-                        </Link>
+                            <button type="submit" className="primary-stroke register create" to="/safezone">Create safezone</button>
                     </div>
                 </form>
             </Container>
