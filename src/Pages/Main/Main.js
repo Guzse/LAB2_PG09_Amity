@@ -11,7 +11,6 @@ function About() {
     return (
         <>
             <Container fixed>
-                <Sidebar className="sidebar"/>
             </Container>
         </>
     );

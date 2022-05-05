@@ -1,38 +1,45 @@
 .sidebarContainer{
-    background-color: #575C5F;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    width: auto;
+    background-color: var(--gray4);
+    color: var(--white);
+
     position: fixed;
-    left: 0px;
-    bottom: 0;
+    z-index: 1;
+    left: 0;
     top: 0;
+    height: 100%;
+    overflow-x: hidden;
+    width:var(--sidebar-width);
+    display: inline;
 }
 
-.serverlist{
+.sidebarContainer .leftside-sidebar {
+    background-color: var(--gray5);
+
+    height: 100%;
+    width: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: left;
+
+    text-align: center;
+}
+
+.sidebarContainer .leftside-sidebar .serverlist{
     display: flex;
     flex-direction: column;
 }
 
-.leftside-sidebar{
-    text-align: center;
-    background-color: #3B4549;
-    width: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
+.sidebarContainer .rightside-sidebar{
+    background-color: var(--gray4);
 
-.rightside-sidebar{
-    background-color: #575C5F;
-    padding-left: 10px;
-    padding-right: 10px;
+    height: 100%;
+    width: 240px;
+    float: left;
 }
-
-.groupIcon{
+.sidebarContainer .leftside-sidebar .groupIcon{
     border-radius: 25px;
-    background-color: #1C5781;
-    color: white;
+    background-color: var(--primary);
+    color: var(--white);
     margin-top: 5px;
     margin-bottom: 5px;
     height: 40px;
@@ -40,20 +47,20 @@
     padding: 2px;
 }
 
-.serverIcon{
+.sidebarContainer .serverIcon{
     display: inline-block;
     border-radius: 25px;
-    background-color: #1C5781;
-    color: white;
+    background-color: var(--primary);
+    color: var(--white);
     margin-top: 5px;
     margin-bottom: 5px;
     height: 40px;
     width: auto;
 }
 
-.plusIcon{
+.sidebarContainer .leftside-sidebar .plusIcon{
     border-radius: 25px;
-    color: white;
+    color: var(--white);
     margin-top: 5px;
     margin-bottom: 5px;
     height: 40px;
@@ -64,20 +71,20 @@
     left: 10px;
     margin-bottom: 10px;
 }
-
-.sidebarContainer a{
+/*
+.sidebarContainer .sidebarContainer a{
     text-decoration: none;
-    color: white;
+    color: var(--white);
 }
 
 
 
-.searcher{
+.sidebarContainer .searcher{
     display: flex;
     flex-direction: column;
 }
 
-.searcher a{
+.sidebarContainer .searcher a{
     display: flex;
     justify-content: row;
 
@@ -85,55 +92,55 @@
     color: white;
 }
 
-.searcher span{
+.sidebarContainer .searcher span{
     margin-left: 10px;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-.searchbar{
+.sidebarContainer .searchbar{
     margin-top: 5px;
     margin-bottom: 5px;
     width: auto;
 }
 
-.containterPlanAcc{
+.sidebarContainer .containterPlanAcc{
     width: cover;
     margin-bottom: 20px;
     position: absolute;
     bottom: 0; 
 }
 
-.planner {
+.sidebarContainer .planner {
     text-align: center;
 }
 
-.planner span{
+.sidebarContainer .planner span{
     margin-top: 20px;
     
 
 }
 
-.account{
+.sidebarContainer .account{
     display: flex;
     width: 175px;
     margin-top:10px ;
     margin-bottom:10px ;
 }
 
-.userIcon{
+.sidebarContainer .userIcon{
     height: 30px;
     width: auto;
     margin-right: 10px;
 }
 
-.settingIcon{
+.sidebarContainer .settingIcon{
     height: 30px;
     width: auto;
     margin-left: 10px;
 }
 
-.account>*{
+.sidebarContainer .account>*{
     margin-top: auto;
     margin-bottom: auto;
-}
+} */

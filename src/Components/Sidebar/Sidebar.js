@@ -5,9 +5,11 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { HiUserCircle } from "react-icons/hi";
 import { HiOutlineCog } from "react-icons/hi";
+import { Outlet } from "react-router-dom";
 
 function Sidebar() {
     return ( 
+        <>
         <div className="sidebarContainer">
             <div className="leftside-sidebar">
                 <div className="serverlist">
@@ -36,6 +38,8 @@ function Sidebar() {
                 </div>
             </div>
         </div>
+        <Outlet/>
+        </>
      );
 }
 

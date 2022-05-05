@@ -31,7 +31,7 @@ export const Login = (props) => {
                 }
                 res.json().then(res => {
                     window.localStorage.setItem('accessToken', res.accessToken);
-                    navigate("/Main");
+                    navigate("/app/main");
                 });
             });
     };
