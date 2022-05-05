@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "@mui/material/Container";
-import Sidebar from "../../Components/Sidebar/Sidebar";
 import "./Main.css";
 
 function About() {

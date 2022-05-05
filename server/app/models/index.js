@@ -10,7 +10,7 @@ export const db = {
     mongoose,
     user: User,
     role: Role,
-    
+
     safezone: Safezone,
     safezoneUser: SafezoneUser,
 
