@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from "../../api/AuthService";
 
@@ -31,7 +31,9 @@ export const Login = (props) => {
                 }
                 res.json().then(res => {
                     window.localStorage.setItem('accessToken', res.accessToken);
-                    navigate("/Main");
+                    window.localStorage.setItem('username', res.username);
+                    window.localStorage.setItem('email', res.email);
+                    navigate(`/app/${res.lastZone}`);
                 });
             });
     };

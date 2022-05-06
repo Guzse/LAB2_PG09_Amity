@@ -9,19 +9,22 @@ import Main from "./Main/Main";
 import Contact from "./Contact/Contact";
 import { NotFound } from "./NotFound/NotFound";
 import NewSafezone from "./NewSafezone/newSafezone";
+import Sidebar from "../Components/Sidebar/Sidebar";
 function App() {
     return (
         <Router>
             <Routes>
-                <Route exact path="/" element={<Landing />} />
-                <Route path="/zone/:safezoneId" element={<Safezone />} />
-                <Route path="/login" element={<Authenticate />} />
-                <Route path="/register" element={<Authenticate register />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/main" element={<Main />} />
-                <Route path="/newSafezone" element={<NewSafezone/>} />
-                
+                <Route index element={<Landing />} />
+                <Route path="login" element={<Authenticate />} />
+                <Route path="register" element={<Authenticate register />} />
+                <Route path="about" element={<About />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="app" element={<Sidebar/>}>
+                    <Route path=":safezoneId" element={<Safezone />} />
+                    <Route path="main" element={<Main />} />
+                    <Route path="new" element={<NewSafezone />} />
+                </Route>
+
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
