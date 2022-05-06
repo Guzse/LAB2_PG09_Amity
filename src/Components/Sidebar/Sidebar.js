@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Sidebar.css";
 import { Outlet } from "react-router-dom";
 import { SidebarLeft } from "./SidebarLeft/SidebarLeft";
@@ -11,12 +11,13 @@ function Sidebar() {
                 <SidebarLeft />
                 <div className="sidebar-right">
                     <SidebarMain
-                        onClickProfile={val => console.log('onClickProfile', val)}
                         onClickSettings={val => console.log('onClickSettings', val)} 
                         onClickUser={val => console.log('onClickUser', val)} />
                 </div>
             </div>
-            <Outlet />
+            <div id="outlet">
+                <Outlet />
+            </div>
         </>
     );
 }
