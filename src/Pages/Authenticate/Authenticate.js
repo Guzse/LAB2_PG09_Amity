@@ -3,8 +3,8 @@ import "./Authenticate.css";
 import Container from "@mui/material/Container";
 import Navigation from "../../Components/Navigation/Navigation";
 import logo from '../../assets/images/SVG/Logo_A.svg';
-import { Login } from "../../Components/Login/Login";
-import { Register } from "../../Components/Register/Register";
+import { Login } from "./Login/Login";
+import { Register } from "./Register/Register";
 import { useNavigate } from "react-router-dom";
 
 export const Authenticate = (props) => {
