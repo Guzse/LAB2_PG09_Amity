@@ -11,9 +11,9 @@ function Sidebar() {
                 <SidebarLeft />
                 <div className="sidebar-right">
                     <SidebarMain
-                        onClickProfile={val => console.log(val)}
-                        onClickSettings={val => console.log(val)} 
-                        onClickUser={val => console.log(val)} />
+                        onClickProfile={val => console.log('onClickProfile', val)}
+                        onClickSettings={val => console.log('onClickSettings', val)} 
+                        onClickUser={val => console.log('onClickUser', val)} />
                 </div>
             </div>
             <Outlet />
