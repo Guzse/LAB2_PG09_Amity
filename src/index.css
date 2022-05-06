@@ -44,12 +44,17 @@ html, body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
+    height: 100%;
 }
 
 #root {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#outlet {
+    flex: 1;
 }
 
 code {

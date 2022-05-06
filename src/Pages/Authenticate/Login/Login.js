@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthService from "../../api/AuthService";
-import { LabelInput } from '../LabelInput/LabelInput';
+import AuthService from "../../../api/AuthService";
+import { LabelInput } from '../../../Components/LabelInput/LabelInput';
 
 export const Login = (props) => {
     const [state, setState] = useState({

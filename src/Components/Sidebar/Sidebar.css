@@ -1,15 +1,15 @@
 .sidebarContainer{
     background-color: var(--gray4);
     color: var(--white);
-
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
     height: 100%;
     overflow-x: hidden;
     width:var(--sidebar-width);
     display: inline;
+/* 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0; */
 }
 
 .sidebar-right {

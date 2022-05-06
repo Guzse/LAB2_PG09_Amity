@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthService from '../../api/AuthService';
-import { Regex } from '../../Global/Regex';
+import AuthService from '../../../api/AuthService';
+import { Regex } from '../../../Global/Regex';
 import './Register.css';
 import $ from 'jquery';
-import { LabelInput } from '../LabelInput/LabelInput';
+import { LabelInput } from '../../../Components/LabelInput/LabelInput';
 
 export const Register = () => {
     const [input, setInput] = useState({
