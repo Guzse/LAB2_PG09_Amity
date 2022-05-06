@@ -36,4 +36,18 @@ export default class AuthService {
             return promiseConnectionError();
         }
     }
+    async Verify() {
+        try {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/auth/verify`, {
+                method: 'GET',
+                headers: {
+                    'x-access-token': window.localStorage.getItem("accessToken"),
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            });
+        } catch(err) {
+            return promiseConnectionError();
+        }
+    }
 }

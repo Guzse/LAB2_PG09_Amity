@@ -12,135 +12,16 @@
     display: inline;
 }
 
-.sidebarContainer .leftside-sidebar {
-    background-color: var(--gray5);
-
-    height: 100%;
-    width: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
-    float: left;
-
-    text-align: center;
-}
-
-.sidebarContainer .leftside-sidebar .serverlist{
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebarContainer .rightside-sidebar{
+.sidebar-right {
     background-color: var(--gray4);
-
     height: 100%;
     width: 240px;
     float: left;
 }
-.sidebarContainer .leftside-sidebar .groupIcon{
-    border-radius: 25px;
-    background-color: var(--primary);
-    color: var(--white);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 40px;
-    width: auto;
-    padding: 2px;
+
+.sidebarContainer hr {
+    border: none;
+    border-top: 1px solid var(--white);
+    width: 100%;
+    margin: 0px;
 }
-
-.sidebarContainer .serverIcon{
-    display: inline-block;
-    border-radius: 25px;
-    background-color: var(--primary);
-    color: var(--white);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 40px;
-    width: auto;
-}
-
-.sidebarContainer .leftside-sidebar .plusIcon{
-    border-radius: 25px;
-    color: var(--white);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 40px;
-    width: auto;
-    padding: 2px;
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    margin-bottom: 10px;
-}
-/*
-.sidebarContainer .sidebarContainer a{
-    text-decoration: none;
-    color: var(--white);
-}
-
-
-
-.sidebarContainer .searcher{
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebarContainer .searcher a{
-    display: flex;
-    justify-content: row;
-
-
-    color: white;
-}
-
-.sidebarContainer .searcher span{
-    margin-left: 10px;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.sidebarContainer .searchbar{
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: auto;
-}
-
-.sidebarContainer .containterPlanAcc{
-    width: cover;
-    margin-bottom: 20px;
-    position: absolute;
-    bottom: 0; 
-}
-
-.sidebarContainer .planner {
-    text-align: center;
-}
-
-.sidebarContainer .planner span{
-    margin-top: 20px;
-    
-
-}
-
-.sidebarContainer .account{
-    display: flex;
-    width: 175px;
-    margin-top:10px ;
-    margin-bottom:10px ;
-}
-
-.sidebarContainer .userIcon{
-    height: 30px;
-    width: auto;
-    margin-right: 10px;
-}
-
-.sidebarContainer .settingIcon{
-    height: 30px;
-    width: auto;
-    margin-left: 10px;
-}
-
-.sidebarContainer .account>*{
-    margin-top: auto;
-    margin-bottom: auto;
-} */

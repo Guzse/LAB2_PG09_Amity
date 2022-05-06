@@ -4,6 +4,7 @@ import AuthService from '../../api/AuthService';
 import { Regex } from '../../Global/Regex';
 import './Register.css';
 import $ from 'jquery';
+import { LabelInput } from '../LabelInput/LabelInput';
 
 export const Register = () => {
     const [input, setInput] = useState({
@@ -67,49 +68,34 @@ export const Register = () => {
 
     return (
         <form onSubmit={handleSubmit} className='formRegister'>
-            <div className="labelInputContainer">
-                <label>Username </label>
-                <input
-                    placeholder="John Doe"
-                    type="text"
-                    name="username"
-                    onChange={handleChange}
-                    onBlur={validateInput}
-                    required />
-            </div>
-
-            <div className="labelInputContainer">
-                <label>Email</label>
-                <input
+            <LabelInput 
+                label='Username' 
+                placeholder="John Doe"
+                name="username"
+                onChange={handleChange}
+                onBlur={validateInput}
+                required />
+                <LabelInput
+                    label="Email"
                     placeholder="user@email.com"
-                    type="text"
                     name="email"
                     onChange={handleChange}
                     onBlur={validateInput}
                     required />
-            </div>
-
-            <div className="labelInputContainer">
-                <label>Password </label>
-                <input
-                    placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;'
+                <LabelInput
+                    label='Password'
                     type="password"
                     name="password"
                     onChange={handleChange}
                     onBlur={validateInput}
                     required />
-            </div>
-
-            <div className="labelInputContainer">
-                <label>Confirm password</label>
-                <input
-                    placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;'
+                <LabelInput
+                    label="Repeat Password"
                     type="password"
                     name="confirmPassword"
                     onChange={handleChange}
                     onBlur={validateInput}
                     required />
-            </div>
             <div className='checkboxContainer'>
                 <input type="checkbox" name="termsService" required />
                 <label>I have read the <Link to="/service">Terms of Service</Link></label>

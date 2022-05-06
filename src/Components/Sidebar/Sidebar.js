@@ -1,46 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidebar.css";
-import { HiUserGroup } from "react-icons/hi";
-import { HiOutlinePlusCircle } from "react-icons/hi";
-import { HiOutlinePencilAlt } from "react-icons/hi";
-import { HiUserCircle } from "react-icons/hi";
-import { HiOutlineCog } from "react-icons/hi";
 import { Outlet } from "react-router-dom";
+import { SidebarLeft } from "./SidebarLeft/SidebarLeft";
+import { SidebarMain } from "./SidebarMain/SidebarMain";
 
 function Sidebar() {
-    return ( 
+    return (
         <>
-        <div className="sidebarContainer">
-            <div className="leftside-sidebar">
-                <div className="serverlist">
-                    <HiUserGroup className="groupIcon"/>
-                    <HiUserGroup className="groupIcon"/>
-                    <HiUserGroup className="groupIcon"/>
-                </div>
-                <HiOutlinePlusCircle className="plusIcon"/>
-            </div>
-            <div className="rightside-sidebar">
-                <div className="searcher">
-                    <input className="searchbar" type="text" placeholder="Search.."/>
-                </div>
-                <div className="containterPlanAcc">
-                    <hr></hr>
-                    <div className="planner">
-                        <h3>Next meetup <HiOutlinePencilAlt onClick={ e => console.log("clicketyclick") }/></h3>
-                        <span>19 january </span>
-                    </div>
-                    <hr></hr>
-                    <div className="account">
-                        <HiUserCircle className="userIcon"/>
-                        <span>Jan verstraten</span>
-                        <HiOutlineCog className="settingIcon"/>
-                    </div>
+            <div className="sidebarContainer">
+                <SidebarLeft />
+                <div className="sidebar-right">
+                    <SidebarMain
+                        onClickProfile={val => console.log(val)}
+                        onClickSettings={val => console.log(val)} 
+                        onClickUser={val => console.log(val)} />
                 </div>
             </div>
-        </div>
-        <Outlet/>
+            <Outlet />
         </>
-     );
+    );
 }
 
 export default Sidebar;
