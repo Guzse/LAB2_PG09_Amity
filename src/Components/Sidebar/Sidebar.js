@@ -24,12 +24,12 @@ function Sidebar() {
                     <input className="searchbar" type="text" placeholder="Search.."/>
                 </div>
                 <div className="containterPlanAcc">
-                    <hr></hr>
+                    <hr/>
                     <div className="planner">
                         <h3>Next meetup <HiOutlinePencilAlt onClick={ e => console.log("clicketyclick") }/></h3>
                         <span>19 january </span>
                     </div>
-                    <hr></hr>
+                    <hr/>
                     <div className="account">
                         <HiUserCircle className="userIcon"/>
                         <span>Jan verstraten</span>

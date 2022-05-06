@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from "../../api/AuthService";
+import { LabelInput } from '../LabelInput/LabelInput';
 
 export const Login = (props) => {
     const [state, setState] = useState({
@@ -50,14 +51,21 @@ export const Login = (props) => {
 
     return (
         <form className='formLogin' onSubmit={handleSubmit}>
-            <div className="labelInputContainer">
-                <label>Email Address</label>
-                <input placeholder='user@mail.com' type="text" name="username" value={state.username} onChange={handleChange} required />
-            </div>
-            <div className="labelInputContainer">
-                <label>Password </label>
-                <input placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;' type="password" name="password" value={state.password} onChange={handleChange} required />
-            </div>
+            <LabelInput
+                label="Username"
+                placeholder='username'
+                type="text"
+                name="username"
+                value={state.username}
+                onChange={handleChange}
+                required />
+            <LabelInput
+                label="Password"
+                type="password"
+                name="password"
+                value={state.password}
+                onChange={handleChange}
+                required />
             <button type='submit' className='primary'>Login</button>
         </form>
     )

@@ -71,13 +71,10 @@
     left: 10px;
     margin-bottom: 10px;
 }
-/*
 .sidebarContainer .sidebarContainer a{
     text-decoration: none;
     color: var(--white);
 }
-
-
 
 .sidebarContainer .searcher{
     display: flex;
@@ -87,9 +84,7 @@
 .sidebarContainer .searcher a{
     display: flex;
     justify-content: row;
-
-
-    color: white;
+    color: var(--white);
 }
 
 .sidebarContainer .searcher span{
@@ -143,4 +138,4 @@
 .sidebarContainer .account>*{
     margin-top: auto;
     margin-bottom: auto;
-} */
+}
