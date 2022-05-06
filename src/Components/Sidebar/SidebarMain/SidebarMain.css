@@ -1,0 +1,55 @@
+.sidebar-right .userList {
+    padding: 10px;
+}
+
+.sidebar-right .meetingPlanner {
+    border-top: 1px solid var(--white);
+    width: 240px;
+    padding: 10px;
+    position: absolute;
+    bottom: 71px;
+}
+
+.sidebar-right .meetingPlanner div {
+    font-weight: bold;
+    text-align: center;
+}
+
+.sidebar-right .meetingPlanner .iconWrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: -22px;
+    float: right;
+}
+
+.sidebar-right .meetingPlanner p {
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+}
+
+.sidebar-right .profileSettings {
+    border-top: 1px solid var(--white);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0px;
+}
+.sidebar-right .profileSettings .profile {
+    display: inline;
+}
+
+.sidebar-right .profileSettings .profile div {
+    float: left;
+}
+
+.sidebar-right .profileSettings .profile .username {
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px;
+    width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
