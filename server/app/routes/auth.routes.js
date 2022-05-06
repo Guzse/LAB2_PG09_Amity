@@ -1,5 +1,6 @@
 import { verifySignUp } from "../middleware/verifySignUp.js";
 import * as controller from '../controllers/auth.controller.js';
+import authJwt from "../middleware/authJwt.js";
 
 export const authRoutes = (app) => {
   app.use(function(req, res, next) {
@@ -18,6 +19,7 @@ export const authRoutes = (app) => {
     controller.signup
   );
   app.post("/api/auth/signin", controller.signin);
+  app.get("/api/auth/verify", authJwt.verifyToken, controller.verify);
 };
 
 export default authRoutes;

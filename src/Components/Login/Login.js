@@ -8,9 +8,19 @@ export const Login = (props) => {
         password: '',
         errorMsg: ''
     });
-    let authService = new AuthService();
-
+    const authService = new AuthService();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const accessToken = window.localStorage.getItem("accessToken");
+        if (!accessToken) return;
+        routeToApp();
+    });
+
+    const routeToApp = async () => {
+        const user = await (await authService.Verify()).json();
+        navigate(`/app/${user.lastZone}`);
+    }
 
     const handleChange = (e) => {
         const key = e.target.name;
@@ -33,7 +43,7 @@ export const Login = (props) => {
                     window.localStorage.setItem('accessToken', res.accessToken);
                     window.localStorage.setItem('username', res.username);
                     window.localStorage.setItem('email', res.email);
-                    navigate(`/app/${res.lastZone}`);
+                    routeToApp();
                 });
             });
     };
