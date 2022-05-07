@@ -1,0 +1,21 @@
+.videoCall {
+    width: 100%;
+}
+
+.videoCall .videoControls {
+    z-index: 1;
+    position: relative;
+    bottom: 18px;
+}
+
+.videoCall .videoControls button {
+    margin: auto;
+    display: block;
+}
+
+.videoCall .videoContainer {
+    height: 100%;
+    height: 100px;
+    background: rgb(96, 150, 188);
+    background: radial-gradient(circle, rgba(96, 150, 188, 1) 0%, rgba(28, 87, 129, 1) 100%);
+}
