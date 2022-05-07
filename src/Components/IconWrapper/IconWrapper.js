@@ -12,6 +12,7 @@ export const IconWrapper = (props = { width: '40px', primary: false, secondary: 
         delete sanitized.primary;
         delete sanitized.secondary;
         delete sanitized.background;
+        return sanitized;
     }
     
     let clickable = '';
