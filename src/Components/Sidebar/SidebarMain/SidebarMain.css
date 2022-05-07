@@ -2,6 +2,17 @@
     padding: 10px;
 }
 
+.sidebar-right h2 {
+    margin: 0px;
+    padding: 10px;
+    padding-bottom: 0px;
+    line-height: 1.5em;
+    height: 46px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .sidebar-right .meetingPlanner {
     border-top: 1px solid var(--white);
     width: 240px;

@@ -5,6 +5,7 @@ import "./safezone.css";
 import { VideoCall } from "./VideoCall/VideoCall";
 import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
+import { trigger } from '../../Global/Events';
 
 function Safezone() {
     let { safezoneId } = useParams();
@@ -13,11 +14,11 @@ function Safezone() {
     useEffect(() => {
         safezoneService.GetSafezone(safezoneId)
             .then(res => { return res.json() })
-            .then(value => {
-                userService.UpdateLastZone(value._id);
-                
+            .then(zone => {
+                userService.UpdateLastZone(zone._id);
+                trigger("ActiveSafeZone:Update", zone);
             });
-    });
+    }, [safezoneId]);
 
     return (
         <>
