@@ -50,11 +50,11 @@ html, body {
 #root {
     width: 100vw;
     height: 100vh;
-    display: flex;
 }
 
 #outlet {
     flex: 1;
+    display: flex;
 }
 
 code {

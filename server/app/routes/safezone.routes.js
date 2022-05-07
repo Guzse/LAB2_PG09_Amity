@@ -6,7 +6,7 @@ export const routeSafezone = (app) => {
     // this function sets the basic settings for the connection. Just copy over into other route.js files
     app.use(function (req, res, next) {
         res.header(
-            "Access-Control-Allow-Headers",
+            "Access-Control-Allow-Headers", 
             "x-access-token, Origin, Content-Type, Accept"
         );
         next();
@@ -29,7 +29,7 @@ export const routeSafezone = (app) => {
             this specific function will make sure the user is authenticated by checking the access token.
         
         controller.createSafezone: the actual function that performs the requested task. This is where the code that interacts with the database is executed.
-    */ 
+    */
     app.post("/api/safezone/", [authJwt.verifyToken], controller.createSafezone);
     /*
         This PUT request will replace an existing record with new data.

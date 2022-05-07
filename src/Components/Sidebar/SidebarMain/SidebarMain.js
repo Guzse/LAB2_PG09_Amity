@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./SidebarMain.css";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { HiOutlineUser } from "react-icons/hi";
@@ -9,15 +9,28 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
+import { on, off } from '../../../Global/Events';
 
 export const SidebarMain = (props = {
     onClickSettings: () => { },
     onClickUser: () => { }
-}
+}) => {
+    const [zone, setZone] = useState({});
+    const updateZone = event => {
+        setZone(event.detail);
+    };
 
-) => {
+    useEffect(() => {
+        on("ActiveSafeZone:Update", updateZone);
+
+        return () => {
+            off("ActiveSafeZone:Update", updateZone);
+        };
+    }, [updateZone]);
+
     return (
         <>
+            <h2>{zone.zoneName}</h2>
             <UserList />
             <MeetingPlanner />
             <ProfileSettings

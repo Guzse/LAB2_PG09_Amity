@@ -38,17 +38,17 @@ export default class SafezoneService {
     }
     async GetSafezone(id) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/auth/signup`, {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/safezone/`, {
                 method: 'GET',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({ id })
+                    'Access-Control-Allow-Origin': '*',
+                    'safezone-id': id
+                }
             });
         } catch(err) {
-            return promiseConnectionError();
+            return promiseConnectionError(err);
         }
     }
 }

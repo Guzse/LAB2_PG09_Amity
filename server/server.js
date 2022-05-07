@@ -5,6 +5,7 @@ dotenv.config({ path: '.env.local'});
 import express from "express";
 import db from './app/models/index.js';
 import cors from 'cors';
+import http from 'http';
 
 import configureRoutes from './app/routes/index.js';
 
@@ -18,7 +19,9 @@ app.set("view engine", "ejs");
 
 configureRoutes(app);
 
-app.listen(PORT, () => {
+const server = http.createServer(app);
+
+server.listen(PORT, () => {
     console.info(`Server is running on port ${PORT}.`);
 });
 

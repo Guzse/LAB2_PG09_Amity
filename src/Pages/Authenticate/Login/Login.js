@@ -37,9 +37,8 @@ export const Login = (props) => {
         e.preventDefault();
         authService.SignIn(state.username, state.password)
             .then((res) => {
-                if (res.status !== 200) {
-
-                }
+                if (res.status !== 200) 
+                    return console.error(res);
                 res.json().then(res => {
                     window.localStorage.setItem('accessToken', res.accessToken);
                     window.localStorage.setItem('username', res.username);
