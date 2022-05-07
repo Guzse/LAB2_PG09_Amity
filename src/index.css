@@ -20,8 +20,8 @@
     --gray5: #3B4549;
     --background: #FBF5E9;
     --infored: #BD4E48;
-    --gradient-blue: linear-gradient(90deg, rgba(28,87,129,1) 0%, rgba(96,150,188,1) 100%);
-    --gradient-pink: linear-gradient(90deg, rgba(198,36,141,1) 0%, rgba(214,120,176,1) 100%);
+    --gradient-blue: linear-gradient(90deg, rgba(28,87,129,1), rgba(96,150,188,1) 100%);
+    --gradient-pink: linear-gradient(90deg, rgba(198,36,141,1), rgba(214,120,176,1) 100%);
     --primary-transparent: rgba(15, 147, 241, 0.2);
     --secondary-transparent: rgba(247, 11, 164, 0.2);
     --sidebar-width: 300px;
@@ -84,6 +84,7 @@ button {
     cursor: pointer;
     border-radius: 24px;
     padding: 0px 36px 0px 36px;
+    transition: 0.15s;
 }
 
 button.primary {
@@ -92,10 +93,17 @@ button.primary {
     color: var(--white);
 }
 
-button.primary-stroke {
-    background: var(--white);
-    border: 2px solid var(--primary);
+button.primary-stroke:not(:disabled) {
     color: var(--primary);
+    background-image: var(--gradient-blue);
+    border: 3px solid transparent;
+    box-shadow: 2px 1000px 1px #fff inset;
+    background-origin: border-box;
+}
+
+button.primary-stroke:hover:not(:disabled), button.secondary-stroke:hover:not(:disabled) {
+    box-shadow: none;
+    color: var(--white);
 }
 
 button.secondary {
@@ -105,9 +113,17 @@ button.secondary {
 }
 
 button.secondary-stroke {
-    background: var(--white);
-    border: 2px solid var(--secondary);
     color: var(--secondary);
+    background-image: var(--gradient-pink);
+    border: 3px solid transparent;
+    box-shadow: 2px 1000px 1px #fff inset;
+    background-origin: border-box;
+}
+
+button:disabled {
+    background-color: var(--gray1);
+    border-color: var(--gray2);
+    color: var(--gray2)
 }
 
 input[type=text], input[type=password] {

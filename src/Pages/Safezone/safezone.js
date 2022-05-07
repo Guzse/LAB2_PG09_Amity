@@ -11,6 +11,8 @@ function Safezone() {
     let { safezoneId } = useParams();
     const safezoneService = new SafezoneService();
     const userService = new UserService();
+    const username = window.localStorage.getItem("username");
+
     useEffect(() => {
         safezoneService.GetSafezone(safezoneId)
             .then(res => { return res.json() })
@@ -22,7 +24,7 @@ function Safezone() {
 
     return (
         <>
-            <VideoCall />
+            <VideoCall username={username} zoneId={safezoneId} />
         </>
     );
 }

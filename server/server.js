@@ -1,12 +1,13 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local'});
+dotenv.config({ path: '.env.local' });
 
 // Start Server
 import express from "express";
 import db from './app/models/index.js';
 import cors from 'cors';
 import http from 'http';
-import IO from 'socket.io';
+import * as IO from 'socket.io';
+import { configureSocket } from './app/services/socket.service.js';
 
 import configureRoutes from './app/routes/index.js';
 
@@ -21,7 +22,6 @@ app.set("view engine", "ejs");
 configureRoutes(app);
 
 const server = http.createServer(app);
-const io = new IO.Server(server);
 
 // Start Server
 server.listen(PORT, () => {
@@ -29,12 +29,15 @@ server.listen(PORT, () => {
 });
 
 // Set up Socket.io
-io.on("connection", (socket) => {
-    console.log("A connection to the socket has been made");
-    socket.on('disconnect', () => {
-        console.log("Someone disconnected from the socket");
-    });
+const io = new IO.Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true,
+    }
 });
+io.on("connection", (socket) => configureSocket(socket));
 
 // Connect to Database
 const Role = db.role;
