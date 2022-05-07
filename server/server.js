@@ -6,6 +6,7 @@ import express from "express";
 import db from './app/models/index.js';
 import cors from 'cors';
 import http from 'http';
+import IO from 'socket.io';
 
 import configureRoutes from './app/routes/index.js';
 
@@ -20,13 +21,22 @@ app.set("view engine", "ejs");
 configureRoutes(app);
 
 const server = http.createServer(app);
+const io = new IO.Server(server);
 
+// Start Server
 server.listen(PORT, () => {
     console.info(`Server is running on port ${PORT}.`);
 });
 
+// Set up Socket.io
+io.on("connection", (socket) => {
+    console.log("A connection to the socket has been made");
+    socket.on('disconnect', () => {
+        console.log("Someone disconnected from the socket");
+    });
+});
 
-// Start Server
+// Connect to Database
 const Role = db.role;
 const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
 
