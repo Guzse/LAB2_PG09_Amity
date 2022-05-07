@@ -7,7 +7,7 @@ import db from './app/models/index.js';
 import cors from 'cors';
 import http from 'http';
 import * as IO from 'socket.io';
-import { configureSocket } from './app/services/socket.service.js';
+import { configureSocket, configureSocketMiddleware } from './app/services/socket.service.js';
 
 import configureRoutes from './app/routes/index.js';
 
@@ -33,11 +33,12 @@ const io = new IO.Server(server, {
     cors: {
         origin: "http://localhost:3000",
         methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
+        allowedHeaders: ["x-access-token", "zone-id"],
         credentials: true,
     }
 });
-io.on("connection", (socket) => configureSocket(socket));
+configureSocketMiddleware(io);
+io.on("connection", (socket) => configureSocket(socket, io));
 
 // Connect to Database
 const Role = db.role;

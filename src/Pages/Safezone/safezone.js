@@ -1,32 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "./safezone.css";
 import { VideoCall } from "./VideoCall/VideoCall";
 import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
-import { trigger } from '../../Global/Events';
+import { trigger, on, off } from '../../Global/Events';
+
+const safezoneService = new SafezoneService();
+const userService = new UserService();
 
 function Safezone() {
-    let { safezoneId } = useParams();
-    const safezoneService = new SafezoneService();
-    const userService = new UserService();
+    const { safezoneId } = useParams();
     const username = window.localStorage.getItem("username");
 
+    const [meetingActive, setMeetingActive] = useState(false);
+    const [lastZoneUpdated, setLastZoneUpdated] = useState(false);
+
     useEffect(() => {
-        safezoneService.GetSafezone(safezoneId)
-            .then(res => { return res.json() })
-            .then(zone => {
-                userService.UpdateLastZone(zone._id);
-                trigger("ActiveSafeZone:Update", zone);
-            });
-    }, [safezoneId]);
+        on("Clicked:JoinMeeting", joinMeeting);
+        updateLastZone();
+        
+        return () => {
+            off("Clicked:JoinMeeting", joinMeeting);
+        } 
+
+    }, [safezoneId, username, meetingActive]);
+
+    const joinMeeting = () => {
+        setMeetingActive(true);
+    }
+
+    const updateLastZone = () => {
+        if (!lastZoneUpdated) {
+            safezoneService.GetSafezone(safezoneId)
+                .then(res => { return res.json() })
+                .then(zone => {
+                    userService.UpdateLastZone(zone._id);
+                    trigger("ActiveSafeZone:Update", zone);
+                    setLastZoneUpdated(true);
+                });
+        }
+    }
 
     return (
         <>
-            <VideoCall username={username} zoneId={safezoneId} />
+            <VideoCall onJoinMeeting={joinMeeting} active={safezoneId && meetingActive} />
         </>
     );
 }
 
 export default Safezone;
+
+
+// useEffect(() => {
+//     setUsername(props.username);
+//     setZoneId(props.zoneId);
+
+//     if (!socket) socket = new SocketService(zoneId, username);
+    
+//     if (meetingActive) {
+//         socket.connectToSocket(zoneId);
+//     }
+// }, [props.username, props.zoneId, meetingActive]);
