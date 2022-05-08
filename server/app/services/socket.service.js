@@ -7,48 +7,37 @@ const socketToRoom = {};
 
 export const configureSocketMiddleware = (io = new IO.Server()) => {
     io.use(verifyToken);
-    io.use(userAccess)
+    io.use(userAccess);
 }
 
-
 export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) => {
-    console.log("Someone connected to the socket");
-    
-    socket.on('joinRoom', roomId => {
-        console.log("Someone connected to room " + roomId);
+    // console.log("Connect");
+    socket.on("join room", roomId => {
         if (users[roomId]) {
-            const length = users[roomId].length;
-            if (length === 20) {
-                socket.emit('room full');
-                return;
-            }
             users[roomId].push(socket.id);
         } else {
-            userse[roomId] = [socket.id];
+            users[roomId] = [socket.id];
         }
         socketToRoom[socket.id] = roomId;
         const usersInThisRoom = users[roomId].filter(id => id !== socket.id);
-
-        socket.emit('allUsers', usersInThisRoom);
+        socket.emit("all users", usersInThisRoom);
     });
 
-    socket.on('sendingSignal', payload => {
-        console.log("sending signal", payload);
-        io.to(payload.userToSignal).emit('userJoined', {signal: payload.signal, callerId: payload.callerId});
+    socket.on("sending signal", payload => {
+        io.to(payload.userToSignal).emit('user joined', { signal: payload.signal, callerID: payload.callerID });
     });
 
-    socket.on("returningSignal", payload => {
-        console.log("returning signal", payload);
-        io.to(payload.userToSignal).emit('userJoined', { signal: payload.signal, id: socket.id });
+    socket.on("returning signal", payload => {
+        io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
     });
 
     socket.on('disconnect', () => {
-        const roomId = socketToRoom[socket.id];
-        let room = users[roomId];
+        // console.log("Disconnect");
+        const roomID = socketToRoom[socket.id];
+        let room = users[roomID];
         if (room) {
             room = room.filter(id => id !== socket.id);
-            users[roomId] = room;
+            users[roomID] = room;
         }
-        console.log("Someone disconnected from the socket");
     });
 }

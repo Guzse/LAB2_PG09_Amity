@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
-import SocketService from '../../../api/SocketService';
+import io from "socket.io-client";
 import SimplePeer from 'simple-peer';
 const Peer = SimplePeer;
 
@@ -13,50 +13,55 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const userVideo = useRef();
     const peersRef = useRef([]);
     const roomId = 'meeting_' + props.zoneId;
-    const socketService = new SocketService();
+
+    useEffect(() => {
+        socketRef.current = io.connect(process.env.REACT_APP_SERVER_URI, {
+            jsonp: false,
+            forceNew: true,
+            extraHeaders: {
+                "x-access-token": window.localStorage.getItem('accessToken'),
+                "zone-id": props.zoneId
+            }
+        });
+    }, []);
 
     useEffect(() => {
         if (props.active) {
-            console.log("connecting to socket");
-            socketRef.current = socketService.connectToSocket(props.zoneId);
             navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
                 userVideo.current.srcObject = stream;
-                socketRef.current.emit("joinRoom", roomId);
-                socketRef.current.on('allUsers', users => {
-                    console.log("gathering all users", users);
+                socketRef.current.emit("join room", roomId);
+                socketRef.current.on("all users", users => {
                     const peers = [];
-                    users.forEach(userId => {
-                        const peer = createPeer(userId, socketRef.current.id, stream);
+                    users.forEach(userID => {
+                        const peer = createPeer(userID, socketRef.current.id, stream);
                         peersRef.current.push({
-                            peerId: userId,
-                            peer
-                        });
+                            peerID: userID,
+                            peer,
+                        })
                         peers.push(peer);
-                    });
+                    })
                     setPeers(peers);
-                });
+                })
 
-                socketRef.current.on("userJoin", payload => {
-                    console.log("user joined", payload);
-                    const peer = addPeer(payload.signal, payload.callerId, stream);
+                socketRef.current.on("user joined", payload => {
+                    const peer = addPeer(payload.signal, payload.callerID, stream);
                     peersRef.current.push({
-                        peerId: payload.callerId,
-                        peer
-                    });
-    
+                        peerID: payload.callerID,
+                        peer,
+                    })
+
                     setPeers(users => [...users, peer]);
                 });
-    
-                socketRef.current.on('receivingReturnedSignal', payload => {
-                    console.log("received return signal", payload);
-                    const item = peersRef.current.find(p => p.peerId === payload.id);
-                    item.peer.signal.on(payload.signal);
+
+                socketRef.current.on("receiving returned signal", payload => {
+                    const item = peersRef.current.find(p => p.peerID === payload.id);
+                    item.peer.signal(payload.signal);
                 });
             });
         }
     }, [props.active]);
 
-    function createPeer(userToSignal, callerId, stream) {
+    function createPeer(userToSignal, callerID, stream) {
         const peer = new Peer({
             initiator: true,
             trickle: false,
@@ -64,22 +69,22 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         });
 
         peer.on("signal", signal => {
-            socketRef.current.emit("sendSignal", { userToSignal, callerId, signal });
-        });
+            socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
+        })
 
         return peer;
     }
 
-    function addPeer(incomingSignal, callerId, stream) {
+    function addPeer(incomingSignal, callerID, stream) {
         const peer = new Peer({
             initiator: false,
             trickle: false,
-            stream
-        });
+            stream,
+        })
 
         peer.on("signal", signal => {
-            socketRef.current.emit('returningSignal', { signal, callerId });
-        });
+            socketRef.current.emit("returning signal", { signal, callerID })
+        })
 
         peer.signal(incomingSignal);
 
@@ -88,8 +93,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
 
     return (
         <div className='videoCall'>
-            <div className='videoContainer'>
-                <video muted ref={userVideo} autoPlay playsInline />
+            <div className='videoContainer' active={props.active ? 1 : 0}>
                 {props.active && peers.map((peer, index) => {
                     return (
                         <Video key={index} peer={peer} />
@@ -97,13 +101,23 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 })}
             </div>
             <div className='videoControls'>
-                <button
-                    className='secondary-stroke'
-                    disabled={props.active}
-                    onClick={triggerJoinMeeting}>
-                    Join Meeting
-                </button>
-            </div>
+                {
+                    props.active && <>
+
+                    </>
+                }
+                {
+                    !props.active && <>
+                        <button
+                            className='secondary-stroke'
+                            disabled={props.active}
+                            onClick={triggerJoinMeeting}>
+                            Join Meeting
+                        </button>
+                    </>
+                }
+            </div>\
+            {props.active && <video className='cameraView' muted ref={userVideo} autoPlay playsInline />}
         </div>
     )
 }
@@ -114,7 +128,7 @@ const Video = (props) => {
     useEffect(() => {
         props.peer.on("stream", stream => {
             ref.current.srcObject = stream;
-        });
+        })
     }, []);
 
     return (

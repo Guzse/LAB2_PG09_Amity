@@ -20,7 +20,7 @@ function Safezone() {
     useEffect(() => {
         on("Clicked:JoinMeeting", joinMeeting);
         updateLastZone();
-        
+
         return () => {
             off("Clicked:JoinMeeting", joinMeeting);
         } 
@@ -45,21 +45,9 @@ function Safezone() {
 
     return (
         <>
-            <VideoCall onJoinMeeting={joinMeeting} active={safezoneId && meetingActive} />
+            <VideoCall zoneId={safezoneId} active={safezoneId && meetingActive} />
         </>
     );
 }
 
 export default Safezone;
-
-
-// useEffect(() => {
-//     setUsername(props.username);
-//     setZoneId(props.zoneId);
-
-//     if (!socket) socket = new SocketService(zoneId, username);
-    
-//     if (meetingActive) {
-//         socket.connectToSocket(zoneId);
-//     }
-// }, [props.username, props.zoneId, meetingActive]);

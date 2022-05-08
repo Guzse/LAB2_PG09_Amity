@@ -23,5 +23,4 @@ export const userAccess = (socket = new IO.Socket(), next = () => undefined) => 
             else if (!res) next(new Error("User not a member"));
             else next();
         });
-    next();
 }
