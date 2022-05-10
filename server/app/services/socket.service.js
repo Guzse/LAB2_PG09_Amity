@@ -11,7 +11,6 @@ export const configureSocketMiddleware = (io = new IO.Server()) => {
 }
 
 export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) => {
-    // console.log("Connect");
     socket.on("join room", roomId => {
         if (users[roomId]) {
             users[roomId].push(socket.id);

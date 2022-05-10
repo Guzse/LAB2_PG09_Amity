@@ -96,7 +96,10 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
             <div className='videoContainer' active={props.active ? 1 : 0}>
                 {props.active && peers.map((peer, index) => {
                     return (
-                        <Video key={index} peer={peer} />
+                        <>
+                            <Video key={index} peer={peer} />
+                        </>
+
                     )
                 })}
             </div>
