@@ -3,7 +3,7 @@ import { promiseConnectionError} from '../Global/Global';
 export default class AuthService {
     async SignIn(username, password) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/auth/signin`, {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export default class AuthService {
     }
     async SignUp(username, password, email) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/auth/signup`, {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/auth/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default class AuthService {
     }
     async Verify() {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/auth/verify`, {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/auth/verify`, {
                 method: 'GET',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),

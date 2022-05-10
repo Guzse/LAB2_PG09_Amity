@@ -1,11 +1,13 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local'});
+dotenv.config({ path: '.env.local' });
 
 // Start Server
 import express from "express";
 import db from './app/models/index.js';
 import cors from 'cors';
 import http from 'http';
+import * as IO from 'socket.io';
+import { configureSocket, configureSocketMiddleware } from './app/services/socket.service.js';
 
 import configureRoutes from './app/routes/index.js';
 
@@ -21,12 +23,24 @@ configureRoutes(app);
 
 const server = http.createServer(app);
 
+// Start Server
 server.listen(PORT, () => {
     console.info(`Server is running on port ${PORT}.`);
 });
 
+// Set up Socket.io
+const io = new IO.Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["x-access-token", "zone-id"],
+        credentials: true,
+    }
+});
+configureSocketMiddleware(io);
+io.on("connection", (socket) => configureSocket(socket, io));
 
-// Start Server
+// Connect to Database
 const Role = db.role;
 const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
 
