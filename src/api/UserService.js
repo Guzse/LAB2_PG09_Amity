@@ -1,9 +1,9 @@
-import { promiseConnectionError } from '../Global/Global';
+import { promiseConnectionError, SERVER_URI } from '../Global/Global';
 
 export default class UserService {
     async UpdateLastZone(zoneId) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/user/zone`, {
+            return await fetch(SERVER_URI + `/api/user/zone`, {
                 method: 'PUT',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),

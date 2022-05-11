@@ -1,10 +1,10 @@
-import { promiseConnectionError} from '../Global/Global';
+import { promiseConnectionError, SERVER_URI} from '../Global/Global';
 
 export default class SafezoneService {
     
     async CreateSafezone(zoneName, description = '', maxMembers = 0) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone/`, {
+            return await fetch(SERVER_URI + `/api/safezone/`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"), // get accessToken from storage to verify that the user is logged in
@@ -23,7 +23,7 @@ export default class SafezoneService {
     }
     async UpdateSafezone(zoneObject = {}) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone/`, {
+            return await fetch(SERVER_URI + `/api/safezone/`, {
                 method: 'PUT',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),
@@ -38,7 +38,7 @@ export default class SafezoneService {
     }
     async GetSafezone(id) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone/`, {
+            return await fetch(SERVER_URI + `/api/safezone/`, {
                 method: 'GET',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),
