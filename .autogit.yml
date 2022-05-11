@@ -27,9 +27,9 @@ hooks:
 
 # INSTALL: Put code in release folder
   install_before: |
-    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
   install_after: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
 
 # SHAREDSYMLINK: Create symlink to shared files and folders
@@ -37,12 +37,14 @@ hooks:
   sharedsymlink_before: |
     exit 0
   sharedsymlink_after: | 
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
 
 # SYMLINK: Set current symlink to newest release
   symlink_before: |
     exit 0
   symlink_after: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
 
 # CLEANUP: Cleanup old releases, two most recent releases remaining
