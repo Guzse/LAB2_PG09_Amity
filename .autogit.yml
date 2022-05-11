@@ -58,4 +58,5 @@ hooks:
     exit 0
   cleanup_after: |
     echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
+    sudo systemctl start reboot.target
     exit 0
