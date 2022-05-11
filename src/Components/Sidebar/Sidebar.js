@@ -1,5 +1,8 @@
 import React from "react";
 import "./Sidebar.css";
+import { Button, Dialog } from "@mui/material";
+import SafezoneForm from "../safezoneForm/safezoneForm";
+
 import { HiUserGroup } from "react-icons/hi";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { HiOutlinePencilAlt } from "react-icons/hi";
@@ -8,13 +11,7 @@ import { HiOutlineCog } from "react-icons/hi";
 
 
 
-function Sidebar() {
-
-    // const safezoneList = []
-
-    // for (let i = 0;i++; safezoneList.length) {
-    //     list.push(<a href="#">{safezoneList}</a>)
-    // }
+ function Sidebar() {
 
     return ( 
         <div className="sidebarContainer">
@@ -24,7 +21,7 @@ function Sidebar() {
                     <a href="#"><HiUserGroup className="groupIcon"/></a>
                     <a href="#"><HiUserGroup className="groupIcon"/></a>
                 </div>
-                <a className="createSz" href="#"><HiOutlinePlusCircle className="plusIcon"/></a>
+                <a to="#" onClick={console.log("yipla")} className="createSz" ><HiOutlinePlusCircle className="plusIcon"/></a>
             </div>
             <div className="rightside-sidebar">
                 <div className="searcher">
@@ -36,7 +33,12 @@ function Sidebar() {
                 <div className="containterPlanAcc">
                     <hr></hr>
                     <div className="planner">
-                        <h3>Next meetup <a><HiOutlinePencilAlt/></a></h3>
+                        <h3>Next meetup <HiOutlinePencilAlt/></h3>
+                        {/* <SimpleDialog
+                            selectedValue={selectedValue}
+                            open={open}
+                            onClose={handleClose}
+                        /> */}
                         <span>19 january </span>
                     </div>
                     <hr></hr>
@@ -48,6 +50,8 @@ function Sidebar() {
                 </div>
             </div>
         </div>
+
+        
      );
 }
 
