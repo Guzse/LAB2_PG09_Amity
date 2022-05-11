@@ -81,7 +81,7 @@ function About() {
                         <a href="#"><HiUserGroup className="groupIcon" /></a>
                         <a href="#"><HiUserGroup className="groupIcon" /></a>
                     </div>
-                    <a to="#" onClick={handleClickOpen} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></a>
+                    <a to="#" className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></a>
                 </div>
                 <div className="rightside-sidebar">
                     <div className="searcher">
@@ -118,30 +118,7 @@ function About() {
                     </button> */}
                     {/* <SafezoneForm className="safezoneForm"/> */}
                     {/* <RecieveMsg /> */}
-                    <Dialog open={open} onClose={handleClose}>
-                        <DialogContent>
-                            <form className="createSafezone" onSubmit={handleSubmit}>
-                                <h1>Create safezone</h1>
-                                <hr />
-                                <div className="safeZoneName-container">
-                                    <label htmlFor="zoneName">Safezone name</label>
-                                    <input type="text" name="zoneName" onChange={handleChange} required />
-                                </div>
-                                <div className="description-container">
-                                    <label htmlFor="description">Description </label>
-                                    <textarea onChange={handleChange} id="descriptionSafezone" name="description" rows="4" cols="50" />
-                                </div>
-                                <div className="limit-container">
-                                    <label htmlFor="maxMembers">Member limit </label> <span className="outputSlider"></span>
-                                    <Slider onChange={handleChange} name="maxMembers" min={1} max={50} defaultValue={25} aria-label="Default" valueLabelDisplay="auto" className="slider" />
-                                </div>
-                                <div className="button-container">
-                                    <button onClick={handleClose} className="primary-stroke cancel" to="/safezone">Cancel</button>
-                                    <button onClick={handleClose} type="submit" className="primary-stroke register create" to="/safezone">Create safezone</button>
-                                </div>
-                            </form>
-                        </DialogContent>
-                    </Dialog>
+                   
                     {/* <Button onClick={handleClose} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></Button> */}
                 </Container>
 
