@@ -3,6 +3,7 @@ import { verifyJwtToken } from '../global/Global.js';
 import { ErrorMessage } from '../global/ErrorMessage.js';
 
 const Safezone = db.safezone;
+const Meeting = db.meeting;
 
 export const createSafezone = async (req, res) => {
     try {
@@ -51,8 +52,56 @@ export const getSafezone = (req, res) => {
     }
 }
 
-export const updateSafezone = async (res, req) => {
+export const updateSafezone = async (req, res) => {
     throw new Error(ErrorMessage.FunctionIsEmpty);
+}
+
+export const createMeeting = async (req, res) => {
+    try {
+        const meeting = {
+            zoneId: req.body.zoneId,
+            date: req.body.date
+        }
+        Safezone.updateOne(
+            {_id: meeting.zoneId},
+            {meetingDate: meeting.date},
+            (err, val) =>{
+                if (err) return res.status(500).send({ message: err });
+                if (val.acknowledged)
+                    res.status(200).send({message: "record updated"});
+                else res.status(400).send({message: "record not updated"});
+             }
+            )
+    } catch (err) {
+        throw err;
+    }
+}
+
+export const getMeeting = (req, res) => {
+    try {
+        const zoneId = req.params.zoneId;
+
+        Safezone.findById(zoneId).exec((err, val) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send({message: "Something went wrong", err});
+                return;
+            }
+            if (val === null) {
+                res.status(404).send("no meeting available");
+                return;
+            }
+            res.status(200).send({
+                newDate: val.meetingDate
+            });
+            }
+        )
+    }
+        
+     catch (err) {
+        throw err;
+    }
+
 }
 
 export default createSafezone;

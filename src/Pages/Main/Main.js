@@ -130,7 +130,7 @@ function About() {
                                 <hr />
                                 <div className="Date-container">
                                     <label htmlFor="date">Safezone name</label>
-                                    <input type="date" name="date" onChange={handleChange} required />
+                                    <input type="datetime-local" name="date" onChange={handleChange} required />
                                 </div>
                                 <div className="time-container">
                                     <label htmlFor="time">time </label>
