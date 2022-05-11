@@ -10,6 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
 import { on, off } from '../../../Global/Events';
+import DialogContent from '@mui/material/DialogContent';
 
 export const SidebarMain = (props = {
     onClickSettings: () => { },
@@ -49,18 +50,76 @@ const UserList = () => {
 
 const MeetingPlanner = () => {
 
-    const onClickEdit = () => {
+    const [open, setOpenMeet] = React.useState(false);
 
-    }
+    const handleClickOpenMeet = () => {
+        setOpenMeet(true);
+    };
+
+    const handleCloseMeet = () => {
+        setOpenMeet(false);
+    };
+
+    //     function handleChange(e) {
+    //     const key = e.target.name;
+    //     const value = e.target.value;
+
+    //     console.log(key,value);
+
+    //     setState(prev => ({
+    //         ...prev,
+    //         [key]: value
+    //     }));
+    // }
+
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+
+    //     safezoneService
+    //         .CreateSafezone(state.zoneName, state.description, state.maxMembers)
+    //         .then(res => {
+    //             res.json().then(data => console.log(data));
+    //         });
+    // }
 
     return (
+    <>
         <div className="meetingPlanner">
             <div>Next meetup</div>
-            <IconWrapper width="20px" onClick={onClickEdit}>
+                <IconWrapper width="20px" onClick={handleClickOpenMeet} >
                 <HiOutlinePencilAlt />
             </IconWrapper>
             <p>Friday January 10, 19:00</p>
         </div>
+            <CreateMeetingDialog open={open} onClose={handleCloseMeet} />
+    </>
+    )
+}
+
+function CreateMeetingDialog(props = { open: false, onClose: () => undefined, onChange: () => undefined, onSubmit: () => undefined }){
+    return (
+    <Dialog onClose={props.onClose} open={props.open}>
+        <DialogTitle>Create meeting</DialogTitle>
+        <DialogContent>
+            <form className="createMeeting" onSubmit={props.onSubmit}>
+                <hr />
+                <div className="Date-container">
+                    <label htmlFor="date">Date:</label>
+                    <input type="date" name="date" onChange={props.onChange} required />
+                </div>
+                <div className="time-container">
+                    <label htmlFor="time">time:</label>
+                    <input type="time" onChange={props.onChange} id="descriptionSafezone" name="time" />
+                </div>
+
+                <div className="button-container">
+                    <button onClick={props.onClose}className="primary-stroke " >Remove</button>
+                    <button onClick={props.onClose} className="primary-stroke " >Cancel</button>
+                    <button onClick={props.onClose} type="submit" className="primary-stroke register create" >Accept</button>
+                </div>
+            </form>
+        </DialogContent>
+    </Dialog>
     )
 }
 
