@@ -2,7 +2,7 @@ import { promiseConnectionError, SERVER_URI } from '../Global/Global';
 export default class AuthService {
     async SignIn(username, password) {
         try {
-            return await fetch(SERVER_URI + `/api/auth/signin`, {
+            return await fetch(SERVER_URI + `/api/auth/signin/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export default class AuthService {
     }
     async SignUp(username, password, email) {
         try {
-            return await fetch(SERVER_URI + `/api/auth/signup`, {
+            return await fetch(SERVER_URI + `/api/auth/signup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export default class AuthService {
     }
     async Verify() {
         try {
-            return await fetch(SERVER_URI + `/api/auth/verify`, {
+            return await fetch(SERVER_URI + `/api/auth/verify/`, {
                 method: 'GET',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),
