@@ -21,12 +21,15 @@
 hooks:
 # SETUP: Create folder structure for newest release
   setup_before: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
   setup_after: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
 
 # INSTALL: Put code in release folder
   install_before: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
   install_after: |
     echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
@@ -35,6 +38,7 @@ hooks:
 # SHAREDSYMLINK: Create symlink to shared files and folders
 #                present at every release (config, logs, ...)
   sharedsymlink_before: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
   sharedsymlink_after: | 
     echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
@@ -42,6 +46,7 @@ hooks:
 
 # SYMLINK: Set current symlink to newest release
   symlink_before: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
   symlink_after: |
     echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
@@ -49,6 +54,8 @@ hooks:
 
 # CLEANUP: Cleanup old releases, two most recent releases remaining
   cleanup_before: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
   cleanup_after: |
+    echo "REACT_APP_SERVER_URI="seashell-app-skvgv.ondigitalocean.app"" > "./.env"
     exit 0
