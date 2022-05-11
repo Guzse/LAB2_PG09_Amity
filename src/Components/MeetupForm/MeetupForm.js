@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 import SafezoneService from "../../api/SafezoneService";
 import { Dialog } from "@mui/material";
+import DialogContent from '@mui/material/DialogContent';
 
 
 function safezoneForm() {
@@ -42,6 +43,7 @@ function safezoneForm() {
             <Container fixed>
                 <Dialog onClose={handleClose} open={open}>
                     <DialogTitle>Create meeting</DialogTitle>
+                            <DialogContent>
                 <form className="createMeeting" onSubmit={handleSubmit}>
                     <hr />
                     <div className="Date-container">
@@ -59,6 +61,7 @@ function safezoneForm() {
                         <button type="submit" className="primary-stroke register create" to="#">Accept</button>
                     </div>
                 </form>
+                        </DialogContent>
                 </Dialog>
             </Container>
         </>

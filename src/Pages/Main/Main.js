@@ -22,13 +22,22 @@ function About() {
 
 
     const [open, setOpen] = React.useState(false);
+    const [meetOpen, setOpenMeet] = React.useState(false);
 
-    const handleClickOpen = () => {
+    const  handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpenMeet = () => {
+        setOpenMeet(true);
+    };
+
+    const handleCloseMeet = () => {
+        setOpenMeet(false);
     };
 
 
@@ -65,38 +74,44 @@ function About() {
 
     return (
         <>
-            <div className="safezoneBody">
-                <div className="sidebarContainer">
-                    <div className="leftside-sidebar">
-                        <div className="serverlist">
-                            <a href="#"><HiUserGroup className="groupIcon" /></a>
-                            <a href="#"><HiUserGroup className="groupIcon" /></a>
-                            <a href="#"><HiUserGroup className="groupIcon" /></a>
-                        </div>
-                        <a to="#" onClick={handleClickOpen} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></a>
+            <div className="sidebarContainer">
+                <div className="leftside-sidebar">
+                    <div className="serverlist">
+                        <a href="#"><HiUserGroup className="groupIcon" /></a>
+                        <a href="#"><HiUserGroup className="groupIcon" /></a>
+                        <a href="#"><HiUserGroup className="groupIcon" /></a>
                     </div>
-                    <div className="rightside-sidebar">
-                        <div className="searcher">
-                            <input className="searchbar" type="text" placeholder="Search.." />
-                            <a href="#"><HiUserGroup className="serverIcon" /> <span>server1 </span></a>
-                            <a href="#"><HiUserGroup className="serverIcon" /> <span>server1 </span></a>
-                            <a href="#"><HiUserGroup className="serverIcon" /> <span>server1 </span></a>
+                    <a to="#" onClick={handleClickOpen} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></a>
+                </div>
+                <div className="rightside-sidebar">
+                    <div className="searcher">
+                        <input className="searchbar" type="text" placeholder="Search.." />
+                        <a href="#"><HiUserGroup className="serverIcon" /> <span>server1 </span></a>
+                        <a href="#"><HiUserGroup className="serverIcon" /> <span>server1 </span></a>
+                        <a href="#"><HiUserGroup className="serverIcon" /> <span>server1 </span></a>
+                    </div>
+                    <div className="containterPlanAcc">
+                        <hr></hr>
+                        <div className="planner">
+                            <h3>Next meetup <HiOutlinePencilAlt onClick={handleClickOpenMeet} /></h3>
+                            {/* <SimpleDialog
+                            selectedValue={selectedValue}
+                            open={open}
+                            onClose={handleClose}
+                        /> */}
+                            <span>19 january </span>
                         </div>
-                        <div className="containterPlanAcc">
-                            <hr></hr>
-                            <div className="planner">
-                                <h3>Next meetup <HiOutlinePencilAlt /></h3>
-                                <span>19 january </span>
-                            </div>
-                            <hr></hr>
-                            <div className="account">
-                                <HiUserCircle className="userIcon" />
-                                <span>Jan verstraten</span>
-                                <a className="settings" href="#"><HiOutlineCog className="settingIcon" /></a>
-                            </div>
+                        <hr></hr>
+                        <div className="account">
+                            <HiUserCircle className="userIcon" />
+                            <span>Jan verstraten</span>
+                            <a className="settings" href="#"><HiOutlineCog className="settingIcon" /></a>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="safezoneBody">
                 <Container fixed>
                     {/* <button onClick={showForm}>
                         Activate Lasers
@@ -128,6 +143,31 @@ function About() {
                         </DialogContent>
                     </Dialog>
                     {/* <Button onClick={handleClose} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></Button> */}
+                </Container>
+
+                <Container fixed>
+                    <Dialog onClose={handleCloseMeet} open={meetOpen}>
+                        <h2>Create meeting</h2>
+                        <DialogContent>
+                            <form className="createMeeting" onSubmit={handleSubmit}>
+                                <hr />
+                                <div className="Date-container">
+                                    <label htmlFor="date">Safezone name</label>
+                                    <input type="date" name="date" onChange={handleChange} required />
+                                </div>
+                                <div className="time-container">
+                                    <label htmlFor="time">time </label>
+                                    <input type="time" onChange={handleChange} id="descriptionSafezone" name="time" />
+                                </div>
+
+                                <div className="button-container">
+                                    <button onClick={handleCloseMeet} className="primary-stroke " to="#">Remove</button>
+                                    <button onClick={handleCloseMeet} className="primary-stroke " to="#">Cancel</button>
+                                    <button onClick={handleCloseMeet} type="submit" className="primary-stroke register create" to="#">Accept</button>
+                                </div>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
                 </Container>
             </div>
         </>
