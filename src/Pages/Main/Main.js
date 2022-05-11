@@ -11,6 +11,10 @@ import { Button, Dialog } from "@mui/material";
 import DialogContent from '@mui/material/DialogContent';
 
 import { HiOutlinePlusCircle } from "react-icons/hi";
+import { HiUserGroup } from "react-icons/hi";
+import { HiOutlinePencilAlt } from "react-icons/hi";
+import { HiUserCircle } from "react-icons/hi";
+import { HiOutlineCog } from "react-icons/hi";
 
 
 function About() {
@@ -69,7 +73,7 @@ function About() {
                             <a href="#"><HiUserGroup className="groupIcon" /></a>
                             <a href="#"><HiUserGroup className="groupIcon" /></a>
                         </div>
-                        <a to="#" onClick={console.log("yipla")} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></a>
+                        <a to="#" onClick={handleClickOpen} className="createSz" ><HiOutlinePlusCircle className="plusIcon" /></a>
                     </div>
                     <div className="rightside-sidebar">
                         <div className="searcher">

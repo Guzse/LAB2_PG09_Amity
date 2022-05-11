@@ -21,7 +21,7 @@ import { HiOutlineCog } from "react-icons/hi";
                     <a href="#"><HiUserGroup className="groupIcon"/></a>
                     <a href="#"><HiUserGroup className="groupIcon"/></a>
                 </div>
-                <a to="#" onClick={console.log("yipla")} className="createSz" ><HiOutlinePlusCircle className="plusIcon"/></a>
+                <a to="#" onClick={handleClickOpen} className="createSz" ><HiOutlinePlusCircle className="plusIcon"/></a>
             </div>
             <div className="rightside-sidebar">
                 <div className="searcher">
