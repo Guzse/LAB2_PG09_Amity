@@ -15,7 +15,8 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(cors({
-    origin: "*"
+    origin: "*",
+    allowedHeaders: "*"
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

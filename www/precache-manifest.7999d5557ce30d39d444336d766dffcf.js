@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "3dad7b03d0548388d716",
+    "revision": "c66054133cc05695339a",
     "url": "/static/css/main.6d4c3d08.chunk.css"
   },
   {
-    "revision": "3dad7b03d0548388d716",
-    "url": "/static/js/main.b9decab1.chunk.js"
+    "revision": "c66054133cc05695339a",
+    "url": "/static/js/main.d06e397d.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
     "url": "/static/js/runtime~main.a8a9905a.js"
   },
   {
-    "revision": "d6371772e7d09ae5b4f7",
-    "url": "/static/js/2.7986cba0.chunk.js"
+    "revision": "0c8fb34ef64d6665dbe7",
+    "url": "/static/js/2.aa9df5d9.chunk.js"
   },
   {
     "revision": "de01e9fd47a3a5c9fb668356962807b8",
@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/static/media/Laila-Regular.b5161678.ttf"
   },
   {
-    "revision": "065653c87ccd395695a16d0afef1f32d",
+    "revision": "5612ca960a88e34b1db9d8bdf6696c93",
     "url": "/index.html"
   }
 ];
