@@ -11,6 +11,11 @@ import { NotFound } from "./NotFound/NotFound";
 import NewSafezone from "./NewSafezone/newSafezone";
 import Sidebar from "../Components/Sidebar/Sidebar";
 function App() {
+    console.log("pre", process.env.REACT_APP_SERVER_URI);
+    if (!process.env.REACT_APP_SERVER_URI)
+        process.env.REACT_APP_SERVER_URI = "seashell-app-skvgv.ondigitalocean.app";
+    console.log("post", process.env.REACT_APP_SERVER_URI);
+
     return (
         <Router>
             <Routes>
