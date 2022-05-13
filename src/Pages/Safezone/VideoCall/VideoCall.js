@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { SERVER_URI } from '../../../Global/Global';
 import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
 import io from "socket.io-client";
@@ -15,7 +16,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const roomId = 'meeting_' + props.zoneId;
 
     useEffect(() => {
-        socketRef.current = io.connect(process.env.REACT_APP_SERVER_URI, {
+        socketRef.current = io.connect(SERVER_URI, {
             jsonp: false,
             forceNew: true,
             extraHeaders: {

@@ -1,9 +1,8 @@
-import { promiseConnectionError} from '../Global/Global';
-
+import { promiseConnectionError, SERVER_URI } from '../Global/Global';
 export default class AuthService {
     async SignIn(username, password) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/auth/signin`, {
+            return await fetch(SERVER_URI + `/api/auth/signin/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -20,7 +19,7 @@ export default class AuthService {
     }
     async SignUp(username, password, email) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/auth/signup`, {
+            return await fetch(SERVER_URI + `/api/auth/signup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,13 +31,13 @@ export default class AuthService {
                     email
                 })
             });
-        } catch(err) {
+        } catch (err) {
             return promiseConnectionError();
         }
     }
     async Verify() {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/auth/verify`, {
+            return await fetch(SERVER_URI + `/api/auth/verify/`, {
                 method: 'GET',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),
@@ -46,7 +45,7 @@ export default class AuthService {
                     'Access-Control-Allow-Origin': '*'
                 }
             });
-        } catch(err) {
+        } catch (err) {
             return promiseConnectionError();
         }
     }
