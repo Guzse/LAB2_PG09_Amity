@@ -39,7 +39,10 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                             peerID: userID,
                             peer,
                         })
-                        peers.push(peer);
+                        peers.push({
+                            peerID: userID,
+                            peer,
+                        });
                     })
                     setPeers(peers);
                 })
@@ -49,14 +52,29 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                     peersRef.current.push({
                         peerID: payload.callerID,
                         peer,
-                    })
+                    });
 
-                    setPeers(users => [...users, peer]);
+                    const peerObj = {
+                        peer,
+                        peerID: payload.callerID,
+                    }
+
+                    setPeers(users => [...users, peerObj]);
                 });
 
                 socketRef.current.on("receiving returned signal", payload => {
                     const item = peersRef.current.find(p => p.peerID === payload.id);
                     item.peer.signal(payload.signal);
+                });
+
+                socketRef.current.on('user left', id => {
+                    const peerObj = peersRef.current.find(p => p.peerID === id);
+                    if (peerObj) 
+                        peerObj.peer.destroy();
+                    
+                    const peers = peersRef.current.filter(p => p.peerID !== id);
+                    peersRef.current = peers;
+                    setPeers(peers);
                 });
             });
         }
@@ -95,10 +113,10 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     return (
         <div className='videoCall'>
             <div className='videoContainer' active={props.active ? 1 : 0}>
-                {props.active && peers.map((peer, index) => {
+                {props.active && peers.map((peer) => {
                     return (
                         <>
-                            <Video key={index} peer={peer} />
+                            <Video key={peer.peerID} peer={peer.peer} />
                         </>
 
                     )

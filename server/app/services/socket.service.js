@@ -31,12 +31,13 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
     });
 
     socket.on('disconnect', () => {
-        // console.log("Disconnect");
         const roomID = socketToRoom[socket.id];
         let room = users[roomID];
+
         if (room) {
             room = room.filter(id => id !== socket.id);
             users[roomID] = room;
         }
+        socket.broadcast.emit('user left', socket.id);
     });
 }
