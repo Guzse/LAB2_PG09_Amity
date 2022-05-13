@@ -12,7 +12,7 @@ export const LabelInput = (props = { label: '', name: '' }) => {
 
     return (
         <div className='labelInputContainer'>
-            {props.label && <label for={props.name}>{props.label}</label>}
+            {props.label && <label htmlFor={props.name}>{props.label}</label>}
             {(props.icon) && Icon[props.icon]}
             <input type='text' placeholder={placeholder} {...sanitizeProps(props)}/>
         </div>

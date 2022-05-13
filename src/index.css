@@ -220,3 +220,7 @@ label {
 hr {
     border-top: 2px solid var(--gray2);
 }
+
+.clickable:hover {
+    cursor: pointer;
+}

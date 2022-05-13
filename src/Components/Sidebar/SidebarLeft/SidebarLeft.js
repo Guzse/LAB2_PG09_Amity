@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import './SidebarLeft.css';
 import { HiUserGroup } from "react-icons/hi";
 import { HiOutlinePlusCircle } from "react-icons/hi";
@@ -7,6 +7,7 @@ import SafezoneService from "../../../api/SafezoneService";
 import { Dialog } from "@mui/material";
 
 import DialogContent from '@mui/material/DialogContent';
+import IconWrapper from '../../IconWrapper/IconWrapper';
 
 
 
@@ -33,7 +34,7 @@ export const SidebarLeft = () => {
         const key = e.target.name;
         const value = e.target.value;
 
-        console.log(key,value);
+        console.log(key, value);
 
         setState(prev => ({
             ...prev,
@@ -53,19 +54,27 @@ export const SidebarLeft = () => {
     return (
         <div className='sidebar-left'>
             <div className="serverlist">
-                <HiUserGroup className="groupIcon" />
-                <HiUserGroup className="groupIcon" />
-                <HiUserGroup className="groupIcon" />
+                <IconWrapper onClick={() => undefined}>
+                    <HiUserGroup className="groupIcon" />
+                </IconWrapper>
+                <IconWrapper onClick={() => undefined}>
+                    <HiUserGroup className="groupIcon" />
+                </IconWrapper>
+                <IconWrapper onClick={() => undefined}>
+                    <HiUserGroup className="groupIcon" />
+                </IconWrapper>
             </div>
-            
-            <HiOutlinePlusCircle onClick={handleClickOpen} className="plusIcon" />
-            <CreateSafezonePopup open={open} onClose={handleClose} onChange={handleChange} onSubmit={handleSubmit}/>
+
+            <IconWrapper onClick={handleClickOpen}>
+                <HiOutlinePlusCircle className="plusIcon" />
+            </IconWrapper>
+            <CreateSafezonePopup open={open} onClose={handleClose} onChange={handleChange} onSubmit={handleSubmit} />
         </div>
     )
 }
 
-function CreateSafezonePopup(props = { open: false, onClose: () => undefined, onChange: () => undefined, onSubmit: () => undefined}){
-    return(
+function CreateSafezonePopup(props = { open: false, onClose: () => undefined, onChange: () => undefined, onSubmit: () => undefined }) {
+    return (
         <Dialog open={props.open} onClose={props.handleClose}>
             <DialogContent>
                 <form className="createSafezone" onSubmit={props.onSubmit}>
