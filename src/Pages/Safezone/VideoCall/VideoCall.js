@@ -4,10 +4,15 @@ import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
 import io from "socket.io-client";
 import SimplePeer from 'simple-peer';
+import { ButtonGroup } from '../../../Components/ButtonGroup/ButtonGroup';
+import { HiVideoCamera, HiMicrophone } from "react-icons/hi";
+import { ButtonToggle } from '../../../ButtonToggle/ButtonToggle';
 const Peer = SimplePeer;
 
 export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const triggerJoinMeeting = () => trigger("Clicked:JoinMeeting");
+    
+    const triggerLeaveMeeting = () => trigger("Clicked:LeaveMeeting");
 
     const [peers, setPeers] = useState([]);
     const socketRef = useRef();
@@ -30,7 +35,10 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         if (props.active) {
             navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
                 userVideo.current.srcObject = stream;
+                console.log("joined", {socketRef}, SERVER_URI);
+
                 socketRef.current.emit("join room", roomId);
+                
                 socketRef.current.on("all users", users => {
                     const peers = [];
                     users.forEach(userID => {
@@ -43,7 +51,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                             peerID: userID,
                             peer,
                         });
-                    })
+                    });
+                    console.log("All Peers", {peers});
                     setPeers(peers);
                 })
 
@@ -59,16 +68,20 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                         peerID: payload.callerID,
                     }
 
+                    console.log("new peer", {peerObj});
+
                     setPeers(users => [...users, peerObj]);
                 });
 
                 socketRef.current.on("receiving returned signal", payload => {
                     const item = peersRef.current.find(p => p.peerID === payload.id);
                     item.peer.signal(payload.signal);
+                    console.log("receiving return signal");
                 });
 
                 socketRef.current.on('user left', id => {
                     const peerObj = peersRef.current.find(p => p.peerID === id);
+                    console.log("user left", {peerObj});
                     if (peerObj) 
                         peerObj.peer.destroy();
                     
@@ -80,7 +93,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         }
     }, [props.active]);
 
-    function createPeer(userToSignal, callerID, stream) {
+    const createPeer = (userToSignal, callerID, stream) => {
         const peer = new Peer({
             initiator: true,
             trickle: false,
@@ -94,7 +107,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         return peer;
     }
 
-    function addPeer(incomingSignal, callerID, stream) {
+    const addPeer = (incomingSignal, callerID, stream) => {
         const peer = new Peer({
             initiator: false,
             trickle: false,
@@ -114,6 +127,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         <div className='videoCall'>
             <div className='videoContainer' active={props.active ? 1 : 0}>
                 {props.active && peers.map((peer) => {
+                    console.log(peer);
                     return (
                         <>
                             <Video key={peer.peerID} peer={peer.peer} />
@@ -124,21 +138,32 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
             </div>
             <div className='videoControls'>
                 {
-                    props.active && <>
-
-                    </>
+                    props.active ?
+                        (
+                            <button
+                                className='error'
+                                disabled={!props.active}
+                                onClick={triggerLeaveMeeting}>
+                                Leave Meeting
+                            </button>
+                        ) : (
+                            <button
+                                className='secondary-stroke'
+                                disabled={props.active}
+                                onClick={triggerJoinMeeting}>
+                                Join Meeting
+                            </button>
+                        )
                 }
-                {
-                    !props.active && <>
-                        <button
-                            className='secondary-stroke'
-                            disabled={props.active}
-                            onClick={triggerJoinMeeting}>
-                            Join Meeting
-                        </button>
-                    </>
-                }
-            </div>\
+                <ButtonGroup>
+                    <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiVideoCamera /></ButtonToggle>
+                    <button className='secondary'>Camera</button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiMicrophone /></ButtonToggle>
+                    <button className='secondary'>Microphone</button>
+                </ButtonGroup>
+            </div>
             {props.active && <video className='cameraView' muted ref={userVideo} autoPlay playsInline />}
         </div>
     )
