@@ -21,7 +21,7 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
         socketToRoom[socket.id] = roomId;
         const usersInThisRoom = users[roomId].filter(id => id !== socket.id);
         socket.emit("all users", usersInThisRoom);
-        console.log(`User [${socket.id}] joined room [${roomId}]`);
+        console.log(`User [${socket.id}] joined room [${roomId}] ()`);
     });
 
     socket.on("sending signal", payload => {

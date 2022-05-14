@@ -2,15 +2,18 @@
     display: flex;
 }
 
-.buttonGroup > button {
+.buttonGroup > button,
+.buttonGroup > select {
     border-radius: 0px;
 }
 
-.buttonGroup > button:not(.iconButton) {
+.buttonGroup > button:not(.iconButton),
+.buttonGroup > select:not(.iconButton) {
     padding-left: 18px;
 }
 
-.buttonGroup > button.iconButton {
+.buttonGroup > button.iconButton,
+.buttonGroup > select.iconButton  {
     padding-left: 10px;
     padding-right: 10px;
     width: fit-content;
@@ -22,28 +25,34 @@
     width: fit-content;
 }
 
-.buttonGroup > button:first-child {
+.buttonGroup > button:first-child,
+.buttonGroup > select:first-child {
     border-radius: 24px 0px 0px 24px;
 }
 
-.buttonGroup > button:last-child {
+.buttonGroup > button:last-child,
+.buttonGroup > select:last-child {
     border-radius: 0px 24px 24px 0px;
 }
 
-.buttonGroup > button.primary:nth-child(odd) {
+.buttonGroup > button.primary:nth-child(odd),
+.buttonGroup > select.primary:nth-child(odd) {
     background: var(--gradient-blue-mirrored);
     background-color: var(--primary);
 }
 
-.buttonGroup > button.secondary:nth-child(odd) {
+.buttonGroup > button.secondary:nth-child(odd),
+.buttonGroup > select.secondary:nth-child(odd) {
     background: var(--gradient-pink-mirrored);
     background-color: var(--secondary);
 }
 
-.buttonGroup > button.primary:nth-child(odd):hover {
-    background: var(--secondary);
+.buttonGroup > button.primary:nth-child(odd):hover,
+.buttonGroup > select.primary:nth-child(odd):hover {
+    background: var(--primary);
 }
 
-.buttonGroup > button.secondary:nth-child(odd):hover {
+.buttonGroup > button.secondary:nth-child(odd):hover,
+.buttonGroup > select.secondary:nth-child(odd):hover {
     background: var(--secondary);
 }
