@@ -1,0 +1,49 @@
+.buttonGroup {
+    display: flex;
+}
+
+.buttonGroup > button {
+    border-radius: 0px;
+}
+
+.buttonGroup > button:not(.iconButton) {
+    padding-left: 18px;
+}
+
+.buttonGroup > button.iconButton {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: fit-content;
+}
+
+.buttonGroup > button.iconButton.error-stroke {
+    padding-left: 8px;
+    padding-right: 8px;
+    width: fit-content;
+}
+
+.buttonGroup > button:first-child {
+    border-radius: 24px 0px 0px 24px;
+}
+
+.buttonGroup > button:last-child {
+    border-radius: 0px 24px 24px 0px;
+}
+
+.buttonGroup > button.primary:nth-child(odd) {
+    background: var(--gradient-blue-mirrored);
+    background-color: var(--primary);
+}
+
+.buttonGroup > button.secondary:nth-child(odd) {
+    background: var(--gradient-pink-mirrored);
+    background-color: var(--secondary);
+}
+
+.buttonGroup > button.primary:nth-child(odd):hover {
+    background: var(--secondary);
+}
+
+.buttonGroup > button.secondary:nth-child(odd):hover {
+    background: var(--secondary);
+}

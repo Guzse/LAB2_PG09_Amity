@@ -22,7 +22,9 @@
     --infored: #BD4E48;
     --gradient-blue: linear-gradient(90deg, rgba(28,87,129,1), rgba(96,150,188,1) 100%);
     --gradient-pink: linear-gradient(90deg, rgba(198,36,141,1), rgba(214,120,176,1) 100%);
-    --primary-transparent: rgba(15, 147, 241, 0.2);
+    --gradient-blue-mirrored: linear-gradient(270deg, rgba(28,87,129,1), rgba(96,150,188,1) 100%);
+    --gradient-pink-mirrored: linear-gradient(270deg, rgba(198,36,141,1), rgba(214,120,176,1) 100%);
+    --primary-transparent-mirrored: rgba(15, 147, 241, 0.2);
     --secondary-transparent: rgba(247, 11, 164, 0.2);
     --sidebar-width: 300px;
 
@@ -84,13 +86,30 @@ button {
     cursor: pointer;
     border-radius: 24px;
     padding: 0px 36px 0px 36px;
-    transition: 0.15s;
+    transition: 0.2s;
 }
 
-button.primary {
+button.iconButton {
+    width: 36px;
+    padding: 8px;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+button.iconButton > svg {
+    height: 100%;
+    width: auto;
+    display: flex;
+}
+
+button.primary, button {
     background: var(--gradient-blue);
     border: none;
     color: var(--white);
+}
+
+button.primary:hover, button:hover {
+    background: var(--primary);
 }
 
 button.primary-stroke:not(:disabled) {
@@ -108,8 +127,13 @@ button.primary-stroke:hover:not(:disabled), button.secondary-stroke:hover:not(:d
 
 button.secondary {
     background: var(--gradient-pink);
+    background-color: var(--secondary);
     border: none;
     color: var(--white);
+}
+
+button.secondary:hover {
+    background: var(--secondary);
 }
 
 button.secondary-stroke {
@@ -120,8 +144,25 @@ button.secondary-stroke {
     background-origin: border-box;
 }
 
+button.error {
+    background-color: var(--infored);
+    background: var(--infored);
+    color: var(--white);
+}
+
+button.error-stroke {
+    background: var(--gray1);
+    border-color: var(--infored);
+    border: 2px solid var(--infored);
+    color: var(--infored)
+}
+
+button.error-stroke.iconButton {
+    padding: 6px 6px 6px 6px;
+}
+
 button:disabled {
-    background-color: var(--gray1);
+    background: var(--gray1);
     border-color: var(--gray2);
     color: var(--gray2)
 }
