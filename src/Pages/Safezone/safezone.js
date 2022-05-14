@@ -18,16 +18,22 @@ function Safezone() {
 
     useEffect(() => {
         on("Clicked:JoinMeeting", joinMeeting);
+        on("Clicked:LeaveMeeting", leaveMeeting);
         updateLastZone();
 
         return () => {
             off("Clicked:JoinMeeting", joinMeeting);
+            off("Clicked:LeaveMeeting", leaveMeeting);
         } 
 
     }, [safezoneId, username, meetingActive]);
 
     const joinMeeting = () => {
         setMeetingActive(true);
+    }
+
+    const leaveMeeting = () => {
+        setMeetingActive(false);
     }
 
     const updateLastZone = () => {
