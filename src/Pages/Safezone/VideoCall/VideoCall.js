@@ -37,10 +37,9 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         const micDevices = [];
         /** @type {MediaDeviceInfo[]} */
         const camDevices = [];
-
         const localCamId = localStorage.getItem(LOCAL_CAMERA_ID);
         const localMicId = localStorage.getItem(LOCAL_MICROPHONE_ID);
-        
+
         devices.forEach((device) => {
             if (device.kind === 'videoinput') {
                 if (!device.groupId || !camDevices.find(cam => cam.groupId === device.groupId))
@@ -53,12 +52,11 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 if (device.deviceId === localMicId) setMicrophone(device);
             }
         });
-        
+
         console.groupCollapsed("%cDevices", "color: cyan");
         console.table(camDevices);
         console.table(micDevices);
         console.groupEnd();
-
         socketRef.current = io.connect(SERVER_URI, {
             jsonp: false,
             forceNew: true,
@@ -67,68 +65,62 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 "zone-id": props.zoneId
             }
         });
-
         setCamDevices(camDevices);
         setMicDevices(micDevices);
     }, []);
-
     useEffect(async () => {
         if (props.active) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ 
+                const stream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         height: window.innerHeight / 2,
                         width: window.innerWidth / 2,
                         deviceId: camera.deviceId
-                    }, 
+                    },
                     audio: {
                         deviceId: microphone.deviceId
-                    } });
+                    }
+                });
                 userVideo.current.srcObject = stream;
                 console.log(`%cJoined socket at ${SERVER_URI}, connected=${socketRef.current.connected}`, 'color: pink');
-
                 socketRef.current.emit("join room", roomId);
-
                 socketRef.current.on("all users", users => {
                     users.forEach(userID => {
                         const peer = createPeer(userID, socketRef.current.id, stream);
-                        peersRef.current.push({
+                        const peerObj = {
                             peerID: userID,
                             peer,
-                        });
+                        };
+                        if (!peersRef.current.find(p => p.peerID === userID))
+                            peersRef.current.push(peerObj);
                     });
-
                     setRoomSize(peersRef.current.length);
-                    console.log(`%cNew Room Members: ${peersRef.current.length}`, 'color: cyan');
+                    console.log(`%cNew Room Members: ${peersRef.current.length}; %o`, 'color: cyan', { peersRef: peersRef.current });
                 })
-
                 socketRef.current.on("user joined", payload => {
                     const peer = addPeer(payload.signal, payload.callerID, stream);
-                    peersRef.current.push({
+                    const peerObj = {
                         peerID: payload.callerID,
                         peer,
-                    });
-
+                    };
+                    if (!peersRef.current.find(p => p.peerID === payload.callerID))
+                        peersRef.current.push(peerObj);
                     setRoomSize(peersRef.current.length);
-                    console.log(`%cSomeone Joined. Members: ${peersRef.current.length}`, 'color: cyan');
+                    console.log(`%cSomeone Joined. Members: ${peersRef.current.length}; %o`, 'color: cyan', { peersRef: peersRef.current });
                 });
-
                 socketRef.current.on("receiving returned signal", payload => {
                     /** @type {Peer} */
                     const item = peersRef.current.find(p => p.peerID === payload.id);
                     item.peer.signal(payload.signal);
                     console.log("%creceiving return signal", 'color: lightgreen');
                 });
-
                 socketRef.current.on('user left', id => {
                     const peerObj = peersRef.current.find(p => p.peerID === id);
                     // console.log("user left", { peerObj });
                     if (peerObj)
                         peerObj.peer.destroy();
-
                     const peers = peersRef.current.filter(p => p.peerID !== id);
                     peersRef.current = peers;
-
                     setRoomSize(peersRef.current.length);
                     console.log(`%cSomeone Left. Members: ${peersRef.current.length}`, 'color: cyan');
                 });
@@ -138,11 +130,9 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         }
         else if (socketRef.current && socketRef.current.connected) {
             socketRef.current.emit("leave room");
-
             peersRef.current.forEach(peerObj => {
                 peerObj.peer.destroy();
             });
-
             peersRef.current = [];
             setRoomSize(peersRef.current.length);
         }
@@ -155,7 +145,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         const key = e.target.value;
         localStorage.setItem(LOCAL_CAMERA_ID, key);
         const device = camDevices.filter(cam => cam.deviceId === key)[0];
-        console.log('camera', { device, key, camDevices});
+        console.log('camera', { device, key, camDevices });
         setCamera(device || camera);
     }
 
@@ -163,7 +153,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         const key = e.target.value;
         localStorage.setItem(LOCAL_MICROPHONE_ID, key);
         const device = micDevices.filter(mic => mic.deviceId === key)[0];
-        console.log('microphone', { device, key, micDevices});
+        console.log('microphone', { device, key, micDevices });
         setMicrophone(device || microphone);
     }
 
@@ -173,27 +163,21 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
             trickle: false,
             stream,
         });
-
         peer.on("signal", signal => {
             socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
         })
-
         return peer;
     }
-
     const addPeer = (incomingSignal, callerID, stream) => {
         const peer = new Peer({
             initiator: false,
             trickle: false,
             stream,
         })
-
         peer.on("signal", signal => {
             socketRef.current.emit("returning signal", { signal, callerID })
         })
-
         peer.signal(incomingSignal);
-
         return peer;
     }
 
@@ -205,7 +189,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
     console.log(`%cRoom Size:        ${roomSize}`, 'color: orange');
     console.groupEnd();
-    if (peersRef.current.length > 0) 
+
+    if (peersRef.current.length > 0)
         console.table(peersRef.current);
 
     return (
@@ -234,11 +219,11 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 }
                 <ButtonGroup>
                     <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiVideoCamera /></ButtonToggle>
-                    <select className='secondary' value={camera.deviceId} onChange={ e => handleCamChange(e) }>
+                    <select className='secondary' value={camera.deviceId} onChange={e => handleCamChange(e)}>
                         {
                             camDevices.map((device, index) => {
                                 return <option key={device.deviceId} value={device.deviceId}>
-                                    { device.label || `Camera ${index + 1}` }
+                                    {device.label || `Camera ${index + 1}`}
                                 </option>
                             })
                         }
@@ -246,11 +231,11 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 </ButtonGroup>
                 <ButtonGroup>
                     <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiMicrophone /></ButtonToggle>
-                    <select className='secondary' value={microphone.deviceId} onChange={ e => handleMicChange(e) } >
+                    <select className='secondary' value={microphone.deviceId} onChange={e => handleMicChange(e)} >
                         {
                             micDevices.map((device, index) => {
                                 return <option key={device.deviceId} value={device.deviceId}>
-                                    { device.label || `Microphone ${index + 1}` }
+                                    {device.label || `Microphone ${index + 1}`}
                                 </option>
                             })
                         }
