@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID } from '../../../Global/Global';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING, EVENT__SOCKET_ZONE_RECONNECT } from '../../../Global/Global';
 import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
-import io from "socket.io-client";
 import SimplePeer from 'simple-peer';
 import { ButtonGroup } from '../../../Components/ButtonGroup/ButtonGroup';
 import { HiVideoCamera, HiMicrophone } from "react-icons/hi";
@@ -10,9 +9,13 @@ import { ButtonToggle } from '../../../ButtonToggle/ButtonToggle';
 
 const Peer = SimplePeer;
 
-export const VideoCall = (props = { active: false, zoneId: '' }) => {
-    const triggerJoinMeeting = () => trigger("Clicked:JoinMeeting");
-    const triggerLeaveMeeting = () => trigger("Clicked:LeaveMeeting");
+/**
+ * @param {React.MutableRefObject<Socket>} ref
+ * @param {{active: Boolean, zoneId: String}} props */
+export const VideoCall = forwardRef((props, ref) => {
+    const triggerJoinMeeting = () => trigger(EVENT__CLICK_JOIN_MEETING);
+    const triggerLeaveMeeting = () => trigger(EVENT__CLICK_LEAVE_MEETING);
+    const triggerSocketReconnect = () => trigger(EVENT__SOCKET_ZONE_RECONNECT);
 
     /** @type {[number, function]} */
     const [roomSize, setRoomSize] = useState(0);
@@ -24,9 +27,11 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const [camera, setCamera] = useState({});
     /** @type {[MediaDeviceInfo, function]} */
     const [microphone, setMicrophone] = useState({});
-
-    const socketRef = useRef();
+    const socketRef = ref;
+    
+    /** @type {React.MutableRefObject<MediaStream} */
     const userVideo = useRef();
+    /** @type {React.MutableRefObject<Array<{peerID: string, peer: Peer}>>} */
     const peersRef = useRef([]);
 
     const roomId = 'meeting_' + props.zoneId;
@@ -57,18 +62,12 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         console.table(camDevices);
         console.table(micDevices);
         console.groupEnd();
-        socketRef.current = io.connect(SERVER_URI, {
-            jsonp: false,
-            forceNew: true,
-            extraHeaders: {
-                "x-access-token": window.localStorage.getItem('accessToken'),
-                "zone-id": props.zoneId
-            }
-        });
         setCamDevices(camDevices);
         setMicDevices(micDevices);
-    }, []);
+        console.log('1', socketRef);
+    }, [ref]);
     useEffect(async () => {
+        console.log('2', socketRef);
         if (props.active) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
@@ -119,8 +118,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                     // console.log("user left", { peerObj });
                     if (peerObj)
                         peerObj.peer.destroy();
-                    const peers = peersRef.current.filter(p => p.peerID !== id);
-                    peersRef.current = peers;
+                    // const peers = peersRef.current.filter(p => p.peerID !== id);
+                    // peersRef.current = peers;
                     setRoomSize(peersRef.current.length);
                     console.log(`%cSomeone Left. Members: ${peersRef.current.length}`, 'color: cyan');
                 });
@@ -128,16 +127,13 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 console.trace(err);
             }
         }
-        else if (socketRef.current && socketRef.current.connected) {
+        else if (socketRef && socketRef.current && socketRef.current.connected) {
             socketRef.current.emit("leave room");
             peersRef.current.forEach(peerObj => {
                 peerObj.peer.destroy();
             });
-            peersRef.current = [];
+            // peersRef.current = [];
             setRoomSize(peersRef.current.length);
-        }
-        return () => {
-            console.log("UseEffect Unload");
         }
     }, [props.active, camera, microphone, peersRef.current]);
 
@@ -168,6 +164,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         })
         return peer;
     }
+
     const addPeer = (incomingSignal, callerID, stream) => {
         const peer = new Peer({
             initiator: false,
@@ -182,7 +179,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     }
 
     const videoList = peersRef.current.map((peer) => {
-        return <Video key={peer.peerID} peer={peer.peer} />;
+        if (peer.peer._connected)
+            return <Video key={peer.peerID} peer={peer.peer} />;
     });
 
     console.group("%cRender Function", 'color: crimson');
@@ -245,7 +243,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
             {props.active && <video className='cameraView' muted ref={userVideo} autoPlay playsInline />}
         </div>
     )
-}
+});
 
 const Video = (props) => {
     const ref = useRef();
