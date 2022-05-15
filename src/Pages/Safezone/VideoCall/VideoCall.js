@@ -14,8 +14,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const triggerJoinMeeting = () => trigger("Clicked:JoinMeeting");
     const triggerLeaveMeeting = () => trigger("Clicked:LeaveMeeting");
 
-    /** @type {[Peer[], function]} */
-    const [peers, setPeers] = useState([]);
+    /** @type {[number, function]} */
+    const [roomSize, setRoomSize] = useState(0);
     /** @type {[Array<MediaDeviceInfo>, function]} */
     const [camDevices, setCamDevices] = useState([]);
     /** @type {[Array<MediaDeviceInfo>, function]} */
@@ -54,8 +54,10 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
             }
         });
         
+        console.groupCollapsed("%cDevices", "color: cyan");
         console.table(camDevices);
         console.table(micDevices);
+        console.groupEnd();
 
         socketRef.current = io.connect(SERVER_URI, {
             jsonp: false,
@@ -90,20 +92,16 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                 socketRef.current.emit("join room", roomId);
 
                 socketRef.current.on("all users", users => {
-                    const peers = [];
                     users.forEach(userID => {
                         const peer = createPeer(userID, socketRef.current.id, stream);
                         peersRef.current.push({
                             peerID: userID,
                             peer,
                         });
-                        peers.push({
-                            peerID: userID,
-                            peer,
-                        });
                     });
-                    console.log(`%cRoom members: ${peers.length}`, 'color: cyan');
-                    setPeers(peers);
+
+                    setRoomSize(peersRef.current.length);
+                    console.log(`%cNew Room Members: ${peersRef.current.length}`, 'color: cyan');
                 })
 
                 socketRef.current.on("user joined", payload => {
@@ -113,14 +111,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                         peer,
                     });
 
-                    const peerObj = {
-                        peer,
-                        peerID: payload.callerID,
-                    }
-
+                    setRoomSize(peersRef.current.length);
                     console.log(`%cSomeone Joined. Members: ${peersRef.current.length}`, 'color: cyan');
-
-                    setPeers(users => [...users, peerObj]);
                 });
 
                 socketRef.current.on("receiving returned signal", payload => {
@@ -138,8 +130,9 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
 
                     const peers = peersRef.current.filter(p => p.peerID !== id);
                     peersRef.current = peers;
+
+                    setRoomSize(peersRef.current.length);
                     console.log(`%cSomeone Left. Members: ${peersRef.current.length}`, 'color: cyan');
-                    setPeers(peers);
                 });
             } catch (err) {
                 console.trace(err);
@@ -147,19 +140,18 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         }
         else if (socketRef.current && socketRef.current.connected) {
             socketRef.current.emit("leave room");
+
             peersRef.current.forEach(peerObj => {
                 peerObj.peer.destroy();
             });
-            peers.forEach(peerObj => {
-                peerObj.peer.destroy();
-            });
+
             peersRef.current = [];
-            setPeers([]);
+            setRoomSize(peersRef.current.length);
         }
         return () => {
             console.log("UseEffect Unload");
         }
-    }, [props.active, camera, microphone]);
+    }, [props.active, camera, microphone, peersRef.current]);
 
     const handleCamChange = (e) => {
         const key = e.target.value;
@@ -207,13 +199,13 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         return peer;
     }
 
-    const videoList = peers.map((peer) => {
+    const videoList = peersRef.current.map((peer) => {
         return <Video key={peer.peerID} peer={peer.peer} />;
     });
-    console.log(`%cVideo Elements:   ${videoList.length}`, 'color: crimson');
-    console.log(`%cpeers length:     ${peers.length}`, 'color: orange');
-    console.log(`%cpeersRef length:  ${peersRef.current.length}`, 'color: orange');
-
+    console.group("%cRender Function", 'color: crimson');
+    console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
+    console.log(`%croom size:        ${roomSize}`, 'color: orange');
+    console.groupEnd();
     return (
         <div className='videoCall'>
             <div className='videoContainer' active={props.active ? 1 : 0}>
