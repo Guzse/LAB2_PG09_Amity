@@ -14,8 +14,8 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const triggerJoinMeeting = () => trigger("Clicked:JoinMeeting");
     const triggerLeaveMeeting = () => trigger("Clicked:LeaveMeeting");
 
+    /** @type {[Peer[], function]} */
     const [peers, setPeers] = useState([]);
-    
     /** @type {[Array<MediaDeviceInfo>, function]} */
     const [camDevices, setCamDevices] = useState([]);
     /** @type {[Array<MediaDeviceInfo>, function]} */
@@ -33,23 +33,29 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
 
     useEffect(async () => {
         const devices = await navigator.mediaDevices.enumerateDevices();
+        /** @type {MediaDeviceInfo[]} */
         const micDevices = [];
+        /** @type {MediaDeviceInfo[]} */
         const camDevices = [];
 
         const localCamId = localStorage.getItem(LOCAL_CAMERA_ID);
         const localMicId = localStorage.getItem(LOCAL_MICROPHONE_ID);
-        console.table({localCamId, localMicId});
         
         devices.forEach((device) => {
             if (device.kind === 'videoinput') {
-                camDevices.push(device);
+                if (!device.groupId || !camDevices.find(cam => cam.groupId === device.groupId))
+                    camDevices.push(device);
                 if (device.deviceId === localCamId) setCamera(device);
             }
             else if (device.kind === 'audioinput') {
-                micDevices.push(device);
+                if (!device.groupId || !micDevices.find(mic => mic.groupId === device.groupId))
+                    micDevices.push(device);
                 if (device.deviceId === localMicId) setMicrophone(device);
             }
         });
+        
+        console.table(camDevices);
+        console.table(micDevices);
 
         socketRef.current = io.connect(SERVER_URI, {
             jsonp: false,
@@ -65,9 +71,10 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     }, []);
 
     useEffect(async () => {
+        if (peersRef.current.length > 0) console.table(peersRef.current);
+        
         if (props.active) {
             try {
-                console.log("getUserMedia", { camera, microphone});
                 const stream = await navigator.mediaDevices.getUserMedia({ 
                     video: {
                         height: window.innerHeight / 2,
@@ -78,7 +85,7 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                         deviceId: microphone.deviceId
                     } });
                 userVideo.current.srcObject = stream;
-                console.log("joined", { socketRef }, SERVER_URI);
+                console.log(`%cJoined socket at ${SERVER_URI}, connected=${socketRef.current.connected}`, 'color: pink');
 
                 socketRef.current.emit("join room", roomId);
 
@@ -89,13 +96,13 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                         peersRef.current.push({
                             peerID: userID,
                             peer,
-                        })
+                        });
                         peers.push({
                             peerID: userID,
                             peer,
                         });
                     });
-                    // console.log("All Peers", { peers });
+                    console.log(`%cRoom members: ${peers.length}`, 'color: cyan');
                     setPeers(peers);
                 })
 
@@ -111,15 +118,16 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
                         peerID: payload.callerID,
                     }
 
-                    // console.log("new peer", { peerObj });
+                    console.log(`%cSomeone Joined. Members: ${peersRef.current.length}`, 'color: cyan');
 
                     setPeers(users => [...users, peerObj]);
                 });
 
                 socketRef.current.on("receiving returned signal", payload => {
+                    /** @type {Peer} */
                     const item = peersRef.current.find(p => p.peerID === payload.id);
                     item.peer.signal(payload.signal);
-                    // console.log("receiving return signal");
+                    console.log("%creceiving return signal", 'color: lightgreen');
                 });
 
                 socketRef.current.on('user left', id => {
@@ -130,11 +138,23 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
 
                     const peers = peersRef.current.filter(p => p.peerID !== id);
                     peersRef.current = peers;
+                    console.log(`%cSomeone Left. Members: ${peersRef.current.length}`, 'color: cyan');
                     setPeers(peers);
                 });
             } catch (err) {
                 console.trace(err);
             }
+        }
+        else if (socketRef.current && socketRef.current.connected) {
+            socketRef.current.emit("leave room");
+            peersRef.current.forEach(peerObj => {
+                peerObj.peer.destroy();
+            });
+            peers.forEach(peerObj => {
+                peerObj.peer.destroy();
+            });
+            peersRef.current = [];
+            setPeers([]);
         }
         return () => {
             console.log("UseEffect Unload");
@@ -187,18 +207,17 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
         return peer;
     }
 
+    const videoList = peers.map((peer) => {
+        return <Video key={peer.peerID} peer={peer.peer} />;
+    });
+    console.log(`%cVideo Elements:   ${videoList.length}`, 'color: crimson');
+    console.log(`%cpeers length:     ${peers.length}`, 'color: orange');
+    console.log(`%cpeersRef length:  ${peersRef.current.length}`, 'color: orange');
+
     return (
         <div className='videoCall'>
             <div className='videoContainer' active={props.active ? 1 : 0}>
-                {props.active && peers.map((peer) => {
-                    console.log(peer);
-                    return (
-                        <>
-                            <Video key={peer.peerID} peer={peer.peer} />
-                        </>
-
-                    )
-                })}
+                {props.active && videoList}
             </div>
             <div className='videoControls'>
                 {

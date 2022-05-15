@@ -36,6 +36,12 @@
     height: 100px;
 }
 
+.videoCall .videoContainer li {
+    list-style: none;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 .videoCall .videoContainer video {
     margin-top: auto;
     margin-bottom: auto;
