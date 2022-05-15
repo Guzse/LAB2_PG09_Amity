@@ -6,11 +6,13 @@
     z-index: 1;
     position: relative;
     bottom: 18px;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
-.videoCall .videoControls button {
-    margin: auto;
+.videoCall .videoControls > * {
     display: block;
+    margin: 0px 10px 0px 10px;
 }
 
 .videoCall .videoContainer {
@@ -32,6 +34,12 @@
 
 .videoCall .videoContainer:empty {
     height: 100px;
+}
+
+.videoCall .videoContainer li {
+    list-style: none;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .videoCall .videoContainer video {

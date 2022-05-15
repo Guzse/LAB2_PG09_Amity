@@ -22,7 +22,9 @@
     --infored: #BD4E48;
     --gradient-blue: linear-gradient(90deg, rgba(28,87,129,1), rgba(96,150,188,1) 100%);
     --gradient-pink: linear-gradient(90deg, rgba(198,36,141,1), rgba(214,120,176,1) 100%);
-    --primary-transparent: rgba(15, 147, 241, 0.2);
+    --gradient-blue-mirrored: linear-gradient(270deg, rgba(28,87,129,1), rgba(96,150,188,1) 100%);
+    --gradient-pink-mirrored: linear-gradient(270deg, rgba(198,36,141,1), rgba(214,120,176,1) 100%);
+    --primary-transparent-mirrored: rgba(15, 147, 241, 0.2);
     --secondary-transparent: rgba(247, 11, 164, 0.2);
     --sidebar-width: 300px;
 
@@ -73,27 +75,47 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: var(--sidebar-width);
 }
 
-button {
-    height: 36px;
-    width: fit-content;
+button, select {
     font-family: 'Laila';
     font-weight: 600;
-    color: var(--body);
-    background-color: var(--white);
-    border: 2px solid var(--body);
-    cursor: pointer;
-    border-radius: 24px;
-    padding: 0px 36px 0px 36px;
-    transition: 0.15s;
-}
 
-button.primary {
-    background: var(--gradient-blue);
-    border: none;
     color: var(--white);
+    background: var(--gradient-blue);
+    background-color: var(--primary);
+    height: 36px;
+
+    width: fit-content;
+    max-width: 200px;
+    padding: 0px 24px 0px 24px;
+
+    border-radius: 24px;
+    border: none;
+
+    cursor: pointer;
+    transition: 0.2s;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-button.primary-stroke:not(:disabled) {
+button.primary:hover, button:hover, select:hover {
+    background: var(--primary);
+}
+
+button.iconButton {
+    width: 36px;
+    padding: 8px;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+button.iconButton > svg {
+    height: 100%;
+    width: auto;
+    display: flex;
+}
+
+button.primary-stroke:not(:disabled), select.primary-stroke:not(:disabled) {
     color: var(--primary);
     background-image: var(--gradient-blue);
     border: 3px solid transparent;
@@ -101,18 +123,27 @@ button.primary-stroke:not(:disabled) {
     background-origin: border-box;
 }
 
-button.primary-stroke:hover:not(:disabled), button.secondary-stroke:hover:not(:disabled) {
+button.primary-stroke:hover:not(:disabled), button.secondary-stroke:hover:not(:disabled),
+select.primary-stroke:hover:not(:disabled), select.secondary-stroke:hover:not(:disabled) {
     box-shadow: none;
     color: var(--white);
 }
 
-button.secondary {
+button.secondary, 
+select.secondary {
     background: var(--gradient-pink);
+    background-color: var(--secondary);
     border: none;
     color: var(--white);
 }
 
-button.secondary-stroke {
+button.secondary:hover, 
+select.secondary:hover {
+    background: var(--secondary);
+}
+
+button.secondary-stroke, 
+select.secondary-stroke {
     color: var(--secondary);
     background-image: var(--gradient-pink);
     border: 3px solid transparent;
@@ -120,10 +151,55 @@ button.secondary-stroke {
     background-origin: border-box;
 }
 
-button:disabled {
-    background-color: var(--gray1);
+button.error {
+    background-color: var(--infored);
+    background: var(--infored);
+    color: var(--white);
+}
+
+button.error-stroke {
+    background: var(--gray1);
+    border-color: var(--infored);
+    border: 2px solid var(--infored);
+    color: var(--infored)
+}
+
+button.error-stroke.iconButton {
+    padding: 6px 6px 6px 6px;
+}
+
+button:disabled,
+select:disabled {
+    background: var(--gray1);
     border-color: var(--gray2);
-    color: var(--gray2)
+    color: var(--gray2);
+}
+
+
+select:focus-within { outline: none;}
+
+select {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+select option {
+    appearance: none;
+    -webkit-appearance: none;
+
+    height: 36px;
+    width: fit-content;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-family: 'Laila';
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--body);
+    background-color: var(--white);
 }
 
 input[type=text], input[type=password] {

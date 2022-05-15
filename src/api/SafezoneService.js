@@ -36,6 +36,7 @@ export default class SafezoneService {
             return promiseConnectionError();
         }
     }
+
     async GetSafezone(id) {
         try {
             return await fetch(SERVER_URI + `/api/safezone/`, {
@@ -46,6 +47,22 @@ export default class SafezoneService {
                     'Access-Control-Allow-Origin': '*',
                     'safezone-id': id
                 }
+            });
+        } catch(err) {
+            return promiseConnectionError(err);
+        }
+    }
+
+    async JoinSafezone(zoneId) {
+        try {
+            return await fetch(SERVER_URI + `/api/safezoneuser/`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': window.localStorage.getItem("accessToken"),
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({ zoneId })
             });
         } catch(err) {
             return promiseConnectionError(err);

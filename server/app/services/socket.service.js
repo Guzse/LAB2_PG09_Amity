@@ -11,6 +11,19 @@ export const configureSocketMiddleware = (io = new IO.Server()) => {
 }
 
 export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) => {
+    const userLeft = () => {
+        const roomID = socketToRoom[socket.id];
+        let room = users[roomID];
+    
+        if (room) {
+            room = room.filter(id => id !== socket.id);
+            users[roomID] = room;
+            console.log(`User [${socket.id}] left room [${roomID}]`);
+        }
+        socket.broadcast.emit('user left', socket.id);
+    }
+
+    console.log(`User [${socket.id}] connected`);
     socket.on("join room", roomId => {
         if (users[roomId]) {
             users[roomId].push(socket.id);
@@ -20,7 +33,10 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
         socketToRoom[socket.id] = roomId;
         const usersInThisRoom = users[roomId].filter(id => id !== socket.id);
         socket.emit("all users", usersInThisRoom);
+        console.log(`User [${socket.id}] joined room [${roomId}] ()`);
     });
+
+    socket.on("leave room", userLeft);
 
     socket.on("sending signal", payload => {
         io.to(payload.userToSignal).emit('user joined', { signal: payload.signal, callerID: payload.callerID });
@@ -31,13 +47,8 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
     });
 
     socket.on('disconnect', () => {
-        const roomID = socketToRoom[socket.id];
-        let room = users[roomID];
-
-        if (room) {
-            room = room.filter(id => id !== socket.id);
-            users[roomID] = room;
-        }
-        socket.broadcast.emit('user left', socket.id);
+        userLeft();
+        
+        console.log(`User [${socket.id}] disconnected`);
     });
 }

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './SidebarLeft.css';
 import { HiUserGroup } from "react-icons/hi";
-import { HiOutlinePlusCircle } from "react-icons/hi";
+import { HiOutlinePlusCircle, HiOutlineSupport } from "react-icons/hi";
 import Slider from '@mui/material/Slider';
 import SafezoneService from "../../../api/SafezoneService";
-import { Dialog } from "@mui/material";
+import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
-import DialogContent from '@mui/material/DialogContent';
 import IconWrapper from '../../IconWrapper/IconWrapper';
 
 
@@ -64,7 +63,7 @@ export const SidebarLeft = () => {
                     <HiUserGroup className="groupIcon" />
                 </IconWrapper>
             </div>
-
+            <DebugJoinSafezone />
             <IconWrapper onClick={handleClickOpen}>
                 <HiOutlinePlusCircle className="plusIcon" />
             </IconWrapper>
@@ -100,4 +99,40 @@ function CreateSafezonePopup(props = { open: false, onClose: () => undefined, on
             </DialogContent>
         </Dialog>
     );
+}
+
+export const DebugJoinSafezone = () => {
+    const [zoneId, setZoneId] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const safezoneService = new SafezoneService();
+
+    const handleJoin = async () => {
+        console.log(`%c zoneid ${zoneId}`, "color: green");
+        const res = await safezoneService.JoinSafezone(zoneId); 
+        setOpen(false);
+        console.log(res);
+        alert(res);
+    }
+
+    const handleChange = e => {
+        setZoneId(e.target.value);
+        console.log(e.target.value);
+    }
+
+    return (
+        <>
+            <IconWrapper onClick={() => setOpen(true)}>
+                <HiOutlineSupport style={{color: "var(--infored)"}} />
+            </IconWrapper>
+            <Dialog open={open}>
+                <DialogContent>
+                    <input type='text' placeholder='zoneId' onChange={handleChange} value={zoneId}></input>
+                </DialogContent>
+                <DialogActions>
+                    <button onClick={handleJoin}>Join</button>
+                </DialogActions>
+            </Dialog>
+        </>
+    )
 }
