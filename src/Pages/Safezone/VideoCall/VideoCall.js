@@ -73,8 +73,6 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     }, []);
 
     useEffect(async () => {
-        if (peersRef.current.length > 0) console.table(peersRef.current);
-        
         if (props.active) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ 
@@ -202,10 +200,14 @@ export const VideoCall = (props = { active: false, zoneId: '' }) => {
     const videoList = peersRef.current.map((peer) => {
         return <Video key={peer.peerID} peer={peer.peer} />;
     });
+
     console.group("%cRender Function", 'color: crimson');
     console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
-    console.log(`%croom size:        ${roomSize}`, 'color: orange');
+    console.log(`%cRoom Size:        ${roomSize}`, 'color: orange');
     console.groupEnd();
+    if (peersRef.current.length > 0) 
+        console.table(peersRef.current);
+
     return (
         <div className='videoCall'>
             <div className='videoContainer' active={props.active ? 1 : 0}>
