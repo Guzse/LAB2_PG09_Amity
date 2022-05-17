@@ -28,10 +28,10 @@ export const VideoCall = forwardRef((props, ref) => {
     /** @type {[MediaDeviceInfo, function]} */
     const [microphone, setMicrophone] = useState({});
     const socketRef = ref;
-    
+
     /** @type {React.MutableRefObject<MediaStream} */
     const userVideo = useRef();
-    /** @type {React.MutableRefObject<Array<{peerID: string, peer: Peer}>>} */
+    /** @type {React.MutableRefObject<Array<{peerID: string, peer: Peer, connected: Boolean}>>} */
     const peersRef = useRef([]);
 
     const roomId = 'meeting_' + props.zoneId;
@@ -66,6 +66,23 @@ export const VideoCall = forwardRef((props, ref) => {
         setMicDevices(micDevices);
         console.log('1', socketRef);
     }, [ref]);
+
+    const handleCamChange = (e) => {
+        const key = e.target.value;
+        localStorage.setItem(LOCAL_CAMERA_ID, key);
+        const device = camDevices.filter(cam => cam.deviceId === key)[0];
+        // console.log('camera', { device, key, camDevices });
+        setCamera(device || camera);
+    }
+
+    const handleMicChange = async (e) => {
+        const key = e.target.value;
+        localStorage.setItem(LOCAL_MICROPHONE_ID, key);
+        const device = micDevices.filter(mic => mic.deviceId === key)[0];
+        // console.log('microphone', { device, key, micDevices });
+        setMicrophone(device || microphone);
+    }
+
     useEffect(async () => {
         console.log('2', socketRef);
         if (props.active) {
@@ -88,24 +105,26 @@ export const VideoCall = forwardRef((props, ref) => {
                         const peer = createPeer(userID, socketRef.current.id, stream);
                         const peerObj = {
                             peerID: userID,
+                            connected: true,
                             peer,
                         };
                         if (!peersRef.current.find(p => p.peerID === userID))
                             peersRef.current.push(peerObj);
                     });
-                    setRoomSize(peersRef.current.length);
-                    console.log(`%cNew Room Members: ${peersRef.current.length}; %o`, 'color: cyan', { peersRef: peersRef.current });
+                    setRoomSize(peersRef.current.filter(p => p.connected).length);
+                    console.log(`%cNew Room Members: ${peersRef.current.filter(p => p.connected).length}; %o`, 'color: cyan', { peersRef: peersRef.current });
                 })
                 socketRef.current.on("user joined", payload => {
                     const peer = addPeer(payload.signal, payload.callerID, stream);
                     const peerObj = {
                         peerID: payload.callerID,
+                        connected: true,
                         peer,
                     };
                     if (!peersRef.current.find(p => p.peerID === payload.callerID))
                         peersRef.current.push(peerObj);
-                    setRoomSize(peersRef.current.length);
-                    console.log(`%cSomeone Joined. Members: ${peersRef.current.length}; %o`, 'color: cyan', { peersRef: peersRef.current });
+                    setRoomSize(peersRef.current.filter(p => p.connected).length);
+                    console.log(`%cSomeone Joined. Members: ${peersRef.current.filter(p => p.connected).length}; %o`, 'color: cyan', { peersRef: peersRef.current });
                 });
                 socketRef.current.on("receiving returned signal", payload => {
                     /** @type {Peer} */
@@ -115,12 +134,14 @@ export const VideoCall = forwardRef((props, ref) => {
                 });
                 socketRef.current.on('user left', id => {
                     const peerObj = peersRef.current.find(p => p.peerID === id);
-                    // console.log("user left", { peerObj });
-                    if (peerObj)
+                    console.log('%cOldPeer%o', 'color: yellow', peerObj);
+                    if (peerObj) {
                         peerObj.peer.destroy();
+                        peerObj.connected = false;
+                    }
                     // const peers = peersRef.current.filter(p => p.peerID !== id);
                     // peersRef.current = peers;
-                    setRoomSize(peersRef.current.length);
+                    setRoomSize(peersRef.current.filter(p => p.connected).length);
                     console.log(`%cSomeone Left. Members: ${peersRef.current.length}`, 'color: cyan');
                 });
             } catch (err) {
@@ -131,28 +152,14 @@ export const VideoCall = forwardRef((props, ref) => {
             socketRef.current.emit("leave room");
             peersRef.current.forEach(peerObj => {
                 peerObj.peer.destroy();
+                peerObj.connected = false;
+                console.log('%cOldPeer%o', 'color: yellow', peerObj);
             });
             // peersRef.current = [];
-            setRoomSize(peersRef.current.length);
+            setRoomSize(peersRef.current.filter(p => p.connected).length);
         }
     }, [props.active, camera, microphone, peersRef.current]);
-
-    const handleCamChange = (e) => {
-        const key = e.target.value;
-        localStorage.setItem(LOCAL_CAMERA_ID, key);
-        const device = camDevices.filter(cam => cam.deviceId === key)[0];
-        console.log('camera', { device, key, camDevices });
-        setCamera(device || camera);
-    }
-
-    const handleMicChange = async (e) => {
-        const key = e.target.value;
-        localStorage.setItem(LOCAL_MICROPHONE_ID, key);
-        const device = micDevices.filter(mic => mic.deviceId === key)[0];
-        console.log('microphone', { device, key, micDevices });
-        setMicrophone(device || microphone);
-    }
-
+    
     const createPeer = (userToSignal, callerID, stream) => {
         const peer = new Peer({
             initiator: true,
@@ -179,7 +186,7 @@ export const VideoCall = forwardRef((props, ref) => {
     }
 
     const videoList = peersRef.current.map((peer) => {
-        if (peer.peer._connected)
+        if (peer.connected)
             return <Video key={peer.peerID} peer={peer.peer} />;
     });
 
