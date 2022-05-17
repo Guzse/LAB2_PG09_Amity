@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING, EVENT__SOCKET_ZONE_RECONNECT } from '../../../Global/Global';
+import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../../Global/Global';
 import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
 import SimplePeer from 'simple-peer';
@@ -15,7 +15,7 @@ const Peer = SimplePeer;
 export const VideoCall = forwardRef((props, ref) => {
     const triggerJoinMeeting = () => trigger(EVENT__CLICK_JOIN_MEETING);
     const triggerLeaveMeeting = () => trigger(EVENT__CLICK_LEAVE_MEETING);
-    const triggerSocketReconnect = () => trigger(EVENT__SOCKET_ZONE_RECONNECT);
+    // const triggerSocketReconnect = () => trigger(EVENT__SOCKET_ZONE_RECONNECT);
 
     /** @type {[number, function]} */
     const [roomSize, setRoomSize] = useState(0);
@@ -186,15 +186,16 @@ export const VideoCall = forwardRef((props, ref) => {
     const videoList = peersRef.current.map((peer) => {
         if (peer.connected)
             return <Video key={peer.peerID} peer={peer.peer} />;
+        return <></>;
     });
 
-    // console.group("%cRender Function", 'color: crimson');
-    // console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
-    // console.log(`%cRoom Size:        ${roomSize}`, 'color: orange');
-    // console.groupEnd();
-
-    if (peersRef.current.length > 0)
-        console.table(peersRef.current);
+    if (props.active) {
+        console.groupCollapsed("%cRender Function", 'color: crimson');
+        console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
+        console.log(`%cRoom Size:        ${roomSize}`, 'color: orange');
+        if (peersRef.current.length > 0) console.table(peersRef.current);
+        console.groupEnd();
+    }
 
     return (
         <div className='videoCall'>
