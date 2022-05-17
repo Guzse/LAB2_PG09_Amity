@@ -17,7 +17,7 @@ export const IconWrapper = (props = { width: '40px', primary: false, secondary: 
     
     let clickable = '';
     if (props.onClick) clickable = 'clickable';
-
+    
     return (
         <div style={{width: props.width, height: props.width}} className={`iconWrapper ${type} ${clickable}`} {...sanitizeProps()}>
             {props.children}

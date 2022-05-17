@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './SidebarLeft.css';
 import { HiUserGroup } from "react-icons/hi";
 import { HiOutlinePlusCircle, HiOutlineSupport } from "react-icons/hi";
@@ -7,11 +8,46 @@ import SafezoneService from "../../../api/SafezoneService";
 import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
 import IconWrapper from '../../IconWrapper/IconWrapper';
+import UserService from '../../../api/UserService';
 
 
 
 export const SidebarLeft = () => {
     const [open, setOpen] = React.useState(false);
+    const [zoneList, setZoneList] = React.useState([]);
+    const [zoneIcons, setZoneIcons] = React.useState([]);
+    
+    const safezoneService = new SafezoneService();
+    const userService = new UserService();
+
+    useEffect(() => {
+        fetchZones();
+    }, []);
+
+    const fetchZones = async () => {
+        const response = await userService.GetUserSafezones();
+        const userZones = await response.json() || [];
+        let zones = [];
+        for (const userZone of userZones) {
+            const res = await safezoneService.GetSafezone(userZone.zoneId);
+            const zone = await res.json();
+            zones.push(zone);
+        };
+        setZoneList(zones);
+    }
+
+    useEffect(() => {
+        const elements = zoneList.map(zone => {
+            return <a href={ `/app/${zone._id}`} key={zone._id} title={zone.zoneName}>
+                <IconWrapper>
+                    <HiUserGroup />
+                </IconWrapper>
+            </a>
+        });
+        setZoneIcons(prev => {
+            return elements;
+        });
+    }, [zoneList]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -21,7 +57,6 @@ export const SidebarLeft = () => {
         setOpen(false);
     };
 
-    const safezoneService = new SafezoneService();
 
     const [state, setState] = useState({
         zoneName: '',
@@ -32,8 +67,6 @@ export const SidebarLeft = () => {
     function handleChange(e) {
         const key = e.target.name;
         const value = e.target.value;
-
-        console.log(key, value);
 
         setState(prev => ({
             ...prev,
@@ -50,21 +83,14 @@ export const SidebarLeft = () => {
                 res.json().then(data => console.log(data));
             });
     }
+
     return (
         <div className='sidebar-left'>
             <div className="serverlist">
-                <IconWrapper onClick={() => undefined}>
-                    <HiUserGroup className="groupIcon" />
-                </IconWrapper>
-                <IconWrapper onClick={() => undefined}>
-                    <HiUserGroup className="groupIcon" />
-                </IconWrapper>
-                <IconWrapper onClick={() => undefined}>
-                    <HiUserGroup className="groupIcon" />
-                </IconWrapper>
+                { zoneIcons }
             </div>
             <DebugJoinSafezone />
-            <IconWrapper onClick={handleClickOpen}>
+            <IconWrapper primary onClick={handleClickOpen}>
                 <HiOutlinePlusCircle className="plusIcon" />
             </IconWrapper>
             <CreateSafezonePopup open={open} onClose={handleClose} onChange={handleChange} onSubmit={handleSubmit} />
@@ -117,7 +143,6 @@ export const DebugJoinSafezone = () => {
 
     const handleChange = e => {
         setZoneId(e.target.value);
-        console.log(e.target.value);
     }
 
     return (
