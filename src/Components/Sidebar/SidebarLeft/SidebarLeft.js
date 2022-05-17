@@ -8,6 +8,7 @@ import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
 import IconWrapper from '../../IconWrapper/IconWrapper';
 import UserService from '../../../api/UserService';
+import { routeSegments } from '../../../Global/Global';
 
 
 
@@ -36,9 +37,10 @@ export const SidebarLeft = () => {
     }
 
     useEffect(() => {
+        const parts = routeSegments();
         const elements = zoneList.map(zone => {
             return <a href={ `/app/${zone._id}`} key={zone._id} title={zone.zoneName}>
-                <IconWrapper>
+                <IconWrapper primary className={ parts.find(val => val === zone._id) ? "current" : ""}>
                     <HiUserGroup />
                 </IconWrapper>
             </a>
@@ -89,7 +91,7 @@ export const SidebarLeft = () => {
                 { zoneIcons }
             </div>
             <DebugJoinSafezone />
-            <IconWrapper primary onClick={handleClickOpen}>
+            <IconWrapper onClick={handleClickOpen}>
                 <HiOutlinePlusCircle className="plusIcon" />
             </IconWrapper>
             <CreateSafezonePopup open={open} onClose={handleClose} onChange={handleChange} onSubmit={handleSubmit} />

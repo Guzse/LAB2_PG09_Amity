@@ -1,5 +1,6 @@
 .iconWrapper {
     display: flex;
+    aspect-ratio: 1/1;
 }
 
 .iconWrapper.primary {
