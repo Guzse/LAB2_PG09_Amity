@@ -3,38 +3,35 @@
 
     height: 100%;
     width: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 8px;
     float: left;
 
     text-align: center;
-}
-
-.sidebar-left .serverlist{
     display: flex;
     flex-direction: column;
-}
-.sidebar-left .groupIcon {
-    border-radius: 25px;
-    background-color: var(--primary);
-    color: var(--white);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 40px;
-    width: auto;
-    padding: 2px;
+    overflow: visible;
 }
 
-.sidebar-left .plusIcon{
-    border-radius: 25px;
-    color: var(--white);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 40px;
-    width: auto;
-    padding: 2px;
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    margin-bottom: 10px;
+.sidebar-left div:first-child {
+    flex-grow: 1;
+    overflow-y: scroll;
+    scrollbar-width: 0px;
+    position: relative;
+    overflow: visible;
+}
+
+.sidebar-left div:first-child .current {
+    outline: var(--white) solid 4px;
+}
+
+.sidebar-left div:first-child a div {
+    margin-bottom: 8px;
+}
+
+.sidebar-left div:first-child::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-left > .iconWrapper:not(:last-child) {
+    margin-bottom: 8px;
 }

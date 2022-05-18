@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 
 // Start Server
-import express from "express";
+import express, { application } from "express";
 import db from './app/models/index.js';
 import cors from 'cors';
 import http from 'http';
@@ -14,7 +14,10 @@ import configureRoutes from './app/routes/index.js';
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    allowedHeaders: "*"
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -31,10 +34,10 @@ server.listen(PORT, () => {
 // Set up Socket.io
 const io = new IO.Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
         methods: ["GET", "POST"],
         allowedHeaders: ["x-access-token", "zone-id"],
-        credentials: true,
+        credentials: true
     }
 });
 configureSocketMiddleware(io);

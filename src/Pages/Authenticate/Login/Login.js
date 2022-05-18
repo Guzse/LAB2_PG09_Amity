@@ -19,7 +19,8 @@ export const Login = (props) => {
     });
 
     const routeToApp = async () => {
-        const user = await (await authService.Verify()).json();
+        const result = await authService.Verify();
+        const user = await result.json();
         navigate(`/app/${user.lastZone}`);
     }
 
