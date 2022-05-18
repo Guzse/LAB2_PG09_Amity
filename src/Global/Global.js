@@ -12,3 +12,5 @@ export const promiseConnectionError = (error = undefined) => {
     });
     return deferred.promise();
 }
+
+export const EVENT_SAFEZONE_UPDATE = "safezone:update";

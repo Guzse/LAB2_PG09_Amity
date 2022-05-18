@@ -9,26 +9,35 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
-import { on, off } from '../../../Global/Events';
+import { on, off, trigger } from '../../../Global/Events';
 import DialogContent from '@mui/material/DialogContent';
 import SafezoneService from '../../../api/SafezoneService';
+import { EVENT_SAFEZONE_UPDATE } from '../../../Global/Global';
 
 export const SidebarMain = (props = {
     onClickSettings: () => { },
     onClickUser: () => { }
 }) => {
     const [zone, setZone] = useState({});
-    const updateZone = event => {
-        setZone(event.detail);
-    };
+
+
+     const event_updateZone = (event) => {
+        console.log({zone: event})
+        setZone(prev => { 
+            return {
+                ...prev,
+                ...event.detail
+            }
+        });
+    }
 
     useEffect(() => {
-        on("ActiveSafeZone:Update", updateZone);
+        on(EVENT_SAFEZONE_UPDATE, event_updateZone);
 
         return () => {
-            off("ActiveSafeZone:Update", updateZone);
+            off(EVENT_SAFEZONE_UPDATE, event_updateZone);
         };
-    }, [updateZone]);
+    }, []);
 
     return (
         <>
@@ -61,24 +70,16 @@ const MeetingPlanner = (props = {zone: {}, date: undefined, setZone: () => undef
         setOpenMeet(false);
     };
 
-    const [date, setDate] = useState();
-
-    useEffect(()=>{
-        console.log(date);
-
-    },[date]);
-
-    function parseDate(date) {
-        
-        date = date.toLocaleDateString("eng", {
+    function parseDate() {
+        if (!props.date) return '';
+        console.log(typeof props.date);
+        return (new Date(props.date)).toLocaleDateString("nl", {
             weekday: 'long', // long, short, narrow
             month: 'long', // numeric, 2-digit, long, short, narrow
             day: 'numeric', // numeric, 2-digit
             hour: 'numeric', // numeric, 2-digit
             minute: 'numeric', // numeric, 2-digit
         });
-
-        return date;
     }
 
 
@@ -90,9 +91,9 @@ const MeetingPlanner = (props = {zone: {}, date: undefined, setZone: () => undef
                 <IconWrapper width="20px" onClick={handleClickOpenMeet}>
                 <HiOutlinePencilAlt />
             </IconWrapper>
-                <p className='meetingTime'>{date && parseDate(date)}</p>
+                <p className='meetingTime'>{parseDate()}</p>
         </div>
-            <CreateMeetingDialog zoneId={props.zone._id} open={open} onClose={handleCloseMeet} onChange={e => setDate(new Date(e.target.value))} />
+            <CreateMeetingDialog zoneId={props.zone._id} open={open} onClose={handleCloseMeet} />
     </>
     )
 }
@@ -108,10 +109,9 @@ function CreateMeetingDialog(props = { open: false, onClose: () => undefined, zo
             .CreateMeeting(props.zoneId, date);
         const newDate = await response.json();
         console.log({date: newDate});
+        trigger(EVENT_SAFEZONE_UPDATE,{meetingDate: newDate.meetingDate});
         return newDate;
     }
-
-
 
     return (
     <Dialog onClose={props.onClose} open={props.open}>

@@ -5,6 +5,7 @@ import { VideoCall } from "./VideoCall/VideoCall";
 import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
 import { trigger, on, off } from '../../Global/Events';
+import { EVENT_SAFEZONE_UPDATE } from "../../Global/Global";
 
 const safezoneService = new SafezoneService();
 const userService = new UserService();
@@ -36,7 +37,7 @@ function Safezone() {
                 .then(res => { return res.json() })
                 .then(zone => {
                     userService.UpdateLastZone(zone._id);
-                    trigger("ActiveSafeZone:Update", zone);
+                    trigger(EVENT_SAFEZONE_UPDATE, zone);
                     setLastZoneUpdated(true);
                 });
         }
