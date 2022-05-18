@@ -13,6 +13,13 @@ export const promiseConnectionError = (error = undefined) => {
     return deferred.promise();
 }
 
+/**
+ * @returns {String[]} Partitioned path
+ */
+ export const routeSegments = () => {
+    return window.location.pathname.split("?")[0].split("/");
+}
+
 export const SERVER_URI = process.env.REACT_APP_SERVER_URI;
 export const LOCAL_CAMERA_ID = 'CameraId';
 export const LOCAL_MICROPHONE_ID = 'MicrophoneId';

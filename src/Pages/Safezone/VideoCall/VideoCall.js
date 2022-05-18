@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING, EVENT__SOCKET_ZONE_RECONNECT } from '../../../Global/Global';
+import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../../Global/Global';
 import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
 import SimplePeer from 'simple-peer';
@@ -15,7 +15,7 @@ const Peer = SimplePeer;
 export const VideoCall = forwardRef((props, ref) => {
     const triggerJoinMeeting = () => trigger(EVENT__CLICK_JOIN_MEETING);
     const triggerLeaveMeeting = () => trigger(EVENT__CLICK_LEAVE_MEETING);
-    const triggerSocketReconnect = () => trigger(EVENT__SOCKET_ZONE_RECONNECT);
+    // const triggerSocketReconnect = () => trigger(EVENT__SOCKET_ZONE_RECONNECT);
 
     /** @type {[number, function]} */
     const [roomSize, setRoomSize] = useState(0);
@@ -64,7 +64,6 @@ export const VideoCall = forwardRef((props, ref) => {
         console.groupEnd();
         setCamDevices(camDevices);
         setMicDevices(micDevices);
-        console.log('1', socketRef);
     }, [ref]);
 
     const handleCamChange = (e) => {
@@ -84,7 +83,6 @@ export const VideoCall = forwardRef((props, ref) => {
     }
 
     useEffect(async () => {
-        console.log('2', socketRef);
         if (props.active) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
@@ -130,11 +128,11 @@ export const VideoCall = forwardRef((props, ref) => {
                     /** @type {Peer} */
                     const item = peersRef.current.find(p => p.peerID === payload.id);
                     item.peer.signal(payload.signal);
-                    console.log("%creceiving return signal", 'color: lightgreen');
+                    // console.log("%creceiving return signal", 'color: lightgreen');
                 });
                 socketRef.current.on('user left', id => {
                     const peerObj = peersRef.current.find(p => p.peerID === id);
-                    console.log('%cOldPeer%o', 'color: yellow', peerObj);
+                    // console.log('%cOldPeer%o', 'color: yellow', peerObj);
                     if (peerObj) {
                         peerObj.peer.destroy();
                         peerObj.connected = false;
@@ -153,7 +151,7 @@ export const VideoCall = forwardRef((props, ref) => {
             peersRef.current.forEach(peerObj => {
                 peerObj.peer.destroy();
                 peerObj.connected = false;
-                console.log('%cOldPeer%o', 'color: yellow', peerObj);
+                // console.log('%cOldPeer%o', 'color: yellow', peerObj);
             });
             // peersRef.current = [];
             setRoomSize(peersRef.current.filter(p => p.connected).length);
@@ -188,15 +186,16 @@ export const VideoCall = forwardRef((props, ref) => {
     const videoList = peersRef.current.map((peer) => {
         if (peer.connected)
             return <Video key={peer.peerID} peer={peer.peer} />;
+        return <></>;
     });
 
-    console.group("%cRender Function", 'color: crimson');
-    console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
-    console.log(`%cRoom Size:        ${roomSize}`, 'color: orange');
-    console.groupEnd();
-
-    if (peersRef.current.length > 0)
-        console.table(peersRef.current);
+    if (props.active) {
+        console.groupCollapsed("%cRender Function", 'color: crimson');
+        console.log(`%cVideo Elements:   ${videoList.length}`, 'color: orange');
+        console.log(`%cRoom Size:        ${roomSize}`, 'color: orange');
+        if (peersRef.current.length > 0) console.table(peersRef.current);
+        console.groupEnd();
+    }
 
     return (
         <div className='videoCall'>
