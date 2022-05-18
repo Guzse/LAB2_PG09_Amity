@@ -104,12 +104,10 @@ function CreateMeetingDialog(props = { open: false, onClose: () => undefined, zo
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const newDate = new Date(date);
-        console.log(newDate);
         const response = await safezoneService
-            .CreateMeeting(props.zoneId, newDate);
-        const date = await response.json();
-        console.log(date);
+            .CreateMeeting(props.zoneId, date);
+        const newDate = await response.json();
+        console.log({date: newDate});
         return newDate;
     }
 

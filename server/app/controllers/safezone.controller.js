@@ -62,13 +62,17 @@ export const createMeeting = async (req, res) => {
             zoneId: req.body.zoneId,
             date: req.body.date
         }
+
+        if(meeting.date === null) 
+            return res.status(400).send({message: "date cannot be null"});
+        console.log(meeting);
         Safezone.updateOne(
             {_id: meeting.zoneId},
             {meetingDate: meeting.date},
             (err, val) =>{
                 if (err) return res.status(500).send({ message: err });
                 if (val.acknowledged)
-                    res.status(200).send({message: "record updated"});
+                    res.status(200).send({message: "record updated", meetingDate: meeting.date});
                 else res.status(400).send({message: "record not updated"});
              }
             )
