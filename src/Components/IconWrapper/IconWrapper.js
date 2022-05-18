@@ -22,7 +22,7 @@ export const IconWrapper = (props = { width: '40px', primary: false, secondary: 
     
     let clickable = '';
     if (props.onClick) clickable = 'clickable';
-    console.log(`%ctype: ${type}`, "color: pink");
+    // console.log(`%ctype: ${type}`, "color: pink");
     return (
         <div style={{width: props.width, height: props.width}} className={`iconWrapper ${type || ''} ${clickable || ''} ${props.className || ''}`} {...sanitizeProps()}>
             {props.children}
