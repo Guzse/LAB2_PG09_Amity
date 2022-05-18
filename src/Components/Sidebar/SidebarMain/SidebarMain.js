@@ -61,27 +61,15 @@ const MeetingPlanner = (props = {zone: {}, date: undefined, setZone: () => undef
         setOpenMeet(false);
     };
 
-    const safezoneService = new SafezoneService();
+    const [date, setDate] = useState();
 
-    const [state, setState] = useState({
-        date: '',
-        time: ''
-    });
+    useEffect(()=>{
+        console.log(date);
 
-        function handleChange(e) {
-        const key = e.target.name;
-        const value = e.target.value;
-
-        console.log(key,value);
-
-        setState(prev => ({
-            ...prev,
-            [key]: value
-        }));
-    }
+    },[date]);
 
     function parseDate(date) {
-        console.log(date);
+        
         date = date.toLocaleDateString("eng", {
             weekday: 'long', // long, short, narrow
             month: 'long', // numeric, 2-digit, long, short, narrow
@@ -93,26 +81,7 @@ const MeetingPlanner = (props = {zone: {}, date: undefined, setZone: () => undef
         return date;
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        const newDate = new Date(state.date + " " + state.time);
-        safezoneService
-            .CreateMeeting(props.zone._id, newDate)
-            .then(res => {
-                res.json()
-                    .then(data => {
-                        if (data.message = "record updated") {
-                            safezoneService.getMeeting(props.zone._id)
-                                .then(newDate => {
-                                    props.setZone({
-                                        ...props.zone,
-                                        meetingDate: new Date(newDate)
-                                    });
-                                });
-                        }
-                    });
-            });
-    }
+
 
     return (
     <>
@@ -121,31 +90,44 @@ const MeetingPlanner = (props = {zone: {}, date: undefined, setZone: () => undef
                 <IconWrapper width="20px" onClick={handleClickOpenMeet}>
                 <HiOutlinePencilAlt />
             </IconWrapper>
-                <p className='meetingTime'>{ }</p>
+                <p className='meetingTime'>{date && parseDate(date)}</p>
         </div>
-            <CreateMeetingDialog open={open} onClose={handleCloseMeet} onChange={handleChange} onSubmit={handleSubmit} />
+            <CreateMeetingDialog zoneId={props.zone._id} open={open} onClose={handleCloseMeet} onChange={e => setDate(new Date(e.target.value))} />
     </>
     )
 }
 
-function CreateMeetingDialog(props = { open: false, onClose: () => undefined, onChange: () => undefined, onSubmit: () => undefined }){
+function CreateMeetingDialog(props = { open: false, onClose: () => undefined, zoneId: "" }){
+    const [date, setDate] = useState();
+
+    const safezoneService = new SafezoneService();
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const newDate = new Date(date);
+        console.log(newDate);
+        const response = await safezoneService
+            .CreateMeeting(props.zoneId, newDate);
+        const date = await response.json();
+        console.log(date);
+        return newDate;
+    }
+
+
+
     return (
     <Dialog onClose={props.onClose} open={props.open}>
         <DialogTitle>Create meeting</DialogTitle>
         <DialogContent>
-            <form className="createMeeting" onSubmit={props.onSubmit}>
+                <form className="createMeeting" onSubmit={handleSubmit}>
                 <hr />
                 <div className="Date-container">
                     <label htmlFor="date">Date:</label>
-                    <input type="date" name="date" onChange={props.onChange} required />
-                </div>
-                <div className="time-container">
-                    <label htmlFor="time">time:</label>
-                    <input type="time" onChange={props.onChange} id="descriptionSafezone" name="time" />
+                        <input type="datetime-local" name="date" onChange={e => setDate(new Date(e.target.value))} required />
                 </div>
 
                 <div className="button-container">
-                    <button onClick={props.onClose}className="primary-stroke " >Remove</button>
+                    <button onClick={props.onClose} className="primary-stroke " >Remove</button>
                     <button onClick={props.onClose} className="primary-stroke " >Cancel</button>
                     <button onClick={props.onClose} type="submit" className="primary-stroke register create" >Accept</button>
                 </div>
