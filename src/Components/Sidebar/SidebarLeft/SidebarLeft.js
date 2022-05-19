@@ -8,7 +8,7 @@ import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
 import IconWrapper from '../../IconWrapper/IconWrapper';
 import UserService from '../../../api/UserService';
-import { routeSegments } from '../../../Global';
+import { segmentPathName } from '../../../Global';
 
 
 
@@ -38,7 +38,7 @@ export const SidebarLeft = () => {
     }
 
     useEffect(() => {
-        const parts = routeSegments();
+        const parts = segmentPathName();
         const elements = zoneList.map(zone => {
             return <a href={ `/app/${zone._id}`} key={zone._id} title={zone.zoneName}>
                 <IconWrapper primary className={ parts.find(val => val === zone._id) ? "current" : ""}>

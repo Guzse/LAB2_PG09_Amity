@@ -1,4 +1,4 @@
-import { promiseConnectionError, SERVER_URI } from '../Global';
+import { checkValidResponse, getConnectionError, SERVER_URI } from '../Global';
 export default class AuthService {
     async SignIn(username, password) {
         try {
@@ -14,7 +14,7 @@ export default class AuthService {
                 })
             });
         } catch (err) {
-            return promiseConnectionError();
+            return getConnectionError(err);
         }
     }
     async SignUp(username, password, email) {
@@ -32,12 +32,12 @@ export default class AuthService {
                 })
             });
         } catch (err) {
-            return promiseConnectionError();
+            return getConnectionError(err);
         }
     }
     async Verify() {
         try {
-            return await fetch(SERVER_URI + `/api/auth/verify/`, {
+            const response = await fetch(SERVER_URI + `/api/auth/verify/`, {
                 method: 'GET',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"),
@@ -45,8 +45,9 @@ export default class AuthService {
                     'Access-Control-Allow-Origin': '*'
                 }
             });
+            return await checkValidResponse(response);
         } catch (err) {
-            return promiseConnectionError();
+            return getConnectionError(err);
         }
     }
 }

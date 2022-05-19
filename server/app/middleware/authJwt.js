@@ -14,7 +14,7 @@ const verifyToken = (req, res, next) => {
     }
     jwt.verify(token, SECRET, (err, decoded) => {
         if (err) {
-            return res.status(401).send({ message: "Unauthorized!" });
+            return res.status(401).send({ message: "Access token denied" });
         }
         req.userId = decoded.id;
         next();
