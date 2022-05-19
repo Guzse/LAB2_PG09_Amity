@@ -157,6 +157,7 @@ export const DebugJoinSafezone = () => {
                     <input type='text' placeholder='zoneId' onChange={handleChange} value={zoneId}></input>
                 </DialogContent>
                 <DialogActions>
+                    <button onClick={() => setOpen(false)}>Cancel</button>
                     <button onClick={handleJoin}>Join</button>
                 </DialogActions>
             </Dialog>
