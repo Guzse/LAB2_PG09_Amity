@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { on, off, trigger } from '../../../Global/Events';
 import DialogContent from '@mui/material/DialogContent';
 import SafezoneService from '../../../api/SafezoneService';
-import { EVENT_SAFEZONE_UPDATE } from '../../../Global/Global';
+import { EVENT_SAFEZONE_UPDATE } from '../../../Global';
 
 export const SidebarMain = (props = {
     onClickSettings: () => { },

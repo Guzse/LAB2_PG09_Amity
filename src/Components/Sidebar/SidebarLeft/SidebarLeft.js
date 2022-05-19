@@ -8,7 +8,7 @@ import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
 import IconWrapper from '../../IconWrapper/IconWrapper';
 import UserService from '../../../api/UserService';
-import { routeSegments } from '../../../Global/Global';
+import { routeSegments } from '../../../Global';
 
 
 
@@ -27,6 +27,7 @@ export const SidebarLeft = () => {
     const fetchZones = async () => {
         const response = await userService.GetUserSafezones();
         const userZones = await response.json() || [];
+        console.log({userZones})
         let zones = [];
         for (const userZone of userZones) {
             const res = await safezoneService.GetSafezone(userZone.zoneId);

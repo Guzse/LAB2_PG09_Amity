@@ -5,7 +5,6 @@ export const IconWrapper = (props = { width: '40px', primary: false, secondary: 
     const [type, setType] = useState("");
 
     useEffect(() => {
-        console.log({props});
         if (props.primary) setType('primary');
         if (props.secondary) setType('secondary');
         if (props.background) setType('background');

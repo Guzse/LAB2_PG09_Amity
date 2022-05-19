@@ -6,8 +6,7 @@ import { VideoCall } from "./VideoCall/VideoCall";
 import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
 import { trigger, on, off } from '../../Global/Events';
-import { EVENT_SAFEZONE_UPDATE } from "../../Global/Global";
-import { SERVER_URI } from "../../Global/Global";
+import { EVENT_SAFEZONE_UPDATE, SERVER_URI } from "../../Global";
 
 const safezoneService = new SafezoneService();
 const userService = new UserService();

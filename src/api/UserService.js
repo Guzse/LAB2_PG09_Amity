@@ -1,4 +1,4 @@
-import { promiseConnectionError, SERVER_URI } from '../Global/Global';
+import { promiseConnectionError, SERVER_URI } from '../Global';
 
 export default class UserService {
     async UpdateLastZone(zoneId) {
