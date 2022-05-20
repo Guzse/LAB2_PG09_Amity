@@ -9,7 +9,7 @@ import { Dialog, DialogActions, DialogContent } from "@mui/material";
 import IconWrapper from '../../IconWrapper/IconWrapper';
 import UserService from '../../../api/UserService';
 import { segmentPathName } from '../../../Global';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 

@@ -22,8 +22,7 @@ function Safezone() {
     const username = window.localStorage.getItem(LOCAL_USERNAME);
 
     const [meetingActive, setMeetingActive] = useState(false);
-    const [lastZoneUpdated, setLastZoneUpdated] = useState(false);
-    
+        
     /** @type {current: Socket} */
     const socketRef = useRef();
 
@@ -45,14 +44,7 @@ function Safezone() {
             off(EVENT_JOIN_MEETING, joinMeeting);
             off(EVENT_LEAVE_MEETING, leaveMeeting);
         } 
-    }, [zoneId, username, meetingActive]);
-
-    useEffect(() => {
-        setLastZoneUpdated(prev => {
-            prev = false;
-            updateLastZone();
-        });
-    }, [location, zoneId])
+    }, [zoneId, username, meetingActive, location]);
 
     const joinMeeting = () => {
         setMeetingActive(true);
@@ -63,14 +55,11 @@ function Safezone() {
     }
 
     const updateLastZone = async () => {
-        if (!lastZoneUpdated) {
             const res = await safezoneService.GetSafezone(zoneId);
             const zone = await res.json();
             
             userService.UpdateLastZone(zone._id);
             trigger(EVENT_SAFEZONE_UPDATE, zone);
-            setLastZoneUpdated(true);
-        }
     }
 
     return (
