@@ -19,7 +19,7 @@ export const SidebarLeft = () => {
     
     const safezoneService = new SafezoneService();
     const userService = new UserService();
-
+    
     useEffect(() => {
         fetchZones();
     }, []);
@@ -88,6 +88,7 @@ export const SidebarLeft = () => {
 
     return (
         <div className='sidebar-left'>
+            <span/>
             <div className="serverlist">
                 { zoneIcons }
             </div>
