@@ -1,14 +1,10 @@
-import { Container } from '@mui/material'
-import React from 'react'
-import Navigation from '../../Components/Navigation/Navigation'
+import { Container } from '@mui/material';
+import React from 'react';
 
 export const NotFound = () => {
     return (
-        <>
-            <Navigation logo />
-            <Container>
-                <h1>404 Not Found</h1>
-            </Container>
-        </>
+        <Container>
+            <h1>404 Not Found</h1>
+        </Container>
     )
 }

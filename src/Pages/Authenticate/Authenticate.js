@@ -1,7 +1,6 @@
 import React from "react";
 import "./Authenticate.css";
 import Container from "@mui/material/Container";
-import Navigation from "../../Components/Navigation/Navigation";
 import logo from '../../assets/images/SVG/Logo_A.svg';
 import { Login } from "./Login/Login";
 import { Register } from "./Register/Register";
@@ -16,7 +15,7 @@ export const Authenticate = (props) => {
     let toggleInstance = () => {
         nav(`/${toggle}`, { replace: true });
     }
-    
+
     const showNewUserMessage = () => {
         let isNewUser = !!new URLSearchParams(window.location.search).get('newuser');
         if (isNewUser)
@@ -24,21 +23,18 @@ export const Authenticate = (props) => {
     }
 
     return (
-        <>
-            <Navigation logo />
-            <Container className='authenticate' fixed>
+        <Container className='authenticate' fixed>
+            <div>
+                <img alt="Logo" src={logo} width="400px" height='500px' />
                 <div>
-                    <img alt="Logo" src={logo} width="400px" height='500px' />
-                    <div>
-                        { showNewUserMessage() }
-                        <h1>{title}</h1>
-                        <hr />
-                        {component}
-                        <button onClick={toggleInstance} className='primary-stroke'>{toggle}</button>
-                    </div>
+                    {showNewUserMessage()}
+                    <h1>{title}</h1>
+                    <hr />
+                    {component}
+                    <button onClick={toggleInstance} className='primary-stroke'>{toggle}</button>
                 </div>
-            </Container>
-        </>
+            </div>
+        </Container>
     );
 }
 

@@ -1,6 +1,9 @@
 import ErrorMessage from './ErrorMessage';
 
 export const SERVER_URI = process.env.REACT_APP_SERVER_URI;
+export const LOCAL_ACCESS_TOKEN = 'AccessToken';
+export const LOCAL_USERNAME = 'Username';
+export const LOCAL_EMAIL = 'Email';
 export const LOCAL_CAMERA_ID = 'CameraId';
 export const LOCAL_MICROPHONE_ID = 'MicrophoneId';
 export const LOCAL_SIDEBAR_VISIBLE = 'SidebarVisible'
@@ -23,15 +26,22 @@ export const getConnectionError = (error = undefined) => {
 /**
  * Handles common errors with responses from the server, and returns the response if everything is fine.
  * @param {Response} response 
+ * @param {import('react-router-dom').NavigateFunction} reactNavigate
  * @returns Valid response object
  */
-export const checkValidResponse = async (response) => {
+export const checkValidResponse = async (response, reactNavigate = undefined) => {
+    // console.group();
+    // console.log(response);
+    // const json = await response.json();
+    // console.log(response);
+    // console.groupEnd();
     if (response.status === 401) {
-        const res = await response.json();
-        console.log(`badToken: ${res.message === ACCESS_TOKEN_DENIED}`)
-        if (res.message === ACCESS_TOKEN_DENIED)
-            window.location.href = '/login';
+        window.localStorage.removeItem(LOCAL_ACCESS_TOKEN);
+        if (reactNavigate)
+            reactNavigate('login');
+        else window.location.href = '/login';
     }
+    //response.json = () => json;
     return response;
 }
 
@@ -39,7 +49,7 @@ export const checkValidResponse = async (response) => {
  * @returns {String[]} Partitioned path
  */
 export const segmentPathName = () => {
-    return window.location.pathname.split("?")[0].split("/");
+    return window.location.pathname.split("?")[0].split("/").slice(1);
 }
 
 /**
