@@ -1,0 +1,16 @@
+.smartIcon {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background-color: var(--gray4);
+    border-radius: 50%;
+    display: flex;
+    
+}
+
+.smartIcon img {
+    width: 100%;
+    flex-grow: 1;
+    justify-self: center;
+    align-self: center;
+}

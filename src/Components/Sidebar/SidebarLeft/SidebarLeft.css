@@ -41,3 +41,7 @@
 .sidebar-left .iconWrapper:not(:last-child) {
     margin-bottom: 8px;
 }
+
+.sidebar-left .smartIcon {
+    margin-bottom: 8px;
+}

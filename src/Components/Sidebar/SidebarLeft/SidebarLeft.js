@@ -10,6 +10,7 @@ import IconWrapper from '../../IconWrapper/IconWrapper';
 import UserService from '../../../api/UserService';
 import { segmentPathName } from '../../../Global';
 import { Link, useNavigate } from 'react-router-dom';
+import { SmartIcon } from '../../SmartIcon/SmartIcon';
 
 
 
@@ -43,9 +44,7 @@ export const SidebarLeft = () => {
         const parts = segmentPathName();
         const elements = zoneList.map(zone => {
             return <Link to={ `/app/${zone._id}`} key={zone._id} title={zone.zoneName}>
-                <IconWrapper primary className={ parts.find(val => val === zone._id) ? "current" : ""}>
-                    <HiUserGroup />
-                </IconWrapper>
+                <SmartIcon src={''} title={zone.zoneName} />
             </Link>
         });
         setZoneIcons(prev => {
