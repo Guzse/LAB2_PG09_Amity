@@ -80,16 +80,13 @@ export default class SafezoneService {
         }
     }
 
-    async sendMessage(zoneId, content, userName, thisDate) {
+    async sendMessage(zoneId, content) {
+        console.log(content);
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone`, {
-                method: 'PUT',
-                headers: {
-                    'x-access-token': window.localStorage.getItem("accessToken"), // get accessToken from storage to verify that the user is logged in
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({ zoneId, content, userName, thisDate })
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/message`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify({ zoneId, content, dateSend:Date.now() })
             });
         } catch (err) {
             return getConnectionError();
