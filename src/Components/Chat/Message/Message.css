@@ -11,16 +11,18 @@
 
 .message > div {
     display: flex;
+    align-items: center;
 }
 
-.message p {
+.message div.text {
     margin: 0px;
+    min-height: 24px;
     margin-right: 30px;
     margin-left: 10px;
-    padding: 10px 15px;
+    padding: 8px 16px;
     background-color: var(--gray1);
     max-width: 500px;
-    border-radius: 20px;
+    border-radius: 22px;
 }
 
 .message label {
@@ -41,7 +43,7 @@
     padding-right: 75px;
 }
 
-.message.owned p {
+.message.owned div.text {
     margin-right: 10px;
     margin-left: 30px;
     color: var(--white);

@@ -16,7 +16,7 @@ function Message(props) {
             <label>{props.user.username}</label>
             <div>
                 <SmartIcon src={''} title={props.user.username} />
-                <p>{props.message}</p>
+                <div className="text">{props.message}</div>
             </div>
         </li>
     );

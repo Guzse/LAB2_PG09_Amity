@@ -5,8 +5,19 @@
 }
 
 .chat > ul {
-    padding: 0px 10px;
+    padding: 0px 16px;
     margin: 0px;
     flex-grow: 1;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.chat form {
+    height: 71px;
+    margin-top: 20px;
+    padding: 0px 16px;
+    display: flex;
+    align-items: center;
+    border-top: 2px solid var(--gray2);
 }
