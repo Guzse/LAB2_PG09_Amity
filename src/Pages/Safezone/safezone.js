@@ -67,7 +67,7 @@ function Safezone() {
     return (
         <div className="safezone">
             <VideoCall ref={socketRef} zoneId={zoneId} active={zoneId && meetingActive} />
-            <Chat className="chat" />
+            <Chat zoneId={zoneId} className="chat" />
         </div>
     );
 }
