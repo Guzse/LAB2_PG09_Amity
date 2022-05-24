@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "./Chat.css";
 import { HiOutlineUser } from "react-icons/hi";
 import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
+import { User } from "../../Interfaces/User.interface";
 
 function Chat() {
 
     const safezoneService = new SafezoneService();
     const [messageElements, setMessageElements] = useState([]);
+    const [messageList, setMessageList] = React.useState([]);
+
+  
+    const [messages, setMessages] = useState([]);
+
     const [state, setState] = useState({
         content: '',
 
@@ -27,7 +33,7 @@ function Chat() {
         const messages = await loadMessages();
         const user = {username: "jipla"}; 
         const elements = messages.map(msg =>{
-            return <Message user={user} msg={msg.content} ></Message>;
+            return <Message user={user} message={msg.content} ></Message>;
         });
         console.log(elements);
 
@@ -57,19 +63,13 @@ function Chat() {
     }
 
     return (
-        <div className="chat-container">
-            <div className="chatObject chatArea" >
-            {messageElements}
-                
-            </div>
-            <hr />
-            <div className="chatObject">
-                <form onSubmit={handleSubmit}>
-                    <input className="typeMessage" type="text" placeholder="Message" onChange={handelChange} />
-                </form>
-            </div>
-
-            
+        <div className="chat">
+            <ul>
+                    {messageElements}
+            </ul>
+            <form onSubmit={handleSubmit}>
+                <input className="typeMessage" type="text" placeholder="Message" onChange={handelChange} />
+            </form>
         </div>
     );
 }
