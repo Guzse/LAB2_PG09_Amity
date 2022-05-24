@@ -32,7 +32,6 @@ export const UserList = (props = {zoneId: ''}) => {
 }
 
 const LiUser = (props = {user: {username: '', email: '', userId: '', roles: []}}) => {
-    console.log(props.user.roles)
     return (
         <li>
             <SmartIcon src={''} title={ props.user.username } />

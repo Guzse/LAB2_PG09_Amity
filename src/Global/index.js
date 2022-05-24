@@ -54,3 +54,13 @@ export const segmentPathName = () => {
  * @returns Boolean
  */
 export const screenWidthSmall = () => window.screen.width <= 420;
+
+export const compareSort = (a, b) => {
+    if (a.lname.toLowerCase() < b.lname.toLowerCase()) {
+        return -1;
+    }
+    if (a.lname.toLowerCase() > b.lname.toLowerCase()) {
+        return 1;
+    }
+    return 0;
+}

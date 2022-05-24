@@ -1,6 +1,5 @@
 import db from "../models/index.js";
-import { verifyJwtToken } from '../global/Global.js';
-import { ErrorMessage } from '../global/ErrorMessage.js';
+import { compareSort, verifyJwtToken } from '../global/Global.js';
 
 
 export const sendMessage = async (req, res) => {
@@ -31,6 +30,8 @@ export const getSafezoneMessages = (req, res) => {
                 res.status(500).send({ message: err });
                 return;
             }
+            console.log(messages[0].dateSend);
+            messages = messages.sort((a, b) => compareSort(a.dateSend, b.dateSend, true));
             res.status(200).send(messages);
         });
 }
