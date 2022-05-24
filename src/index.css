@@ -26,8 +26,6 @@
     --gradient-pink-mirrored: linear-gradient(270deg, rgba(198,36,141,1), rgba(214,120,176,1) 100%);
     --primary-transparent-mirrored: rgba(15, 147, 241, 0.2);
     --secondary-transparent: rgba(247, 11, 164, 0.2);
-    --sidebar-width: 300px;
-
 
     color: var(--body);
 }
@@ -50,8 +48,8 @@ html, body {
 }
 
 #root {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 #outlet {

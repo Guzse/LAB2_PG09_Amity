@@ -8,16 +8,20 @@ import About from "./About/About";
 import Contact from "./Contact/Contact";
 import { NotFound } from "./NotFound/NotFound";
 import Sidebar from "../Components/Sidebar/Sidebar";
+import Navigation from "../Components/Navigation/Navigation";
+
 function App() {
     return (
         <Router>
             <Routes>
-                <Route index element={<Landing />} />
-                <Route path="login" element={<Authenticate />} />
-                <Route path="register" element={<Authenticate register />} />
-                <Route path="about" element={<About />} />
-                <Route path="contact" element={<Contact />} />
-                <Route path="app" element={<Sidebar/>}>
+                <Route path="" element={<Navigation/>} >
+                    <Route index element={<Landing />} />
+                    <Route path="login" element={<Authenticate />} />
+                    <Route path="register" element={<Authenticate register />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="contact" element={<Contact />} />
+                </Route>
+                <Route path="app" element={<Sidebar />}>
                     <Route path=":safezoneId" element={<Safezone />} />
                 </Route>
 

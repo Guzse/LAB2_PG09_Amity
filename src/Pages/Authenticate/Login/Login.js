@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from "../../../api/AuthService";
 import { LabelInput } from '../../../Components/LabelInput/LabelInput';
+import { LOCAL_ACCESS_TOKEN, LOCAL_EMAIL, LOCAL_USERNAME } from '../../../Global';
 
 export const Login = (props) => {
     const [state, setState] = useState({
@@ -13,7 +14,7 @@ export const Login = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const accessToken = window.localStorage.getItem("accessToken");
+        const accessToken = window.localStorage.getItem(LOCAL_ACCESS_TOKEN);
         if (!accessToken) return;
         routeToApp();
     });
@@ -41,9 +42,9 @@ export const Login = (props) => {
                 if (res.status !== 200) 
                     return console.error(res);
                 res.json().then(res => {
-                    window.localStorage.setItem('accessToken', res.accessToken);
-                    window.localStorage.setItem('username', res.username);
-                    window.localStorage.setItem('email', res.email);
+                    window.localStorage.setItem(LOCAL_ACCESS_TOKEN, res.accessToken);
+                    window.localStorage.setItem(LOCAL_USERNAME, res.username);
+                    window.localStorage.setItem(LOCAL_EMAIL, res.email);
                     routeToApp();
                 });
             });
