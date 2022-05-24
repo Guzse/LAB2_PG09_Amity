@@ -8,15 +8,8 @@ function Chat(props = {zoneId: ""}) {
 
     const safezoneService = new SafezoneService();
     const [messageElements, setMessageElements] = useState([]);
-<<<<<<< HEAD
-
-    const [state, setState] = useState({
-        content: '',
-    });
-=======
     const [message, setMessage] = useState("");
     
->>>>>>> origin/dev
 
     async function  loadMessages(){
         // debugger;
