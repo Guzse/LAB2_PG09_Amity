@@ -1,0 +1,47 @@
+.message{
+    display: flex;
+    flex-direction: column; 
+}
+
+.sendMessage{
+/* flex-direction: row; */
+background-color: blue;
+margin: 5px;
+
+
+}
+
+.recievedMessage{
+    background-color: red;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+
+
+}
+
+.userNameChat{
+
+}
+
+.iconAndMsg{ 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: -15px;
+}
+
+.UserIcon{
+    height: 35px;
+    width: 35px;
+    background-color: aquamarine;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.messageContent{
+    background-color: #F4F4F4;
+    padding: 10px;
+    border-radius: 20px;
+    width: auto;
+    margin-left: 5px;
+}
