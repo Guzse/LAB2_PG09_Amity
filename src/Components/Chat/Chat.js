@@ -6,58 +6,66 @@ import SafezoneService from "../../api/SafezoneService";
 import { User } from "../../Interfaces/User.interface";
 
 function Chat() {
-    const testMessages = [
-        {
-            content: 'Hallo',
-            user: new User({ username: 'John Doe' }),
-        },
-        {
-            content: 'Hey, hoe gaat het er mee?',
-            user: new User({ username: 'Me' }),
-        },
-        {
-            content: 'Best ok. Ik heb ni veel gedaan gekregen vandaag, maar ik voel mij op zijn minst iets beter. Heb gewoon een uurtje serie zitten zien.',
-            user: new User({ username: 'John Doe' }),
-        },
-        {
-            content: 'Moet ook soms man. Elke dag ne nieuwe stap, zo hoort dat.',
-            user: new User({ username: 'Me' }),
-        },
-    ]
+
     const safezoneService = new SafezoneService();
+    const [messageElements, setMessageElements] = useState([]);
+    const [messageList, setMessageList] = React.useState([]);
+
+  
     const [messages, setMessages] = useState([]);
 
     const [state, setState] = useState({
         content: '',
+
     });
 
-    function handelChange(e) {
-        // const key = e.target.name;
-        // const value = e.target.value;
+    async function  loadMessages(){
+        // debugger;
+        const response = await safezoneService.getMessages("62683ad4ad4f989e30537a24");
+        
+        return await response.json() || [];
 
-        // setState(prev => ({
-        //     ...prev,
-        //     [key]: value
-        // }));
+
+    }
+
+
+    useEffect(async() => {
+        const messages = await loadMessages();
+        const user = {username: "jipla"}; 
+        const elements = messages.map(msg =>{
+            return <Message user={user} message={msg.content} ></Message>;
+        });
+        console.log(elements);
+
+        setMessageElements(elements);
+
+    }, []);
+
+
+    function handelChange(e) {
+        const key = e.target.name;
+        const value = e.target.value;
+
+        setState(prev => ({
+            ...prev,
+            [key]: value
+        }));
     }
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        // safezoneService
-        //     .sendMessage(state.content, state.time)
-        //     .then(res => {
-        //         res.json().then(data => console.log(data));
-        //     });
+        safezoneService
+            .sendMessage(state.content)
+            .then(res => {
+                res.json().then(data => console.log(data));
+            });
     }
-
-    const messageList = testMessages.map(msg => <Message message={msg.content} user={msg.user} />);
-
 
     return (
         <div className="chat">
             <ul>
-                {messageList}
+                    {messageElements}
             </ul>
             <form onSubmit={handleSubmit}>
                 <input className="typeMessage" type="text" placeholder="Message" onChange={handelChange} />
