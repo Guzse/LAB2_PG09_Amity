@@ -16,12 +16,8 @@ export const sendMessage = async (req, res) => {
 
         if (newMessage.content === null)
             return res.status(400).send({ message: "message cannot be empty" });
-        console.log(newMessage);
         const response = await db.message.create( newMessage);
-        if(err){
-            return res.status(400).send({ message: "Something went wrong.", err }); // Whoops!
-        }
-        return res.status(201).send({ message: "Record created successfully", message: message }); // Success!
+        return res.status(201).send({ message: "Record created successfully", message:response}); // Success!
     } catch (err) {
         throw err;
     }

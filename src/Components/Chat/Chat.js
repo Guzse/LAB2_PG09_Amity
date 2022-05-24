@@ -5,19 +5,13 @@ import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
 import { User } from "../../Interfaces/User.interface";
 
-function Chat() {
+
+function Chat(props = {zoneId: ""}) {
 
     const safezoneService = new SafezoneService();
     const [messageElements, setMessageElements] = useState([]);
-    const [messageList, setMessageList] = React.useState([]);
-
-  
-    const [messages, setMessages] = useState([]);
-
-    const [state, setState] = useState({
-        content: '',
-
-    });
+    const [message, setMessage] = useState("");
+    
 
     async function  loadMessages(){
         // debugger;
@@ -43,32 +37,24 @@ function Chat() {
 
 
     function handelChange(e) {
-        const key = e.target.name;
-        const value = e.target.value;
-
-        setState(prev => ({
-            ...prev,
-            [key]: value
-        }));
+        setMessage(e.target.value);
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        const response = await safezoneService.sendMessage(props.zoneId, message);
+        console.log(response);
+        setMessage("");
 
-        safezoneService
-            .sendMessage(state.content)
-            .then(res => {
-                res.json().then(data => console.log(data));
-            });
     }
 
     return (
         <div className="chat">
             <ul>
-                    {messageElements}
+            {messageElements}
             </ul>
             <form onSubmit={handleSubmit}>
-                <input className="typeMessage" type="text" placeholder="Message" onChange={handelChange} />
+                <input className="typeMessage" type="text" placeholder="Message" value={message} onChange={handelChange} />
             </form>
         </div>
     );
