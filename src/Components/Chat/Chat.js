@@ -27,7 +27,6 @@ function Chat() {
         const elements = messages.map(msg =>{
             return <Message user={user} message={msg.content} ></Message>;
         });
-        console.log(elements);
 
         setMessageElements(elements);
 

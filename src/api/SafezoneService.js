@@ -107,4 +107,16 @@ export default class SafezoneService {
             return await getConnectionError(err);
         }
     }
+
+    async getUsersInZone(zoneId) {
+        try {
+            const response = await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezoneUser/zone/${zoneId}`, {
+                method: 'GET',
+                headers: this.headers,
+            });
+            return await checkValidResponse(response, this.reactNavigate);
+        } catch (err) {
+            return await getConnectionError(err);
+        }
+    }
 }

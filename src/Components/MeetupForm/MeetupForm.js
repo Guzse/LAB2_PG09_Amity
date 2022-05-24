@@ -30,10 +30,7 @@ function safezoneForm() {
         e.preventDefault();
 
         safezoneService
-            .CreateSafezone(state.date, state.time)
-            .then(res => {
-                res.json().then(data => console.log(data));
-            });
+            .CreateSafezone(state.date, state.time);
     }
 
 

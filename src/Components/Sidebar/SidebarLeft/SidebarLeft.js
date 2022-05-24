@@ -30,7 +30,6 @@ export const SidebarLeft = () => {
     const fetchZones = async () => {
         const response = await userService.GetUserSafezones();
         const userZones = await response.json() || [];
-        console.log({userZones});
         let zones = [];
         for (const userZone of userZones) {
             const res = await safezoneService.GetSafezone(userZone.zoneId);
@@ -81,10 +80,7 @@ export const SidebarLeft = () => {
         e.preventDefault();
 
         safezoneService
-            .CreateSafezone(state.zoneName, state.description, state.maxMembers)
-            .then(res => {
-                res.json().then(data => console.log(data));
-            });
+            .CreateSafezone(state.zoneName, state.description, state.maxMembers);
     }
 
     return (
@@ -142,7 +138,6 @@ export const DebugJoinSafezone = () => {
         console.log(`%c zoneid ${zoneId}`, "color: green");
         const res = await safezoneService.JoinSafezone(zoneId); 
         setOpen(false);
-        console.log(res);
         alert(res);
     }
 

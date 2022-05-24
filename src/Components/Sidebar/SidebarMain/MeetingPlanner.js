@@ -59,7 +59,6 @@ const MeetingDialog = (props = { open: false, onClose: () => undefined, zoneId: 
         const response = await safezoneService
             .CreateMeeting(props.zoneId, date);
         const newDate = await response.json();
-        console.log({ date: newDate });
         trigger(EVENT_SAFEZONE_UPDATE, { meetingDate: newDate.meetingDate });
         return newDate;
     }

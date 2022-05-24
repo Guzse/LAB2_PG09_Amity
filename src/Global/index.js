@@ -30,11 +30,6 @@ export const getConnectionError = (error = undefined) => {
  * @returns Valid response object
  */
 export const checkValidResponse = async (response, reactNavigate = undefined) => {
-    // console.group();
-    // console.log(response);
-    // const json = await response.json();
-    // console.log(response);
-    // console.groupEnd();
     if (response.status === 401) {
         window.localStorage.removeItem(LOCAL_ACCESS_TOKEN);
         if (reactNavigate)
