@@ -95,4 +95,16 @@ export default class SafezoneService {
             return getConnectionError();
         }
     }
+
+    async getMessages() {
+        try {
+            const response = await fetch(SERVER_URI + `/api/safezone/`, {
+                method: 'GET',
+                headers: this.headers,
+            });
+            return await checkValidResponse(response, this.reactNavigate);
+        } catch (err) {
+            return await getConnectionError(err);
+        }
+    }
 }
