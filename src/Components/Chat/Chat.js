@@ -10,7 +10,6 @@ function Chat() {
 
     const [state, setState] = useState({
         content: '',
-
     });
 
     async function  loadMessages(){
@@ -24,7 +23,7 @@ function Chat() {
     useEffect(async() => {
         const messages = await loadMessages();
         const user = {username: "jipla"}; 
-        const elements = messages.map(msg =>{
+        const elements = messages.map((msg, index) =>{
             return <Message user={user} message={msg.content} ></Message>;
         });
 

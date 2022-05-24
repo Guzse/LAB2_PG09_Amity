@@ -13,6 +13,7 @@ export const EVENT__CLICK_JOIN_MEETING = 'Clicked:JoinMeeting';
 export const EVENT__CLICK_LEAVE_MEETING = 'Clicked:LeaveMeeting';
 export const EVENT__SOCKET_ZONE_RECONNECT = 'Socket:Zone:Reconnect';
 export const EVENT_SAFEZONE_UPDATE = "Safezone:Update";
+export const EVENT_SAFEZONE_USERS_UPDATE = "Safezone:Users:Update";
 
 export const getConnectionError = (error = undefined) => {
     return {

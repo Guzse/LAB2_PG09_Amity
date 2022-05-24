@@ -36,4 +36,16 @@ export default class UserService {
             return await getConnectionError(err);
         }
     }
+
+    async GetUserById(userId) {
+        try {
+            const response = await fetch(SERVER_URI + `/api/user/${userId}`, {
+                method: 'GET',
+                headers: this.headers,
+            });
+            return await checkValidResponse(response, this.reactNavigate);
+        } catch (err) {
+            return await getConnectionError(err);
+        }
+    }
 }

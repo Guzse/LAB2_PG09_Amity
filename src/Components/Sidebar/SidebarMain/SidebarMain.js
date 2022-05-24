@@ -34,7 +34,7 @@ export const SidebarMain = (props = {
     return (
         <>
             <h2>{zone.zoneName}</h2>
-            <UserList />
+            <UserList zoneId={zone._id} />
             <MeetingPlanner setZone={setZone} date={zone.meetingDate} zone={zone} />
             <ProfileSettings onClickSettings={props.onClickSettings} />
         </>

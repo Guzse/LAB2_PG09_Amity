@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 import { verifyJwtToken } from '../global/Global.js';
 import { ErrorMessage } from '../global/ErrorMessage.js';
+import User from "../models/user.model.js";
 
 const SafezoneUser = db.safezoneUser;
 
@@ -45,9 +46,40 @@ export const getUserSafezones = (req, res) => {
         });
 }
 
+export const getZoneMembers = async (req, res) => {
+    const zoneId = req.params.zoneId;
+    
+    SafezoneUser.find({ zoneId: zoneId })
+        .exec(async (err, members) => {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+            
+            const users = [];
+            for (let i = 0; i < members.length; i++) {
+                const member = members[i];
+                const userId = member.userId.toString();
+                const user = await User.findById(userId);
+                users.push(user);
+            }
+
+            res.status(200).send(users.map(user => {
+                return {
+                    userId: user._id,
+                    username: user.username,
+                    email: user.email,
+                    roles: user.roles,
+                }
+            }));
+        });
+
+}
+
 const safezoneUser = {
     joinSafezone,
-    getUserSafezones
+    getUserSafezones,
+    getZoneMembers
 }
 
 export default safezoneUser;
