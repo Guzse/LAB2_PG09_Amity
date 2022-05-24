@@ -3,7 +3,7 @@ import Regex from '../../Global/Regex';
 import DefaultIcon from './DefaultIcons';
 import './SmartIcon.css';
 
-export const SmartIcon = (props = { src: '', title: '' }) => {
+export const SmartIcon = (props = { src: '', title: '', active: false }) => {
     const [picture, setPicture] = useState(props.src);
     const [title, setTitle] = useState(props.title);
 
@@ -11,6 +11,8 @@ export const SmartIcon = (props = { src: '', title: '' }) => {
         setPicture(props.src);
         setTitle(props.title);
     }, [props.src, props.title]);
+
+    const className = 'smartIcon' + (props.active ? ' active ' : ' ') + (props.className ? props.className : '');
 
     useEffect(() => {
         if (props.src === '') {
@@ -23,7 +25,7 @@ export const SmartIcon = (props = { src: '', title: '' }) => {
     })
 
     return (
-        <div className='smartIcon'>
+        <div {...props} className={className} >
             <img alt={title} src={picture}/>
         </div>
     )

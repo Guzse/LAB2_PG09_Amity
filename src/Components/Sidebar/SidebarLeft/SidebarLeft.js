@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './SidebarLeft.css';
-import { HiUserGroup } from "react-icons/hi";
 import { HiOutlinePlusCircle, HiOutlineSupport } from "react-icons/hi";
 import Slider from '@mui/material/Slider';
 import SafezoneService from "../../../api/SafezoneService";
@@ -9,7 +8,7 @@ import { Dialog, DialogActions, DialogContent } from "@mui/material";
 import IconWrapper from '../../IconWrapper/IconWrapper';
 import UserService from '../../../api/UserService';
 import { segmentPathName } from '../../../Global';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { SmartIcon } from '../../SmartIcon/SmartIcon';
 
 
@@ -19,6 +18,7 @@ export const SidebarLeft = () => {
     const [zoneList, setZoneList] = React.useState([]);
     const [zoneIcons, setZoneIcons] = React.useState([]);
 
+    const location = useLocation();
     const navigate = useNavigate();
     const safezoneService = new SafezoneService(navigate);
     const userService = new UserService();
@@ -44,13 +44,13 @@ export const SidebarLeft = () => {
         const parts = segmentPathName();
         const elements = zoneList.map(zone => {
             return <Link to={ `/app/${zone._id}`} key={zone._id} title={zone.zoneName}>
-                <SmartIcon src={''} title={zone.zoneName} />
+                <SmartIcon src={''} title={zone.zoneName} active={!!parts.find(part => part === zone._id)} />
             </Link>
         });
-        setZoneIcons(prev => {
+        setZoneIcons(() => {
             return elements;
         });
-    }, [zoneList]);
+    }, [zoneList, location]);
 
     const handleClickOpen = () => {
         setOpen(true);

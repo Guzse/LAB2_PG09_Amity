@@ -5,7 +5,11 @@
     background-color: var(--gray4);
     border-radius: 50%;
     display: flex;
-    
+    transition: 300ms;
+}
+
+.smartIcon.active {
+    outline: 3px solid var(--white);
 }
 
 .smartIcon img {
