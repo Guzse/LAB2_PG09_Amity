@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./Chat.css";
-import { HiOutlineUser } from "react-icons/hi";
 import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
-import { User } from "../../Interfaces/User.interface";
 
 function Chat() {
 
     const safezoneService = new SafezoneService();
     const [messageElements, setMessageElements] = useState([]);
-    const [messageList, setMessageList] = React.useState([]);
-
-  
-    const [messages, setMessages] = useState([]);
 
     const [state, setState] = useState({
         content: '',
@@ -24,8 +18,6 @@ function Chat() {
         const response = await safezoneService.getMessages("62683ad4ad4f989e30537a24");
         
         return await response.json() || [];
-
-
     }
 
 

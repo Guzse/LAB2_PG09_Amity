@@ -201,7 +201,7 @@ export const VideoCall = forwardRef((props, ref) => {
         if (camDevices.length < 2) {
             return <></>
         } else if (camDevices.length === 2) {
-            return <></>
+            return <button className='error' disabled>switch camera</button>
         } else {
             return <select className='secondary' value={camera.deviceId} onChange={e => handleCamChange(e)}>
                 {
@@ -254,7 +254,7 @@ export const VideoCall = forwardRef((props, ref) => {
                 }
                 <ButtonGroup>
                     <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiVideoCamera /></ButtonToggle>
-                    { /* selectCam() */ }
+                    { selectCam() }
                 </ButtonGroup>
                 <ButtonGroup>
                     <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiMicrophone /></ButtonToggle>

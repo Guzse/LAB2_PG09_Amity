@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Message.css";
-import { HiOutlineUser } from "react-icons/hi";
 import { SmartIcon } from "../../SmartIcon/SmartIcon";
+// eslint-disable-next-line
 import { User } from '../../../Interfaces/User.interface';
 
 /**
@@ -10,7 +10,6 @@ import { User } from '../../../Interfaces/User.interface';
  * @returns {React.FunctionComponent} Styled message component
  */
 function Message(props) {
-    console.log(props);
     return (
         <li className={ props.user.username === 'Me' ? "message owned" : "message"}>
             <label>{props.user.username}</label>
