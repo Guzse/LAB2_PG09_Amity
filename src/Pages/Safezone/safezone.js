@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
+import './Safezone.css';
 import { VideoCall } from "./VideoCall/VideoCall";
 import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
 import { trigger, on, off } from '../../Global/Events';
 import { EVENT_SAFEZONE_UPDATE } from "../../Global/Global";
 import { SERVER_URI } from "../../Global/Global";
+import Chat from "../../Components/Chat/Chat";
 
 const safezoneService = new SafezoneService();
 const userService = new UserService();
@@ -64,9 +66,10 @@ function Safezone() {
     }
 
     return (
-        <>
-            <VideoCall ref={socketRef} zoneId={safezoneId} active={safezoneId && meetingActive} />
-        </>
+            <div className="safezone">
+                <VideoCall className="videocall" ref={socketRef} zoneId={safezoneId} active={safezoneId && meetingActive} />
+                <Chat className="chat" />
+            </div>
     );
 }
 

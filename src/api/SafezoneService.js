@@ -55,7 +55,7 @@ export default class SafezoneService {
 
     async CreateMeeting(zoneId, date) {
         try {
-            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone/meeting`, {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone/meeting/`, {
                 method: 'PUT',
                 headers: {
                     'x-access-token': window.localStorage.getItem("accessToken"), // get accessToken from storage to verify that the user is logged in
@@ -80,6 +80,22 @@ export default class SafezoneService {
             });
         } catch (err) {
             return promiseConnectionError(err);
+        }
+    }
+
+    async sendMessage(zoneId, content, userName, thisDate) {
+        try {
+            return await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezone`, {
+                method: 'PUT',
+                headers: {
+                    'x-access-token': window.localStorage.getItem("accessToken"), // get accessToken from storage to verify that the user is logged in
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({ zoneId, content, userName, thisDate })
+            });
+        } catch (err) {
+            return promiseConnectionError();
         }
     }
 }

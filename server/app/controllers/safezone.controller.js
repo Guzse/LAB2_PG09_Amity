@@ -101,11 +101,10 @@ export const getMeeting = (req, res) => {
             }
         )
     }
-        
      catch (err) {
         throw err;
     }
-
 }
+
 
 export default createSafezone;
