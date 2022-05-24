@@ -1,5 +1,10 @@
+.sidebar-right {
+    display: flex;
+    flex-direction: column;
+}
 .sidebar-right .userList {
     padding: 10px;
+    flex-grow: 1;
 }
 
 .sidebar-right h2 {
@@ -15,10 +20,8 @@
 
 .sidebar-right .meetingPlanner {
     border-top: 1px solid var(--white);
-    width: 240px;
     padding: 10px;
-    position: absolute;
-    bottom: 71px;
+    justify-self: flex-end;
 }
 
 .sidebar-right .meetingPlanner div {
@@ -44,8 +47,6 @@
     padding: 15px;
     display: flex;
     justify-content: space-between;
-    position: absolute;
-    bottom: 0px;
 }
 .sidebar-right .profileSettings .profile {
     display: inline;

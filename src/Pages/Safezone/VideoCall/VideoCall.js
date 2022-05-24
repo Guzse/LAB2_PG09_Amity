@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../../Global/Global';
+import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../../Global';
 import './VideoCall.css';
 import { trigger } from '../../../Global/Events';
 import SimplePeer from 'simple-peer';
@@ -197,6 +197,37 @@ export const VideoCall = forwardRef((props, ref) => {
         console.groupEnd();
     }
 
+    const selectCam = () => {
+        if (camDevices.length < 2) {
+            return <></>
+        } else if (camDevices.length === 2) {
+            return <></>
+        } else {
+            return <select className='secondary' value={camera.deviceId} onChange={e => handleCamChange(e)}>
+                {
+                    camDevices.map((device, index) => {
+                        return <option key={device.deviceId} value={device.deviceId}>
+                            {device.label || `Camera ${index + 1}`}
+                        </option>
+                    })
+                }
+            </select>
+        }
+    }
+
+    const selectMic = () => {
+        if (micDevices.length < 2) return <></>;
+        return <select className='secondary' value={microphone.deviceId} onChange={e => handleMicChange(e)} >
+            {
+                micDevices.map((device, index) => {
+                    return <option key={device.deviceId} value={device.deviceId}>
+                        {device.label || `Microphone ${index + 1}`}
+                    </option>
+                })
+            }
+        </select>;
+    }
+
     return (
         <div className='videoCall'>
             <div className='videoContainer' active={props.active ? 1 : 0}>
@@ -223,27 +254,11 @@ export const VideoCall = forwardRef((props, ref) => {
                 }
                 <ButtonGroup>
                     <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiVideoCamera /></ButtonToggle>
-                    <select className='secondary' value={camera.deviceId} onChange={e => handleCamChange(e)}>
-                        {
-                            camDevices.map((device, index) => {
-                                return <option key={device.deviceId} value={device.deviceId}>
-                                    {device.label || `Camera ${index + 1}`}
-                                </option>
-                            })
-                        }
-                    </select>
+                    { /* selectCam() */ }
                 </ButtonGroup>
                 <ButtonGroup>
                     <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiMicrophone /></ButtonToggle>
-                    <select className='secondary' value={microphone.deviceId} onChange={e => handleMicChange(e)} >
-                        {
-                            micDevices.map((device, index) => {
-                                return <option key={device.deviceId} value={device.deviceId}>
-                                    {device.label || `Microphone ${index + 1}`}
-                                </option>
-                            })
-                        }
-                    </select>
+                    { selectMic() }
                 </ButtonGroup>
             </div>
             {props.active && <video className='cameraView' muted ref={userVideo} autoPlay playsInline />}
