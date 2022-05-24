@@ -58,7 +58,7 @@
         --sidebar-width: calc(100vw - 1em);
     }
 
-    .sidebarContainer::before {
+    .sidebarContainer:not(.closed)::before {
         content: ' ';
         position: fixed;
         transition: 300ms;

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../../Global';
+import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../Global';
 import './VideoCall.css';
-import { trigger } from '../../../Global/Events';
+import { trigger } from '../../Global/Events';
 import SimplePeer from 'simple-peer';
-import { ButtonGroup } from '../../../Components/ButtonGroup/ButtonGroup';
+import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
 import { HiVideoCamera, HiMicrophone } from "react-icons/hi";
-import { ButtonToggle } from '../../../ButtonToggle/ButtonToggle';
+import { ButtonToggle } from '../ButtonToggle/ButtonToggle';
 
 const Peer = SimplePeer;
 

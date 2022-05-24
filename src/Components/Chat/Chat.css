@@ -1,20 +1,12 @@
-chat-container{
-    overflow: hidden;
+.chat {
+    flex-grow: 1;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
-.typeMessage{
- 
+.chat > ul {
+    padding: 0px 10px;
+    margin: 0px;
+    flex-grow: 1;
+    overflow-y: scroll;
 }
-
-.chatObject{
-    padding: 20px 50px;
-    
-}
-
-.chatArea{
-height:520px;
-overflow: auto;
-}
-

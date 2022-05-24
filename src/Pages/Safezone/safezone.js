@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import './safezone.css';
-import { VideoCall } from "./VideoCall/VideoCall";
+import { VideoCall } from "../../Components/VideoCall/VideoCall";
 import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
 import { trigger, on, off } from '../../Global/Events';
@@ -24,7 +24,7 @@ function Safezone() {
     const username = window.localStorage.getItem(LOCAL_USERNAME);
 
     const [meetingActive, setMeetingActive] = useState(false);
-        
+
     /** @type {current: Socket} */
     const socketRef = useRef();
 
@@ -32,7 +32,7 @@ function Safezone() {
         on(EVENT_JOIN_MEETING, joinMeeting);
         on(EVENT_LEAVE_MEETING, leaveMeeting);
         updateLastZone();
-        
+
         socketRef.current = io.connect(SERVER_URI, {
             jsonp: false,
             forceNew: true,
@@ -45,7 +45,7 @@ function Safezone() {
         return () => {
             off(EVENT_JOIN_MEETING, joinMeeting);
             off(EVENT_LEAVE_MEETING, leaveMeeting);
-        } 
+        }
     }, [zoneId, username, meetingActive, location]);
 
     const joinMeeting = () => {
@@ -57,18 +57,18 @@ function Safezone() {
     }
 
     const updateLastZone = async () => {
-            const res = await safezoneService.GetSafezone(zoneId);
-            const zone = await res.json();
-            
-            userService.UpdateLastZone(zone._id);
-            trigger(EVENT_SAFEZONE_UPDATE, zone);
+        const res = await safezoneService.GetSafezone(zoneId);
+        const zone = await res.json();
+
+        userService.UpdateLastZone(zone._id);
+        trigger(EVENT_SAFEZONE_UPDATE, zone);
     }
 
     return (
-            <div className="safezone">
+        <div className="safezone">
             <VideoCall ref={socketRef} zoneId={zoneId} active={zoneId && meetingActive} />
-                <Chat className="chat" />
-            </div>
+            <Chat className="chat" />
+        </div>
     );
 }
 
