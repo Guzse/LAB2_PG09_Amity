@@ -7,49 +7,33 @@ import SafezoneService from "../../api/SafezoneService";
 function Chat() {
 
     const safezoneService = new SafezoneService();
-    const [messageList, setMessageList] = React.useState([]);
-
-    // useEffect(() => {
-    //     loadMessages();
-    // }, []);
-
-    // useEffect(() => {
-    //     // const parts = segmentPathName();
-    //     const elements = messageList.map(message => {
-    //         return <div className="msg-container recievedMessage">
-    //             <div className="message">
-    //                 <span className="userNameChat">{message.userId}</span>
-    //                 <div className="iconAndMsg">
-    //                     <HiOutlineUser className="UserIcon" />
-    //                     <p className="messageContent" >message.content</p>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     });
-    //     setZoneIcons(() => {
-    //         return elements;
-    //     });
-    // }, [messageList]);
-
-
-
-
-    // const loadMessages = async () => {
-    //     const response = await safezoneService.getMessages();
-    //     const chatMessages = await response.json() || [];
-    //     console.log({ chatMessages });
-    //     let messageLi = [];
-    //     for (const chatMessage of chatMessages) {
-    //         const res = await safezoneService.getMessages(chatMessage.content);
-    //         const content = await res.json();
-    //         messageLi.push(content);
-    //     };
-    //     setMessageList(messageLi);
-    // }
-
+    const [messageElements, setMessageElements] = useState([]);
     const [state, setState] = useState({
         content: '',
+
     });
+
+    async function  loadMessages(){
+        // debugger;
+        const response = await safezoneService.getMessages("62683ad4ad4f989e30537a24");
+        
+        return await response.json() || [];
+
+
+    }
+
+
+    useEffect(async() => {
+        const messages = await loadMessages();
+        const user = {username: "jipla"}; 
+        const elements = messages.map(msg =>{
+            return <Message user={user} msg={msg.content} ></Message>;
+        });
+        console.log(elements);
+
+        setMessageElements(elements);
+
+    }, []);
 
 
     function handelChange(e) {
@@ -75,7 +59,7 @@ function Chat() {
     return (
         <div className="chat-container">
             <div className="chatObject chatArea" >
-            {/* {messages} */}
+            {messageElements}
                 
             </div>
             <hr />
