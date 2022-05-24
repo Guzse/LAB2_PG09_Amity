@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import "./SidebarMain.css";
 import { HiOutlineUser } from "react-icons/hi";
 import { HiOutlineCog } from "react-icons/hi";
 import IconWrapper from '../../IconWrapper/IconWrapper';

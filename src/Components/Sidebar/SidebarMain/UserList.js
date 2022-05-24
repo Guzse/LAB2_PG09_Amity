@@ -1,5 +1,4 @@
 import React from 'react';
-import "./SidebarMain.css";
 import { LabelInput } from '../../LabelInput/LabelInput';
 
 export const UserList = () => {
@@ -7,7 +6,7 @@ export const UserList = () => {
         <div className="userList">
             <LabelInput className="search" type="text" placeholder="Search.." />
             <ul>
-                
+
             </ul>
         </div>
     )

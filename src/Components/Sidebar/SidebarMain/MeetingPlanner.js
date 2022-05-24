@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import "./SidebarMain.css";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import IconWrapper from '../../IconWrapper/IconWrapper';
 import Dialog from '@mui/material/Dialog';
