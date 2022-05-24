@@ -16,11 +16,16 @@ export const SmartIcon = (props = { src: '', title: '', active: false }) => {
 
     useEffect(() => {
         if (props.src === '') {
-            const sign = title[0].toUpperCase();
-            if (Regex.alphaOnly.test(sign)) {
-                setPicture(DefaultIcon[sign]);
+            if (title.length === 0){
+                setPicture(DefaultIcon.TAG);
+            } 
+            else{
+                const sign = title[0].toUpperCase();
+                if (Regex.alphaOnly.test(sign)) {
+                    setPicture(DefaultIcon[sign]);
+                }
+                else setPicture(DefaultIcon.TAG);
             }
-            else setPicture(DefaultIcon.TAG);
         }
     })
 

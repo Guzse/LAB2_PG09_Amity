@@ -4,7 +4,7 @@ import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
 
 
-function Chat(props = {zoneId: ""}) {
+function Chat(props = {zoneId: "", users: []}) {
 
     const safezoneService = new SafezoneService();
     const [messageElements, setMessageElements] = useState([]);
@@ -12,23 +12,22 @@ function Chat(props = {zoneId: ""}) {
     
 
     async function  loadMessages(){
-        // debugger;
-        const response = await safezoneService.getMessages("62683ad4ad4f989e30537a24");
-        
+        const response = await safezoneService.getMessages(props.zoneId);
         return await response.json() || [];
     }
 
 
     useEffect(async() => {
-        const messages = await loadMessages();
-        const user = {username: "jipla"}; 
-        const elements = messages.map((msg, index) =>{
-            return <Message user={user} message={msg.content} ></Message>;
-        });
+        if (props.users && props.users.length > 0) {
+            const messages = await loadMessages();
+            const elements = messages.map((msg) =>{
+                const user = props.users.find(user => user.userId === msg.userId);
+                return <Message key={msg._id} user={user} message={msg.content} ></Message>;
+            });
+            setMessageElements(elements);
+        }
 
-        setMessageElements(elements);
-
-    }, []);
+    }, [props.users]);
 
 
     function handelChange(e) {
