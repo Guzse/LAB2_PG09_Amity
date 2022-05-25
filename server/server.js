@@ -45,8 +45,8 @@ io.on("connection", (socket) => configureSocket(socket, io));
 
 // Connect to Database
 const Role = db.role;
-const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
-
+//const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 db.mongoose
     .connect(CONNECTION_STRING, {
         useNewUrlParser: true,
