@@ -1,5 +1,6 @@
 .videoCall {
     width: 100%;
+    flex: 0 0 fit-content;
 }
 
 .videoCall .videoControls {
