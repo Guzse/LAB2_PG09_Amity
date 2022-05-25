@@ -25,6 +25,7 @@ function Safezone() {
 
     const [meetingActive, setMeetingActive] = useState(false);
     const [users, setUsers] = useState([]);
+    const [chatActive, setChatActive] = useState(false);
 
     /** @type {current: Socket} */
     const socketRef = useRef();
@@ -42,24 +43,22 @@ function Safezone() {
                 "zone-id": zoneId
             }
         });
+        setChatActive(true);
 
         return () => {
             off(EVENT_JOIN_MEETING, joinMeeting);
             off(EVENT_LEAVE_MEETING, leaveMeeting);
         }
     }, [zoneId, username, meetingActive, location]);
-
-    useEffect(() => {
-        on(EVENT_SAFEZONE_USERS_UPDATE, updateUsers);
-        return () => {
-            off(EVENT_SAFEZONE_USERS_UPDATE, updateUsers);
-        }
-    }, [])
-
-    const updateUsers = (event) => {
-        console.log({event});
-        setUsers(event.detail);
-    }
+    
+    useEffect(async () => {
+        if (zoneId) {
+            const response = (await safezoneService.getUsersInZone(zoneId));
+            /** @type {Array<Object>} */
+            const members = await response.json() || [];
+            setUsers(members);
+        } 
+    }, [zoneId]);
 
     const joinMeeting = () => {
         setMeetingActive(true);
@@ -80,7 +79,7 @@ function Safezone() {
     return (
         <div className="safezone">
             <VideoCall ref={socketRef} zoneId={zoneId} active={zoneId && meetingActive} />
-            <Chat users={users} zoneId={zoneId} className="chat" />
+            <Chat active={chatActive} ref={socketRef} users={users} zoneId={zoneId} className="chat" />
         </div>
     );
 }

@@ -1,34 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import "./Chat.css";
 import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
 
-
-function Chat(props = {zoneId: "", users: []}) {
-
+/**
+ * @param {React.MutableRefObject<Socket>} ref
+ * @param {{zoneId: String, users: Array<User>, active: Boolean}} props */
+const Chat = forwardRef((props = { zoneId: "", active: false, users: [] }, ref) => {
     const safezoneService = new SafezoneService();
     const [messageElements, setMessageElements] = useState([]);
     const [message, setMessage] = useState("");
-    
+    const [users, setUsers] = useState(props.users);
+    const socketRef = ref;
 
-    async function  loadMessages(){
+    const chatId = 'chat_' + props.zoneId;
+
+    async function loadMessages() {
         const response = await safezoneService.getMessages(props.zoneId);
         return await response.json() || [];
     }
 
-
-    useEffect(async() => {
-        if (props.users && props.users.length > 0) {
-            const messages = await loadMessages();
-            const elements = messages.map((msg) =>{
-                const user = props.users.find(user => user.userId === msg.userId);
-                return <Message key={msg._id} user={user} message={msg.content} ></Message>;
+    useEffect(async () => {
+        if (props.active) {
+            socketRef.current.emit("join chat", chatId);
+            socketRef.current.on('update', () => {
+                console.log('get new messages');
+                buildMessageElements();
             });
-            setMessageElements(elements);
         }
+    }, [props.active]);
 
+    const buildMessageElements = async () => {
+        console.log('build', users);
+        const messages = await loadMessages();
+        const elements = messages.map((msg) => {
+            const user = users.find(user => user.userId === msg.userId);
+            return <Message key={msg._id} user={user} message={msg.content} ></Message>;
+        });
+        setMessageElements(elements);
+    }
+
+    useEffect(() => {
+        setUsers(props.users);
     }, [props.users]);
 
+    useEffect(async () => {
+        buildMessageElements();
+    }, [users]);
 
     function handelChange(e) {
         setMessage(e.target.value);
@@ -36,22 +54,24 @@ function Chat(props = {zoneId: "", users: []}) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await safezoneService.sendMessage(props.zoneId, message);
-        console.log(response);
-        setMessage("");
-
+        if (props.active) {
+            await safezoneService.sendMessage(props.zoneId, message);
+            setMessage("");
+            socketRef.current.emit('new message', undefined);
+            buildMessageElements();
+        }
     }
 
     return (
         <div className="chat">
             <ul>
-            {messageElements}
+                {messageElements}
             </ul>
             <form onSubmit={handleSubmit}>
-                <input className="typeMessage" type="text" placeholder="Message" value={message} onChange={handelChange} />
+                <input disabled={!props.active} type="text" placeholder="Message" value={message} onChange={handelChange} />
             </form>
         </div>
     );
-}
+});
 
 export default Chat;

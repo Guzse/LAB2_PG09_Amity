@@ -14,19 +14,19 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
     const userLeft = () => {
         const roomID = socketToRoom[socket.id];
         let room = users[roomID];
-    
+
         if (room) {
             room = room.filter(id => id !== socket.id);
             users[roomID] = room;
 
             delete socketToRoom[socket.id];
 
-            console.log(`User [${socket.id}] left room [${roomID}]`);
+            // console.log(`User [${socket.id}] left room [${roomID}]`);
         }
 
         socket.broadcast.emit('user left', socket.id);
-        users[roomID] && console.table(users[roomID]);
-        console.table(socketToRoom);
+        // users[roomID] && console.table(users[roomID]);
+        // console.table(socketToRoom);
     }
 
     // console.log(`User [${socket.id}] connected`);
@@ -39,9 +39,9 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
         socketToRoom[socket.id] = roomId;
         const usersInThisRoom = users[roomId].filter(id => id !== socket.id);
         socket.emit("all users", usersInThisRoom);
-        console.log(`User [${socket.id}] joined room [${roomId}]`);
-        users[roomId] && console.table(users[roomId]);
-        console.table(socketToRoom);
+        // console.log(`User [${socket.id}] joined room [${roomId}]`);
+        // users[roomId] && console.table(users[roomId]);
+        // console.table(socketToRoom);
     });
 
     socket.on("leave room", userLeft);
@@ -53,6 +53,21 @@ export const configureSocket = (socket = new IO.Socket(), io = new IO.Server()) 
     socket.on("returning signal", payload => {
         io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
     });
+
+    socket.on("join chat", chatId => {
+        console.log('new chatter',chatId);
+        if (users[chatId]) {
+            users[chatId].push(socket.id);
+        } else {
+            users[chatId] = [socket.id];
+        }
+        socketToRoom[socket.id] = chatId;
+    });
+
+    socket.on("new message", () => {
+        console.log("new message");
+        socket.broadcast.emit('update', socket.id);
+    })
 
     socket.on('disconnect', () => {
         userLeft();

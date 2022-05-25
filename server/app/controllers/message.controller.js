@@ -30,7 +30,6 @@ export const getSafezoneMessages = (req, res) => {
                 res.status(500).send({ message: err });
                 return;
             }
-            console.log(messages[0].dateSend);
             messages = messages.sort((a, b) => compareSort(a.dateSend, b.dateSend, true));
             res.status(200).send(messages);
         });
