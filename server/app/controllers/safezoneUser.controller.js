@@ -12,6 +12,7 @@ export const joinSafezone = async (req, res) => {
         userId: token.id,
         dateCreated: Date.now()
     });
+    console.log(newSafezoneUser);
     SafezoneUser
         .findOne({ userId: token.id, zoneId: req.body.zoneId })
         .exec((err, record) => {

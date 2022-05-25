@@ -35,7 +35,6 @@ export default class AuthService {
                     email
                 })
             });
-            debugger;
             return signup;
         } catch (err) {
             return getConnectionError(err);
