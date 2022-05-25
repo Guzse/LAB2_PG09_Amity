@@ -116,4 +116,18 @@ export default class SafezoneService {
             return await getConnectionError(err);
         }
     }
+
+    async JoinSafezone() {
+        try {
+            const defaultZoneId = '628df676e2d01442d3b850c3';
+            const response = await fetch(process.env.REACT_APP_SERVER_URI + `/api/safezoneUser/`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify({zoneId: defaultZoneId}) 
+            });
+            return await checkValidResponse(response, this.reactNavigate);
+        } catch (err) {
+            return await getConnectionError(err);
+        }
+    }
 }

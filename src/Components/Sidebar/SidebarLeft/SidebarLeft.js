@@ -32,6 +32,7 @@ export const SidebarLeft = () => {
         const userZones = await response.json() || [];
         let zones = [];
         for (const userZone of userZones) {
+            debugger;
             const res = await safezoneService.GetSafezone(userZone.zoneId);
             const zone = await res.json();
             zones.push(zone);
@@ -89,7 +90,6 @@ export const SidebarLeft = () => {
             <div className="serverlist">
                 { zoneIcons }
             </div>
-            <DebugJoinSafezone />
             <IconWrapper onClick={handleClickOpen}>
                 <HiOutlinePlusCircle className="plusIcon" />
             </IconWrapper>

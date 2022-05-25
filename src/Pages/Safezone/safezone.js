@@ -69,6 +69,7 @@ function Safezone() {
     }
 
     const updateLastZone = async () => {
+        debugger;
         const res = await safezoneService.GetSafezone(zoneId);
         const zone = await res.json();
 

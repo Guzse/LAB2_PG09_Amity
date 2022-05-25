@@ -33,10 +33,10 @@ export const getConnectionError = (error = undefined) => {
  */
 export const checkValidResponse = async (response, reactNavigate = undefined) => {
     if (response.status === 401) {
-        window.localStorage.removeItem(LOCAL_ACCESS_TOKEN);
-        if (reactNavigate)
-            reactNavigate('login');
-        else window.location.href = '/login';
+        // window.localStorage.removeItem(LOCAL_ACCESS_TOKEN);
+        // if (reactNavigate)
+        //     reactNavigate('login');
+        // else window.location.href = '/login';
     }
     //response.json = () => json;
     return response;

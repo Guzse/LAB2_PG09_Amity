@@ -17,7 +17,7 @@ export default class UserService {
                 method: 'PUT',
                 headers: this.headers,
                 body: JSON.stringify({
-                    lastZone: zoneId
+                    lastZone: '628df676e2d01442d3b850c3'
                 })
             });
             return await checkValidResponse(response, this.reactNavigate);
