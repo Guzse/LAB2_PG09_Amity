@@ -1,13 +1,15 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState, useTransition } from "react";
 import "./Chat.css";
 import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
+import UserService from "../../api/UserService";
 
 /**
  * @param {React.MutableRefObject<Socket>} ref
  * @param {{zoneId: String, users: Array<User>, active: Boolean}} props */
 const Chat = forwardRef((props = { zoneId: "", active: false, users: [] }, ref) => {
     const safezoneService = new SafezoneService();
+    const userService = new UserService();
     const [messageElements, setMessageElements] = useState([]);
     const [message, setMessage] = useState("");
     const [users, setUsers] = useState(props.users);
@@ -23,14 +25,16 @@ const Chat = forwardRef((props = { zoneId: "", active: false, users: [] }, ref) 
     useEffect(async () => {
         if (props.active) {
             socketRef.current.emit("join chat", chatId);
-            socketRef.current.on('update', () => {
-                console.log('get new messages');
-                buildMessageElements();
+            socketRef.current.on('update', async () => {
+                const res = await safezoneService.getUsersInZone(props.zoneId);
+                const users = await res.json();
+                console.log(users);
+                buildMessageElements(users);
             });
         }
     }, [props.active]);
 
-    const buildMessageElements = async () => {
+    const buildMessageElements = async (users) => {
         console.log('build', users);
         const messages = await loadMessages();
         const elements = messages.map((msg) => {
@@ -45,7 +49,7 @@ const Chat = forwardRef((props = { zoneId: "", active: false, users: [] }, ref) 
     }, [props.users]);
 
     useEffect(async () => {
-        buildMessageElements();
+        buildMessageElements(users);
     }, [users]);
 
     function handelChange(e) {
@@ -58,7 +62,7 @@ const Chat = forwardRef((props = { zoneId: "", active: false, users: [] }, ref) 
             await safezoneService.sendMessage(props.zoneId, message);
             setMessage("");
             socketRef.current.emit('new message', undefined);
-            buildMessageElements();
+            buildMessageElements(users);
         }
     }
 
