@@ -3,6 +3,7 @@ import ErrorMessage from './ErrorMessage';
 export const SERVER_URI = process.env.REACT_APP_SERVER_URI;
 export const LOCAL_ACCESS_TOKEN = 'AccessToken';
 export const LOCAL_USERNAME = 'Username';
+export const LOCAL_USERID = 'UserId';
 export const LOCAL_EMAIL = 'Email';
 export const LOCAL_CAMERA_ID = 'CameraId';
 export const LOCAL_MICROPHONE_ID = 'MicrophoneId';
@@ -13,6 +14,7 @@ export const EVENT__CLICK_JOIN_MEETING = 'Clicked:JoinMeeting';
 export const EVENT__CLICK_LEAVE_MEETING = 'Clicked:LeaveMeeting';
 export const EVENT__SOCKET_ZONE_RECONNECT = 'Socket:Zone:Reconnect';
 export const EVENT_SAFEZONE_UPDATE = "Safezone:Update";
+export const EVENT_SAFEZONE_USERS_UPDATE = "Safezone:Users:Update";
 
 export const getConnectionError = (error = undefined) => {
     return {
@@ -30,11 +32,6 @@ export const getConnectionError = (error = undefined) => {
  * @returns Valid response object
  */
 export const checkValidResponse = async (response, reactNavigate = undefined) => {
-    // console.group();
-    // console.log(response);
-    // const json = await response.json();
-    // console.log(response);
-    // console.groupEnd();
     if (response.status === 401) {
         window.localStorage.removeItem(LOCAL_ACCESS_TOKEN);
         if (reactNavigate)
@@ -57,3 +54,13 @@ export const segmentPathName = () => {
  * @returns Boolean
  */
 export const screenWidthSmall = () => window.screen.width <= 420;
+
+export const compareSort = (a, b) => {
+    if (a.lname.toLowerCase() < b.lname.toLowerCase()) {
+        return -1;
+    }
+    if (a.lname.toLowerCase() > b.lname.toLowerCase()) {
+        return 1;
+    }
+    return 0;
+}

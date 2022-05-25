@@ -14,6 +14,7 @@ export const routeSafezoneUser = (app) => {
 
     app.post("/api/safezoneuser/", [authJwt.verifyToken], controller.joinSafezone);
     app.get("/api/safezoneuser/", [authJwt.verifyToken], controller.getUserSafezones);
+    app.get("/api/safezoneuser/zone/:zoneId", [authJwt.verifyToken], controller.getZoneMembers);
     //app.put("/api/safezoneuser/", [authJwt.verifyToken], controller.updateSafezone);
 };
 
