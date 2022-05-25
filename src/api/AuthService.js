@@ -23,7 +23,7 @@ export default class AuthService {
     }
     async SignUp(username, password, email) {
         try {
-            return await fetch(SERVER_URI + `/api/auth/signup/`, {
+            const signup = await fetch(SERVER_URI + `/api/auth/signup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,6 +35,8 @@ export default class AuthService {
                     email
                 })
             });
+            debugger;
+            return signup;
         } catch (err) {
             return getConnectionError(err);
         }

@@ -45,6 +45,7 @@ io.on("connection", (socket) => configureSocket(socket, io));
 
 // Connect to Database
 const Role = db.role;
+const Safezone = db.safezone;
 //const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@amity.1hjd1.mongodb.net/Amity1?retryWrites=true&w=majority`;
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 db.mongoose
@@ -62,6 +63,21 @@ db.mongoose
     });
 
 function initial() {
+    Safezone.estimatedDocumentCount((err, count) => {
+        if (!err && count === 0) {
+            new Safezone({
+                zoneName: "Amity Hub",
+                description: "Welcome to the default hub for testing Amity",
+                maxMembers: 0,
+                meetingDate: Date.now()
+            }).save(err => {
+                if (err) {
+                    console.error(err);
+                }
+                console.info("added 'admin' to roles collection");
+            })
+        }
+    })
     Role.estimatedDocumentCount((err, count) => {
         if (!err && count === 0) {
             new Role({
