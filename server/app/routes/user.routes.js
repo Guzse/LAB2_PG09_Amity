@@ -13,6 +13,7 @@ export const routeUser = (app) => {
     });
 
     app.put("/api/user/zone", [authJwt.verifyToken], controller.setLastZone);
+    app.get("/api/user/:userId", [authJwt.verifyToken], controller.getUserById);
 };
 
 export default routeUser;

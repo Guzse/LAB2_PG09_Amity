@@ -41,6 +41,8 @@ export const routeSafezone = (app) => {
         As you can see, 3 requests can share the same url as long as their a different kind of request (in this case, GET vs PUT)
     */
     app.put("/api/safezone/", [authJwt.verifyToken], controller.updateSafezone);
+    app.put("/api/safezone/meeting/", [authJwt.verifyToken], controller.createMeeting);
+    app.get("/api/safezone/meeting/:zoneId", [authJwt.verifyToken], controller.getMeeting);
 };
 
 export default routeSafezone;

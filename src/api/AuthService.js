@@ -1,5 +1,9 @@
-import { promiseConnectionError, SERVER_URI } from '../Global/Global';
+import { checkValidResponse, getConnectionError, LOCAL_ACCESS_TOKEN, SERVER_URI } from '../Global';
 export default class AuthService {
+    constructor(reactNavigate = undefined) {
+        this.reactNavigate = reactNavigate;
+    }
+
     async SignIn(username, password) {
         try {
             return await fetch(SERVER_URI + `/api/auth/signin/`, {
@@ -14,12 +18,12 @@ export default class AuthService {
                 })
             });
         } catch (err) {
-            return promiseConnectionError();
+            return getConnectionError(err);
         }
     }
     async SignUp(username, password, email) {
         try {
-            return await fetch(SERVER_URI + `/api/auth/signup/`, {
+            const signup = await fetch(SERVER_URI + `/api/auth/signup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,22 +35,24 @@ export default class AuthService {
                     email
                 })
             });
+            return signup;
         } catch (err) {
-            return promiseConnectionError();
+            return getConnectionError(err);
         }
     }
     async Verify() {
         try {
-            return await fetch(SERVER_URI + `/api/auth/verify/`, {
+            const response = await fetch(SERVER_URI + `/api/auth/verify/`, {
                 method: 'GET',
                 headers: {
-                    'x-access-token': window.localStorage.getItem("accessToken"),
+                    'x-access-token': window.localStorage.getItem(LOCAL_ACCESS_TOKEN),
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 }
             });
+            return await checkValidResponse(response, this.reactNavigate);
         } catch (err) {
-            return promiseConnectionError();
+            return getConnectionError(err);
         }
     }
 }

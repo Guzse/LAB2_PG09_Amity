@@ -4,7 +4,16 @@ import db from '../models/index.js';
 
 // List Databases
 const User = db.user;
-const Role = db.role;
+
+export const getUserById = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId);
+        res.status(200).send(user);
+    } catch (err) {
+        throw err;
+    }
+}
 
 export const setLastZone = (req, res) => {
     try {

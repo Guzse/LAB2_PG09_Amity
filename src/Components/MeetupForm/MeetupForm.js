@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./safezoneForm.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
 import SafezoneService from "../../api/SafezoneService";
 import { Dialog } from "@mui/material";
@@ -8,8 +8,8 @@ import DialogContent from '@mui/material/DialogContent';
 
 
 function safezoneForm() {
-
-    const safezoneService = new SafezoneService();
+    const navigate = useNavigate();
+    const safezoneService = new SafezoneService(navigate);
 
     const [state, setState] = useState({
         date: '',
@@ -30,10 +30,7 @@ function safezoneForm() {
         e.preventDefault();
 
         safezoneService
-            .CreateSafezone(state.date, state.time)
-            .then(res => {
-                res.json().then(data => console.log(data));
-            });
+            .CreateSafezone(state.date, state.time);
     }
 
 

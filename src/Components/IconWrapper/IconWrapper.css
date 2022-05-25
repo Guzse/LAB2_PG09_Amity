@@ -1,5 +1,6 @@
 .iconWrapper {
     display: flex;
+    aspect-ratio: 1/1;
 }
 
 .iconWrapper.primary {
@@ -19,11 +20,6 @@
     background-color: var(--background);
     color: var(--body);
 }
-
-.iconWrapper.clickable:hover {
-    cursor: pointer;
-}
-
 .iconWrapper.background > svg, 
 .iconWrapper.primary > svg, 
 .iconWrapper.secondary > svg {

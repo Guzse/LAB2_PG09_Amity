@@ -1,17 +1,56 @@
-import React,{useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './SidebarLeft.css';
-import { HiUserGroup } from "react-icons/hi";
-import { HiOutlinePlusCircle } from "react-icons/hi";
+import { HiOutlinePlusCircle, HiOutlineSupport } from "react-icons/hi";
 import Slider from '@mui/material/Slider';
 import SafezoneService from "../../../api/SafezoneService";
-import { Dialog } from "@mui/material";
+import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
-import DialogContent from '@mui/material/DialogContent';
+import IconWrapper from '../../IconWrapper/IconWrapper';
+import UserService from '../../../api/UserService';
+import { segmentPathName } from '../../../Global';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { SmartIcon } from '../../SmartIcon/SmartIcon';
 
 
 
 export const SidebarLeft = () => {
     const [open, setOpen] = React.useState(false);
+    const [zoneList, setZoneList] = React.useState([]);
+    const [zoneIcons, setZoneIcons] = React.useState([]);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const safezoneService = new SafezoneService(navigate);
+    const userService = new UserService();
+    
+    useEffect(() => {
+        fetchZones();
+    }, []);
+
+    const fetchZones = async () => {
+        const response = await userService.GetUserSafezones();
+        const userZones = await response.json() || [];
+        let zones = [];
+        for (const userZone of userZones) {
+            debugger;
+            const res = await safezoneService.GetSafezone(userZone.zoneId);
+            const zone = await res.json();
+            zones.push(zone);
+        };
+        setZoneList(zones);
+    }
+
+    useEffect(() => {
+        const parts = segmentPathName();
+        const elements = zoneList.map(zone => {
+            return <Link to={ `/app/${zone._id}`} key={zone._id} title={zone.zoneName}>
+                <SmartIcon src={''} title={zone.zoneName} active={!!parts.find(part => part === zone._id)} />
+            </Link>
+        });
+        setZoneIcons(() => {
+            return elements;
+        });
+    }, [zoneList, location]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -21,7 +60,6 @@ export const SidebarLeft = () => {
         setOpen(false);
     };
 
-    const safezoneService = new SafezoneService();
 
     const [state, setState] = useState({
         zoneName: '',
@@ -33,8 +71,6 @@ export const SidebarLeft = () => {
         const key = e.target.name;
         const value = e.target.value;
 
-        console.log(key,value);
-
         setState(prev => ({
             ...prev,
             [key]: value
@@ -45,27 +81,25 @@ export const SidebarLeft = () => {
         e.preventDefault();
 
         safezoneService
-            .CreateSafezone(state.zoneName, state.description, state.maxMembers)
-            .then(res => {
-                res.json().then(data => console.log(data));
-            });
+            .CreateSafezone(state.zoneName, state.description, state.maxMembers);
     }
+
     return (
         <div className='sidebar-left'>
+            <span/>
             <div className="serverlist">
-                <HiUserGroup className="groupIcon" />
-                <HiUserGroup className="groupIcon" />
-                <HiUserGroup className="groupIcon" />
+                { zoneIcons }
             </div>
-            
-            <HiOutlinePlusCircle onClick={handleClickOpen} className="plusIcon" />
-            <CreateSafezonePopup open={open} onClose={handleClose} onChange={handleChange} onSubmit={handleSubmit}/>
+            <IconWrapper onClick={handleClickOpen}>
+                <HiOutlinePlusCircle className="plusIcon" />
+            </IconWrapper>
+            <CreateSafezonePopup open={open} onClose={handleClose} onChange={handleChange} onSubmit={handleSubmit} />
         </div>
     )
 }
 
-function CreateSafezonePopup(props = { open: false, onClose: () => undefined, onChange: () => undefined, onSubmit: () => undefined}){
-    return(
+function CreateSafezonePopup(props = { open: false, onClose: () => undefined, onChange: () => undefined, onSubmit: () => undefined }) {
+    return (
         <Dialog open={props.open} onClose={props.handleClose}>
             <DialogContent>
                 <form className="createSafezone" onSubmit={props.onSubmit}>
@@ -91,4 +125,40 @@ function CreateSafezonePopup(props = { open: false, onClose: () => undefined, on
             </DialogContent>
         </Dialog>
     );
+}
+
+export const DebugJoinSafezone = () => {
+    const [zoneId, setZoneId] = useState('');
+    const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const safezoneService = new SafezoneService(navigate);
+
+    const handleJoin = async () => {
+        console.log(`%c zoneid ${zoneId}`, "color: green");
+        const res = await safezoneService.JoinSafezone(zoneId); 
+        setOpen(false);
+        alert(res);
+    }
+
+    const handleChange = e => {
+        setZoneId(e.target.value);
+    }
+
+    return (
+        <>
+            <IconWrapper onClick={() => setOpen(true)}>
+                <HiOutlineSupport style={{color: "var(--infored)"}} />
+            </IconWrapper>
+            <Dialog open={open}>
+                <DialogContent>
+                    <input type='text' placeholder='zoneId' onChange={handleChange} value={zoneId}></input>
+                </DialogContent>
+                <DialogActions>
+                    <button onClick={() => setOpen(false)}>Cancel</button>
+                    <button onClick={handleJoin}>Join</button>
+                </DialogActions>
+            </Dialog>
+        </>
+    )
 }

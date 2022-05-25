@@ -15,6 +15,11 @@ function once(eventType, listener) {
     }
 }
 
+/**
+ * Broadcasts an event across the application.
+ * @param {String} eventType 
+ * @param {{}} data 
+ */
 function trigger(eventType, data) {
     const event = new CustomEvent(eventType, { detail: data });
     document.dispatchEvent(event);

@@ -8,7 +8,8 @@ export const Safezone = mongoose.model(
         // Here you just list all the variables that the object contains
         zoneName: String,
         description: String,
-        maxMembers: Number
+        maxMembers: Number,
+        meetingDate: Date
     })
 );
 export default Safezone;
