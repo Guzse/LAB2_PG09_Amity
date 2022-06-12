@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 export const ButtonToggle = (props = {
     falseClass: 'primary',
@@ -15,7 +15,7 @@ export const ButtonToggle = (props = {
         });
     }
     const sanitizeProps = () => {
-        const sanitized = {...props};
+        const sanitized = { ...props };
         delete sanitized.falseClass;
         delete sanitized.trueClass;
         delete sanitized.onToggle;

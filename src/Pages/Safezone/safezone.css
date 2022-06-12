@@ -1,5 +1,14 @@
 .safezone{
-    display: flex;
+    display: grid;
     flex-direction: column;
     width: 100%;
+    grid-template-columns: [start] 1fr [end];
+    grid-template-rows: [start] auto [middle] 1fr [end];
+}
+
+.safezone .videoCall {
+    grid-row: 1;
+}
+.safezone .chat {
+    grid-row: 2;
 }
