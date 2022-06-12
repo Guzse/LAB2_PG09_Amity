@@ -22,8 +22,8 @@ export const Login = (props) => {
     });
 
     const routeToApp = async () => {
-        const result = await authService.Verify();
-        const user = await result.json();
+        await authService.Verify();
+        // const user = await result.json();
         navigate(`/app/628df676e2d01442d3b850c3`);
     }
 

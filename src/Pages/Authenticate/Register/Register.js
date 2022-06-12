@@ -5,7 +5,7 @@ import { Regex } from '../../../Global/Regex';
 import './Register.css';
 import $ from 'jquery';
 import { LabelInput } from '../../../Components/LabelInput/LabelInput';
-import SafezoneService from '../../../api/SafezoneService';
+// import SafezoneService from '../../../api/SafezoneService';
 
 export const Register = () => {
     const [input, setInput] = useState({
@@ -17,7 +17,7 @@ export const Register = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const authService = new AuthService();
-    const safezoneService = new SafezoneService();
+    // const safezoneService = new SafezoneService();
 
     const handleSubmit = (e) => {
         e.preventDefault();

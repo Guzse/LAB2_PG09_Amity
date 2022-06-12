@@ -1,15 +1,15 @@
-import React, { forwardRef, useEffect, useState, useTransition } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import "./Chat.css";
 import Message from "./Message/Message"
 import SafezoneService from "../../api/SafezoneService";
-import UserService from "../../api/UserService";
+// import UserService from "../../api/UserService";
 
 /**
  * @param {React.MutableRefObject<Socket>} ref
  * @param {{zoneId: String, users: Array<User>, active: Boolean}} props */
 const Chat = forwardRef((props = { zoneId: "", active: false, users: [] }, ref) => {
     const safezoneService = new SafezoneService();
-    const userService = new UserService();
+    // const userService = new UserService();
     const [messageElements, setMessageElements] = useState([]);
     const [message, setMessage] = useState("");
     const [users, setUsers] = useState(props.users);

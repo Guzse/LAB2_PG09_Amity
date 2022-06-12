@@ -156,7 +156,7 @@ export const VideoCall = forwardRef((props, ref) => {
             // peersRef.current = [];
             setRoomSize(peersRef.current.filter(p => p.connected).length);
         }
-    }, [props.active, camera, microphone, peersRef.current]);
+    }, [props.active, camera, microphone, peersRef, socketRef, userVideo]);
     
     const createPeer = (userToSignal, callerID, stream) => {
         const peer = new Peer({
