@@ -8,7 +8,7 @@ import SafezoneService from '../../api/SafezoneService';
 import UserService from '../../api/UserService';
 import { trigger, on, off } from '../../Global/Events';
 import Chat from "../../Components/Chat/Chat";
-import { EVENT_SAFEZONE_UPDATE, EVENT_SAFEZONE_USERS_UPDATE, LOCAL_ACCESS_TOKEN, LOCAL_USERNAME, SERVER_URI } from "../../Global";
+import { EVENT_SAFEZONE_UPDATE, LOCAL_ACCESS_TOKEN, LOCAL_USERNAME, SERVER_URI } from "../../Global";
 
 const EVENT_JOIN_MEETING = "Clicked:JoinMeeting";
 const EVENT_LEAVE_MEETING = "Clicked:LeaveMeeting";
@@ -29,7 +29,7 @@ function Safezone() {
 
     /** @type {current: Socket} */
     const socketRef = useRef();
-
+    
     useEffect(() => {
         on(EVENT_JOIN_MEETING, joinMeeting);
         on(EVENT_LEAVE_MEETING, leaveMeeting);
@@ -66,6 +66,7 @@ function Safezone() {
 
     const leaveMeeting = () => {
         setMeetingActive(false);
+        window.location.reload();
     }
 
     const updateLastZone = async () => {
