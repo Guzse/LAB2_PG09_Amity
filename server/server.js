@@ -12,7 +12,7 @@ import { configureSocket, configureSocketMiddleware } from './app/services/socke
 import configureRoutes from './app/routes/index.js';
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 80;
 
 app.use(cors({
     origin: "*",
