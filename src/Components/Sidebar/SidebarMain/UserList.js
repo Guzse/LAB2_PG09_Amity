@@ -24,7 +24,7 @@ export const UserList = (props = {zoneId: ''}) => {
             <LabelInput className="search" type="text" placeholder="Search.." />
             <ul>
                 {
-                    users.map(user => <LiUser user={user} />)
+                    users.map(user => <LiUser user={user} key={user.userId} />)
                 }
             </ul>
         </div>

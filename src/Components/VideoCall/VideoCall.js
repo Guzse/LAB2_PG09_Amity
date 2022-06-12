@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { SERVER_URI, LOCAL_CAMERA_ID, LOCAL_MICROPHONE_ID, EVENT__CLICK_JOIN_MEETING, EVENT__CLICK_LEAVE_MEETING } from '../../Global';
 import './VideoCall.css';
+import useWindowDimensions from '../../Global/useWindowDimensions';
 import { trigger } from '../../Global/Events';
 import SimplePeer from 'simple-peer';
 import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
@@ -33,7 +34,7 @@ export const VideoCall = forwardRef((props, ref) => {
     const userVideo = useRef();
     /** @type {React.MutableRefObject<Array<{peerID: string, peer: Peer, connected: Boolean}>>} */
     const peersRef = useRef([]);
-
+    const { width } = useWindowDimensions();
     const roomId = 'meeting_' + props.zoneId;
 
     useEffect(async () => {
@@ -157,7 +158,7 @@ export const VideoCall = forwardRef((props, ref) => {
             setRoomSize(peersRef.current.filter(p => p.connected).length);
         }
     }, [props.active, camera, microphone, peersRef, socketRef, userVideo]);
-    
+
     const createPeer = (userToSignal, callerID, stream) => {
         const peer = new Peer({
             initiator: true,
@@ -198,7 +199,7 @@ export const VideoCall = forwardRef((props, ref) => {
     }
 
     const selectCam = () => {
-        if (camDevices.length < 2) {
+        if (camDevices.length < 2 || width < 800) {
             return <></>
         } else if (camDevices.length === 2) {
             return <button className='error' disabled>switch camera</button>
@@ -216,7 +217,7 @@ export const VideoCall = forwardRef((props, ref) => {
     }
 
     const selectMic = () => {
-        if (micDevices.length < 2) return <></>;
+        if (micDevices.length < 2 || width < 800) return <></>;
         return <select className='secondary' value={microphone.deviceId} onChange={e => handleMicChange(e)} >
             {
                 micDevices.map((device, index) => {
@@ -229,40 +230,42 @@ export const VideoCall = forwardRef((props, ref) => {
     }
 
     return (
-        <div className='videoCall'>
-            <div className='videoContainer' active={props.active ? 1 : 0}>
-                {props.active && videoList}
-            </div>
-            <div className='videoControls'>
-                {
-                    props.active ?
-                        (
-                            <button
-                                className='error'
-                                disabled={!props.active}
-                                onClick={triggerLeaveMeeting}>
-                                Leave Meeting
-                            </button>
-                        ) : (
-                            <button
-                                className='secondary-stroke'
-                                disabled={props.active}
-                                onClick={triggerJoinMeeting}>
-                                Join Meeting
-                            </button>
-                        )
-                }
-                <ButtonGroup>
-                    <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiVideoCamera /></ButtonToggle>
-                    { selectCam() }
-                </ButtonGroup>
-                <ButtonGroup>
-                    <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiMicrophone /></ButtonToggle>
-                    { selectMic() }
-                </ButtonGroup>
+        <>
+            <div className='videoCall'>
+                <div className='videoContainer' active={props.active ? 1 : 0}>
+                    {props.active && videoList}
+                </div>
+                <div className='videoControls'>
+                    {
+                        props.active ?
+                            (
+                                <button
+                                    className='error'
+                                    disabled={!props.active}
+                                    onClick={triggerLeaveMeeting}>
+                                    Leave Meeting
+                                </button>
+                            ) : (
+                                <button
+                                    className='secondary-stroke'
+                                    disabled={props.active}
+                                    onClick={triggerJoinMeeting}>
+                                    Join Meeting
+                                </button>
+                            )
+                    }
+                    <ButtonGroup>
+                        <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiVideoCamera /></ButtonToggle>
+                        {selectCam()}
+                    </ButtonGroup>
+                    <ButtonGroup>
+                        <ButtonToggle className='iconButton' falseClass='secondary' trueClass='error-stroke' onToggle={value => console.log(value)}><HiMicrophone /></ButtonToggle>
+                        {selectMic()}
+                    </ButtonGroup>
+                </div>
             </div>
             {props.active && <video className='cameraView' muted ref={userVideo} autoPlay playsInline />}
-        </div>
+        </>
     )
 });
 
